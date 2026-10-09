@@ -1,38 +1,74 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-  <meta charset="utf-8">
-  <title>HTML</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="estilo.css"> <!-- Esto cargaria un archivo de estilo, pero no es necesario en Fiddle porque lo hace automáticamente -->
-  <script src="script.js"></script> <!--Aquí podriamos cargar los scripts, también se puede en el <body>, y pasa lo mismo que con el css de antes, en verdad aquí no estamos cargando nada-->
-</head>
 
-<body>
-  <h1>404: Faculty Not Found</h1>
-  <h2>Desarrollado por: CEC (Compile Error Collective)</h2>
-  <p>
-    Videojuego roguelike dungeon crawler en 2D con vista Top-down basado en la exploración de salas,
-    combates contra enemigos, resolución de puzzles y obtención de mejoras.
-  </p>
-  <h2>Miembros del equipo</h2>
-  <ul>
-    <li>Arturo Ramos Romero</li>
-    <li>Nicolás Florez Pacheco</li>
-    <li>Adrián Montiel Martínez</li>
-    <li>Pablo Polegre Martín</li>
-  </ul> 
-  <h2>Referencias</h2>
-  <ul>
-    <li>The Binding Of Isaac</li>
-    <li>Hades</li>
-    <li>Enter The Gungeon</li>
-    <li>Dead Cells</li>
-    <li>Undertale</li>
-  </ul> 
-  <h2>Enlace al repositorio de Github del equipo</h2>
-  <a href="https://github.com/adrmon04/PVLI-26-27">https://github.com/adrmon04/PVLI-26-27</a>
-  <h2>Enlace a la cuenta de instagram del juego</h2>
-  <a href="https://www.instagram.com/404_facultynotfound/">https://www.instagram.com/404_facultynotfound/</a>
-</body>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="./css/game.css">
+        <script src="./lib/phaser4.2.1.js"></script>
+        <link rel="icon" type="image/x-icon"
+            href="http://labs.phaser.io/assets/sprites/star.png">
+        <title>404 : Faculty Not Found</title>
+        <script src="./src/Game.js" type="module"></script>
+    </head>
+
+    <body>
+        <header class="site-header">
+            <h1 class="title">
+                <span class="title__num" data-text="404">404</span>
+                <span class="title__name">Faculty Not Found</span>
+            </h1>
+            <p class="tagline">Desarrollado por: <span>CEC (Compile Error Collective)</span></p>
+        </header>
+
+        <main>
+            <section id="gameContainer" aria-label="Juego 404: Faculty Not Found">
+                <p class="boot">Iniciando juego</p>
+            </section>
+
+            <section class="panels" aria-label="Información del juego">
+                <article class="panel panel--alert">
+                    <h2>El juego</h2>
+                    <p>
+                        Videojuego roguelike dungeon crawler en 2D con vista top-down,
+                        basado en la exploración de salas, combates contra enemigos,
+                        resolución de puzzles y obtención de mejoras.
+                    </p>
+                </article>
+
+                <article class="panel">
+                    <h2>Miembros del equipo</h2>
+                    <ul>
+                        <li>Arturo Ramos Romero</li>
+                        <li>Nicolás Florez Pacheco</li>
+                        <li>Adrián Montiel Martínez</li>
+                        <li>Pablo Polegre Martín</li>
+                    </ul>
+                </article>
+
+                <article class="panel">
+                    <h2>Referencias</h2>
+                    <ul>
+                        <li>The Binding Of Isaac</li>
+                        <li>Hades</li>
+                        <li>Enter The Gungeon</li>
+                        <li>Dead Cells</li>
+                        <li>Undertale</li>
+                    </ul>
+                </article>
+            </section>
+        </main>
+
+        <footer class="site-footer">
+            <p>
+                Repositorio:
+                <a href="https://github.com/adrmon04/PVLI-26-27">GitHub del equipo</a>
+            </p>
+            <p>
+                Instagram:
+                <a href="https://www.instagram.com/404_facultynotfound/">@404_facultynotfound</a>
+            </p>
+        </footer>
+    </body>
+
 </html>
