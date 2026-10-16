@@ -1,3 +1,8 @@
+import { Scene } from "phaser";
+import MainMenu from "./scenes/MainMenu.js";
+import MainGame from "./scenes/MainGame.js";
+import Creditos from "./scenes/Credits.js";
+
 /**
  * Inicio del juego en Phaser. Creamos el archivo de configuración del juego y creamos
  * la clase Game de Phaser, encargada de crear e iniciar el juego.
@@ -10,8 +15,8 @@ let config = {
 	pixelArt: true,
 	scale: {
 		mode: Phaser.Scale.FIT
-	},
-	scene: [{ preload: preload, create: create }],	// Decimos a Phaser cual es nuestra escena, en este caso la escena es un 
+	},	
+	scene: [ MainMenu, MainGame, Creditos ],	// Decimos a Phaser cual es nuestra escena, en este caso la escena es un 
 	//objeto formado por el método preload y create definidos más abajo en 
 	//este mismo archivo
 	physics: {
