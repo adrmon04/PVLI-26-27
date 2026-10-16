@@ -84,6 +84,8 @@ flowchart TD
 
 El Defecto era un alumno diferente que un día de clase normal se quedó en la facultad para terminar un entregable. Hubo un gran temblor y todo se oscureció de manera repentina. De un momento a otro, ya no era un chico normal, sino una criatura mutante, y todo a su alrededor había cambiado: ya no estaba en una universidad, sino en el inframundo…
 
+![Personaje jugador](<../Imagenes GDD/Personaje y enemigos/personaje jugador.png>)
+
 ### 3.1 Métricas
 
 | Métrica | Medida | Descripción |
@@ -160,6 +162,13 @@ En la tienda el jugador puede comprar armas y mejoras mediante el pago de una ci
 
 Cada vez que el jugador se adentra en una sala, esta se escoge aleatoriamente, ya sea de puzle o de combate. Sin embargo, cada 5 salas comunes (combate/puzle) la siguiente sala es una de tienda y recuperación de vida obligatoriamente. Como mínimo habrá 1 sala de puzle entre esas 5. Después de repetir este ciclo 3 veces, el jugador entra en la sala del jefe final.
 
+![Sala clase](<../Imagenes GDD/Salas/Sala clase.png>)
+![Sala lag](<../Imagenes GDD/Salas/Sala lag.png>)
+![Sala suelo corrupto](<../Imagenes GDD/Salas/Sala suelo corrupto.png>)
+![Sala tienda&vida](<../Imagenes GDD/Salas/Sala tienda&vida.png>)
+![Sala PAzul](<../Imagenes GDD/Salas/Sala PAzul.png>)
+![Sala cables](<../Imagenes GDD/Salas/Sala cables.png>)
+
 ---
 
 ## 5 Mundo del juego
@@ -192,6 +201,8 @@ Todos los enemigos comparten las siguientes características: infligen daño al 
 | Spambot | Mantiene una distancia respecto al jugador (su Alcance) y dispara ráfagas continuas de proyectiles débiles mientras permanece dentro de dicha distancia. | Vida (baja), Daño (bajo), Velocidad (baja), Velocidad de ataque (alta), Velocidad del proyectil (media), Alcance (alto) |
 | Profesor corrupto (élite) | Enemigo de mayor tamaño y presencia. Se desplaza más lento que el resto de enemigos comunes, pero compensa esta debilidad con mayor vida y mayor daño por contacto. | Vida (muy alta), Daño (alto), Velocidad (muy baja) |
 
+![Enemigos](<../Imagenes GDD/Personaje y enemigos/Enemigos.png>)
+
 ### 5.2 Objetos
 
 Existen dos categorías principales de objetos: armas y mejoras.
@@ -215,6 +226,8 @@ El jugador puede conseguir dos tipos de armas, una de cuerpo a cuerpo y otra a d
 | USB de comandos (pistola) | Arma ligera que dispara "comandos" de forma rápida pero con un daño reducido por impacto, en la dirección hacia la que apunta el jugador. Ideal para mantener presión constante a corta-media distancia. | Daño, Velocidad de ataque (alta), Velocidad del proyectil, Alcance (medio) |
 | Impresora portátil (fusil de asalto) | Arma que dispara ráfagas de hojas afiladas con un daño moderado por impacto y una cadencia de disparo intermedia, en la dirección hacia la que apunta el jugador. Ofrece un equilibrio entre daño y frecuencia de ataque. | Daño (medio), Velocidad de ataque (media), Velocidad del proyectil, Alcance (medio-alto), Tamaño de ráfaga |
 | Router/antena Wi-Fi (francotirador) | Arma de disparo lento que lanza un único "paquete de datos" cargado con un daño elevado y capaz de atravesar a varios enemigos en línea recta, en la dirección hacia la que apunta el jugador. Penaliza la cadencia a cambio de gran alcance y daño. | Daño (alto), Velocidad de ataque (baja), Velocidad del proyectil, Alcance (alto), Penetración (nº de enemigos atravesados) |
+
+![Armas](<../Imagenes GDD/Obstáculos y armas/Armas.png>)
 
 #### 5.2.2 Mejoras
 
@@ -252,6 +265,8 @@ Los obstáculos son elementos del entorno de cada sala que condicionan el movimi
 | Pantallazo azul (BSOD) | Zona que, al ser pisada, inmoviliza brevemente al jugador. | Duración de inmovilización, Área de efecto |
 | Cables sueltos | Obstáculo físico y estático que bloquea el paso por una zona de la sala. | Área de efecto |
 | Zona de lag | Zona que reduce la velocidad de movimiento del jugador mientras permanece dentro de ella. | Porcentaje de ralentización, Área de efecto |
+
+![Obstáculos](<../Imagenes GDD/Obstáculos y armas/Obstáculos.png>)
 
 #### 5.3.1 Parámetros y detalles (Obstáculos)
 
