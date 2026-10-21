@@ -1,6 +1,5 @@
 import MainGame from "./scenes/MainGame.js";
 import MainMenu from "./scenes/MainMenu.js";
-import Creditos from "./scenes/Credits.js";
 import Credits from "./scenes/Credits.js";
 
 /**
@@ -22,7 +21,6 @@ let config = {
 	physics: {
 		default: 'arcade',
 		arcade: {
-			gravity: { y: 200 },
 			debug: false
 		}
 	}
