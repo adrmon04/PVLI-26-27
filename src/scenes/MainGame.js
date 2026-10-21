@@ -21,18 +21,20 @@ export default class MainGame extends Phaser.Scene {
     create() {
         //Imagen de fondo
 		this.add.image(0, 0, 'fondo').setOrigin(0, 0);
-	
-        const player = new Player(
+        
+        this.player = new Player(
             this,
-            this.cameras.main.centerX,
+            this.cameras.main.centerX, 
             this.cameras.main.centerY,
-            100,
+            300,
             'player'
         );
 
+        // this.cameras.main.startFollow(this.player);
     }
 
-// las escenas también tienen el método init() y update(time, delta)
-// init - se ejecuta cuando se carga la escena. Aquí se pueden pasar datos entre escenas.
-// update - se llama cada ciclo de juego, para modificar el estado
+    update() {
+        this.player.update();
+    }
+
 }
