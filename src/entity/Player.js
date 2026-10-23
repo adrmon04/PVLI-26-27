@@ -4,7 +4,8 @@
  */
 export default class Player extends Phaser.GameObjects.Sprite {
     /**
-     * Constructor de Enemy
+     * Constructor de Player
+     * @param {numbre} vida
      * @param {Scene} scene Escena en la que aparecerá el enemigo
      * @param {number} x - coordenada X
      * @param {number} y - coordenada Y
