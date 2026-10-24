@@ -1,4 +1,4 @@
-import Player from '../entity/Player.js';
+import Player from '../Entities/Player/Player.js';
 /**
  * Escena principal.
  * @extends Phaser.Scene

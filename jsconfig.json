@@ -1,6 +1,6 @@
 {
     "exclude":[
-        "lib/**"
+        "Lib/**"
     ],
     "compilerOptions": {
         "target": "ESNext"
