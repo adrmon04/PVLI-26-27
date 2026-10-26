@@ -22,10 +22,13 @@ export default class MainGame extends Phaser.Scene {
         this.add.image(0, 0, 'fondo').setOrigin(0, 0);
 
         this.player = new Player(
+            100, 
+            100,
             this,
             this.cameras.main.centerX,
             this.cameras.main.centerY,
             300,
+            400,
             'player'
         );
 
