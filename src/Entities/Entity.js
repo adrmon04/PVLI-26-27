@@ -4,41 +4,75 @@
  * @extends Phaser.GameObjects.Sprite
  */
 export default class Entity extends Phaser.GameObjects.Sprite {
-    
+
     /**
      * Constructor de Entity
-     * @param {number} health - Vida
+     * @param {number} health - Vida máxima e inicial
      * @param {number} damage - Daño que inflige
-     * @param {Scene} scene - Escena de aparición
+     * @param {Phaser.Scene} scene - Escena de aparición
      * @param {number} x - Coordenada X
      * @param {number} y - Coordenada Y
      * @param {number} speed - Velocidad de movimiento 
-     * @param {number} attackSpeed - Velocidad de ataque
+     * @param {number} attackSpeed - Ataques por segundo
      * @param {string} imgKey - Nombre de la imagen que representa a la entidad
      */
     constructor(health, damage, scene, x, y, speed, attackSpeed, imgKey) {
-        
-        // super(scene, x, y, "player", 0); se tiene en cuenta que como es un sprite este se define en el frame 0
         super(scene, x, y, imgKey);
-        
-        // Fijamos la vida y el daño que inflige la entidad
+
+        this.maxHealth = health;
         this.health = health;
         this.damage = damage;
-        
+
         // Añadimos la entidad a la escena
         this.scene.add.existing(this);
 
         // Le añadimos físicas a la entidad
         this.scene.physics.add.existing(this);
-        
+
         // asignamos el tamaño con el que queremos que se vea su imagen
         this.setDisplaySize(100, 100);
-        
+
         // Le asignamos su velocidad de movimiento y de ataque
         this.speed = speed;
         this.attackSpeed = attackSpeed;
+        this.isDead = false;
 
         // Queremos que la entidad no se salga de los límites del mundo
         this.body.setCollideWorldBounds();
+    }
+
+    /**
+     * Aplica daño y destruye la entidad cuando se queda sin vida.
+     * @param {number} amount
+     * @returns {boolean} Si la entidad sigue viva después del golpe.
+     */
+    takeDamage(amount) {
+        if (!Number.isFinite(amount) || amount < 0) {
+            throw new RangeError("El daño recibido debe ser un número no negativo.");
+        }
+
+        if (this.isDead || amount === 0) {
+            return !this.isDead;
+        }
+
+        this.health = Math.max(0, this.health - amount);
+        if (this.health === 0) {
+            this.die();
+        }
+
+        return !this.isDead;
+    }
+
+    /**
+     * Marca la entidad como muerta y la elimina de la escena.
+     */
+    die() {
+        if (this.isDead) {
+            return;
+        }
+
+        this.isDead = true;
+        this.body.setVelocity(0, 0);
+        this.destroy();
     }
 }
