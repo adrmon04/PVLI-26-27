@@ -17,21 +17,35 @@ export default class Player extends Entity {
      * @param {number} attackSpeed 
      * @param {string} imgKey 
      */
-    constructor(health, damage, scene, x, y, speed, attackSpeed, imgKey) {
+    constructor(health, damage, scene, x, y, speed, attackSpeed, imgKey, frame) {
 
         // Llamamos al constructor de Entity
-        super(health, damage, scene, x, y, speed, attackSpeed, imgKey);
+        super(health, damage, scene, x, y, speed, attackSpeed, imgKey, frame);
 
         // Creamos el objeto keys para saber cuando se han pulsado las teclas W, A, S y D
         this.keys = scene.input.keyboard.addKeys('W,A,S,D');
     }
 
-    update() {
+    preUpdate(t, dt) {
+        super.preUpdate(t, dt);
 
         // En función de las teclas pulsadas, actualizamos la posición del jugador
         const x = Number(this.keys.D.isDown) - Number(this.keys.A.isDown);
         const y = Number(this.keys.S.isDown) - Number(this.keys.W.isDown);
+
         this.body.setVelocity(x * this.speed, y * this.speed);
         this.body.velocity.normalize().scale(this.speed);
+
+        // Si el jugador está en movimiento, reproducimos la animación de movimiento
+        if (Math.abs(this.body.velocity.x) > 0 || Math.abs(this.body.velocity.y) > 0) {
+            this.play("player_mov", true);
+
+            // Si va hacia la izquierda, invertimos el sprite
+            if (this.body.velocity.x > 0) { this.setFlipX(false); }
+            else if (this.body.velocity.x < 0) { this.setFlipX(true); }
+        }
+        else {
+            this.play("player_idle", true);
+        }
     }
 }

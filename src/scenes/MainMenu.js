@@ -9,14 +9,21 @@ export default class MainMenu extends Phaser.Scene {
 
 	preload(){
 
-		// Carga del logo del juego
-		this.load.image("stratImage", "assets/phaser3-logo.png")
-
+		
 		// Cargamos la hoja de sprites de los botones de "INICIAR PARTIDA" y "CRÉDITOS"
 		this.load.spritesheet("mainMenuButtons", "assets/botones_spritesheet.png", {
 			frameWidth: 144, // Ancho total de la hoja partido del número de columnas
 			frameHeight: 32, // Altura total de la hoja partido del número de filas
 		});
+		
+		// Carga del logo del juego
+		this.load.image("stratImage", "assets/phaser3-logo.png")
+
+		// Cargamos la hoja de sprites del jugador
+		this.load.spritesheet("player", "assets/player.png", {
+            frameWidth: 192,
+            frameHeight: 192
+        });
 	}
 
 	create(){
@@ -73,6 +80,22 @@ export default class MainMenu extends Phaser.Scene {
 				this.scene.start("Credits");
 			});
 		});
+
+		// Creamos la animación idle del jugador
+		this.anims.create({
+			key: "player_idle",
+			frames: this.anims.generateFrameNames("player", { start: 0, end: 7}),
+			frameRate: 6,
+			repeat: -1
+		})
+		
+		// Creamos la animación de movimiento del jugador
+		this.anims.create({
+			key: "player_mov",
+			frames: this.anims.generateFrameNames("player", { start: 8, end: 13}),
+			frameRate: 6,
+			repeat: -1
+		})
 	}
 
 	update(){

@@ -16,8 +16,8 @@ export default class Entity extends Phaser.GameObjects.Sprite {
      * @param {number} attackSpeed - Ataques por segundo
      * @param {string} imgKey - Nombre de la imagen que representa a la entidad
      */
-    constructor(health, damage, scene, x, y, speed, attackSpeed, imgKey) {
-        super(scene, x, y, imgKey);
+    constructor(health, damage, scene, x, y, speed, attackSpeed, imgKey, frame) {
+        super(scene, x, y, imgKey, frame)
 
         this.maxHealth = health;
         this.health = health;
@@ -43,10 +43,11 @@ export default class Entity extends Phaser.GameObjects.Sprite {
 
     /**
      * Aplica daño y destruye la entidad cuando se queda sin vida.
-     * @param {number} amount
+     * @param {number} amount - Cantidad de daño recibida
      * @returns {boolean} Si la entidad sigue viva después del golpe.
      */
     takeDamage(amount) {
+
         if (!Number.isFinite(amount) || amount < 0) {
             throw new RangeError("El daño recibido debe ser un número no negativo.");
         }
@@ -72,7 +73,11 @@ export default class Entity extends Phaser.GameObjects.Sprite {
         }
 
         this.isDead = true;
-        this.body.setVelocity(0, 0);
+
+        // (Arturo - Creo que habría que quitar el setVelocity porque destruimos a la
+        // entidad justo despues)
+        // this.body.setVelocity(0, 0);
+        
         this.destroy();
     }
 }
