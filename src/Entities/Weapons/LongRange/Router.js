@@ -15,12 +15,14 @@ export default class Router extends Weapon {
      * @param {number} proyectileSpeed - velocidad del proyectil
      * @param {number} range - rango del arma
      * @param {number} penetration - nº enemigos que puede atravesar el proyectil
+     * @param {string} imgKey_Bullet - nombre de la imagen que representa a la bala
      */
 
-    constructor(scene, x, y, attackSpeed, damage, imgKey, proyectileSpeed, range, penetration) {
+    constructor(scene, x, y, attackSpeed, damage, imgKey, proyectileSpeed, range, penetration, imgKey_Bullet) {
         super(scene, x, y, attackSpeed, damage, imgKey);
         this.proyectileSpeed = proyectileSpeed;
         this.range = range;
+        this.imgKey_Bullet = imgKey_Bullet;
         this.penetration = penetration;
     }
 }

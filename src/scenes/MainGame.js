@@ -23,7 +23,7 @@ export default class MainGame extends Phaser.Scene {
         this.player = new Player(100, 100, this, this.cameras.main.centerX,
             this.cameras.main.centerY, 300, 400, 'player', 0);
 
-        // this.cameras.main.startFollow(this.player);
+        this.cameras.main.startFollow(this.player);
     }
 
     update() {

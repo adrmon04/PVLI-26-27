@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tileset version="1.10" tiledversion="1.10.2" name="arma_cable_ethernet" tilewidth="160" tileheight="64" tilecount="18" columns="6">
+ <image source="arma_cable_ethernet.png" width="960" height="192"/>
+ <tile id="0"><properties><property name="anim" value="en_mano"/><property name="pivot_x" type="int" value="20"/><property name="pivot_y" type="int" value="32"/></properties></tile>
+ <tile id="6"><properties><property name="anim" value="ataque"/><property name="loop" type="bool" value="false"/><property name="pivot_x" type="int" value="20"/><property name="pivot_y" type="int" value="32"/><property name="frame_golpe" type="int" value="3"/><property name="alcance_px" type="int" value="128"/></properties><animation><frame tileid="6" duration="40"/><frame tileid="7" duration="40"/><frame tileid="8" duration="35"/><frame tileid="9" duration="60"/><frame tileid="10" duration="45"/><frame tileid="11" duration="50"/></animation></tile>
+ <tile id="12"><properties><property name="anim" value="impacto"/><property name="loop" type="bool" value="false"/><property name="alcance_px" type="int" value="128"/></properties><animation><frame tileid="12" duration="30"/><frame tileid="13" duration="40"/><frame tileid="14" duration="50"/><frame tileid="15" duration="60"/><frame tileid="16" duration="70"/><frame tileid="17" duration="80"/></animation></tile>
+</tileset>

@@ -15,12 +15,14 @@ export default class PortablePrinter extends Weapon {
      * @param {number} proyectileSpeed - velocidad del proyectil
      * @param {number} range - rango del arma
      * @param {number} burstSize - tamaño de la ráfaga de disparos, nº de proyectiles que se disparan en cada ráfaga
+     * @param {string} imgKey_Bullet - nombre de la imagen que representa a la bala
      */
 
-    constructor(scene, x, y, attackSpeed, damage, imgKey, proyectileSpeed, range, burstSize) {
+    constructor(scene, x, y, attackSpeed, damage, imgKey, proyectileSpeed, range, burstSize, imgKey_Bullet) {
         super(scene, x, y, attackSpeed, damage, imgKey);
         this.proyectileSpeed = proyectileSpeed;
         this.range = range;
+        this.imgKey_Bullet = imgKey_Bullet;
         this.burstSize = burstSize;
     }
 }

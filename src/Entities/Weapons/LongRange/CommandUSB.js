@@ -14,11 +14,13 @@ export default class CommandUSB extends Weapon {
      * @param {string} imgKey - nombre de la imagen que representa al arma
      * @param {number} proyectileSpeed - velocidad del proyectil
      * @param {number} range - rango del arma
+     * @param {string} imgKey_Bullet - nombre de la imagen que representa a la bala
      */
 
-    constructor(scene, x, y, attackSpeed, damage, imgKey, proyectileSpeed, range) {
+    constructor(scene, x, y, attackSpeed, damage, imgKey, proyectileSpeed, range, imgKey_Bullet) {
         super(scene, x, y, attackSpeed, damage, imgKey);
         this.proyectileSpeed = proyectileSpeed;
+        this.imgKey_Bullet = imgKey_Bullet;
         this.range = range;
     }
 }

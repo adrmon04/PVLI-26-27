@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tileset version="1.10" tiledversion="1.10.2" name="arma_torre_cpu" tilewidth="160" tileheight="160" tilecount="18" columns="6">
+ <image source="arma_torre_cpu.png" width="960" height="480"/>
+ <tile id="0"><properties><property name="anim" value="en_mano"/><property name="pivot_x" type="int" value="60"/><property name="pivot_y" type="int" value="96"/></properties></tile>
+ <tile id="6"><properties><property name="anim" value="ataque"/><property name="loop" type="bool" value="false"/><property name="pivot_x" type="int" value="60"/><property name="pivot_y" type="int" value="96"/><property name="frame_golpe" type="int" value="4"/><property name="area_radio_px" type="int" value="76"/></properties><animation><frame tileid="6" duration="160"/><frame tileid="7" duration="220"/><frame tileid="8" duration="90"/><frame tileid="9" duration="60"/><frame tileid="10" duration="160"/><frame tileid="11" duration="180"/></animation></tile>
+ <tile id="12"><properties><property name="anim" value="impacto"/><property name="loop" type="bool" value="false"/><property name="area_radio_px" type="int" value="76"/></properties><animation><frame tileid="12" duration="50"/><frame tileid="13" duration="60"/><frame tileid="14" duration="70"/><frame tileid="15" duration="90"/><frame tileid="16" duration="110"/><frame tileid="17" duration="140"/></animation></tile>
+</tileset>

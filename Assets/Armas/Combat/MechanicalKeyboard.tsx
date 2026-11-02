@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tileset version="1.10" tiledversion="1.10.2" name="arma_teclado_mecanico" tilewidth="160" tileheight="160" tilecount="18" columns="6">
+ <image source="arma_teclado_mecanico.png" width="960" height="480"/>
+ <tile id="0"><properties><property name="anim" value="en_mano"/><property name="pivot_x" type="int" value="80"/><property name="pivot_y" type="int" value="80"/></properties></tile>
+ <tile id="6"><properties><property name="anim" value="ataque"/><property name="loop" type="bool" value="false"/><property name="pivot_x" type="int" value="80"/><property name="pivot_y" type="int" value="80"/><property name="frame_golpe" type="int" value="2"/><property name="alcance_px" type="int" value="72"/></properties><animation><frame tileid="6" duration="70"/><frame tileid="7" duration="50"/><frame tileid="8" duration="40"/><frame tileid="9" duration="50"/><frame tileid="10" duration="70"/><frame tileid="11" duration="90"/></animation></tile>
+ <tile id="12"><properties><property name="anim" value="impacto"/><property name="loop" type="bool" value="false"/><property name="alcance_px" type="int" value="72"/></properties><animation><frame tileid="12" duration="40"/><frame tileid="13" duration="50"/><frame tileid="14" duration="60"/><frame tileid="15" duration="70"/><frame tileid="16" duration="80"/><frame tileid="17" duration="90"/></animation></tile>
+</tileset>
