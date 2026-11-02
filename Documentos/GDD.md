@@ -225,7 +225,7 @@ El jugador puede conseguir dos tipos de armas, una de cuerpo a cuerpo y otra a d
 |---|---|---|
 | USB de comandos (pistola) | Arma ligera que dispara "comandos" de forma rápida pero con un daño reducido por impacto, en la dirección hacia la que apunta el jugador. Ideal para mantener presión constante a corta-media distancia. | Daño, Velocidad de ataque (alta), Velocidad del proyectil, Alcance (medio) |
 | Impresora portátil (fusil de asalto) | Arma que dispara ráfagas de hojas afiladas con un daño moderado por impacto y una cadencia de disparo intermedia, en la dirección hacia la que apunta el jugador. Ofrece un equilibrio entre daño y frecuencia de ataque. | Daño (medio), Velocidad de ataque (media), Velocidad del proyectil, Alcance (medio-alto), Tamaño de ráfaga |
-| Router/antena Wi-Fi (francotirador) | Arma de disparo lento que lanza un único "paquete de datos" cargado con un daño elevado y capaz de atravesar a varios enemigos en línea recta, en la dirección hacia la que apunta el jugador. Penaliza la cadencia a cambio de gran alcance y daño. | Daño (alto), Velocidad de ataque (baja), Velocidad del proyectil, Alcance (alto), Penetración (nº de enemigos atravesados) |
+| Router/antena Wi-Fi (escopeta) | Arma de disparo medio que lanza una onda de varios "paquetes de datos" en cono, provocando un daño elevado a corta y media distancia. El disparo se abre en abanico y puede impactar a varios enemigos a la vez, sacrificando precisión y alcance a cambio de potencia y área de efecto. | Daño (alto), Velocidad de ataque (baja), Velocidad del proyectil, Alcance (medio), Dispersión (alta), Penetración (baja) |
 
 ![Armas](<../Imagenes GDD/Obstáculos y armas/Armas.png>)
 

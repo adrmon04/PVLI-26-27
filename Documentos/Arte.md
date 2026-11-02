@@ -1,0 +1,1 @@
+Implementar referencias del arte
