@@ -24,9 +24,24 @@ export default class Player extends Entity {
         super(health, damage, scene, x, y, speed, attackSpeed, imgKey, frame);
 
         this.weapon = null;
+        this.lastDirection = "right";
 
         // Creamos el objeto keys para saber cuando se han pulsado las teclas W, A, S y D
         this.keys = scene.input.keyboard.addKeys('W,A,S,D');
+
+        // Colocamos el arma en 'postupdate', cuando las físicas ya han movido al jugador,
+        // para que no vaya un frame por detrás
+        scene.events.on('postupdate', this.followWeapon, this);
+        this.once('destroy', () => scene.events.off('postupdate', this.followWeapon, this));
+    }
+
+    followWeapon() {
+        if (this.weapon) {
+            // Redondeamos para que el pixel art no se deforme con posiciones decimales
+            this.weapon.setPosition(Math.round(this.x + 1), Math.round(this.y));
+            // Una vez colocada, la giramos hacia el ratón
+            this.weapon.aimAtPointer();
+        }
     }
 
     preUpdate(t, dt) {
@@ -39,25 +54,15 @@ export default class Player extends Entity {
         this.body.setVelocity(x * this.speed, y * this.speed);
         this.body.velocity.normalize().scale(this.speed);
 
-        if (this.weapon) {
-            this.weapon.x = this.x + 1;
-            this.weapon.y = this.y;
-        }
-
         // Si el jugador está en movimiento, reproducimos la animación de movimiento
         if (Math.abs(this.body.velocity.x) > 0 || Math.abs(this.body.velocity.y) > 0) {
-            this.play("player_mov", true);
+            if (this.body.velocity.x > 0) this.lastDirection = "right";
+            else if (this.body.velocity.x < 0) this.lastDirection = "left";
 
-            // Si va hacia la izquierda, invertimos el sprite tanto del personaje como el arma, si es que tiene arma
-            if (this.body.velocity.x > 0) { 
-                this.setFlipX(false); 
-                if (this.weapon) this.weapon.setFlipX(false); }
-            else if (this.body.velocity.x < 0) { 
-                this.setFlipX(true); 
-                if (this.weapon) this.weapon.setFlipX(true); }
+            this.play("player_mov_" + this.lastDirection, true);
         }
         else {
-            this.play("player_idle", true);
+            this.play("player_idle_" + this.lastDirection, true);
         }
     }
 }
