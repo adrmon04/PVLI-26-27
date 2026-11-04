@@ -70,7 +70,7 @@ export default class LongRangeWeapon extends Weapon {
 
         // Guardamos la posición inicial en la que se crea el proyectil con él
         proyectile.setDataEnabled();
-        proyectile.setData({ initialX: this.x, initialY: this.y});
+        proyectile.setData({ initialX: this.x, initialY: this.y, damage: this.damage});
         
         // Configuramos su rotación y su velocidad
         proyectile.setRotation(Phaser.Math.Angle.Between(this.x, this.y, targetX, targetY)); 

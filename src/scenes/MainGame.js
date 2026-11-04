@@ -2,6 +2,7 @@ import Player from '../Entities/Player/Player.js';
 import HUD from '../UI/HUD.js';
 import ShortRangeWeapon from '../Entities/Weapons/ShortRangeWeapon.js';
 import LongRangeWeapon from '../Entities/Weapons/LongRangeWeapon.js';
+import Enemy from '../Entities/Enemies/Enemy.js';
 
 /**
  * Escena principal.
@@ -105,21 +106,35 @@ export default class MainGame extends Phaser.Scene {
         // Creamos el jugador y lo añadimos a la escena
         this.player = new Player(100, 100, this, this.cameras.main.centerX,
             this.cameras.main.centerY, 300, 400, 'player_right', 0);
-
+            
+        // Creamos un enemigo
+        this.enemy = new Enemy(100, 20, this, 0, 0, 50, 2/3, 'player_right', this.player);
+        
         // roundPixels = true para que la cámara no dibuje en posiciones decimales
         this.cameras.main.startFollow(this.player, true);
 
         //Creamos el HUD
         this.hud = new HUD(this);
 
-        this.weapons = [
-            new ShortRangeWeapon(this, this.player.x - 250, this.player.y, 'MechanicalKeyboard', 1, 0, 10),
-            new ShortRangeWeapon(this, this.player.x - 150, this.player.y, 'CPU', 1, 0, 10),
-            new ShortRangeWeapon(this, this.player.x - 50, this.player.y, 'HDMICable', 1, 0, 10),
-            new LongRangeWeapon(this, this.player.x + 50, this.player.y, 'CommandUSB', 1, 0, 200, 'CommandUSBProyectile', 300),
-            new LongRangeWeapon(this, this.player.x + 150, this.player.y, 'PortablePrinter', 1, 0, 200, 'PortablePrinterProyectile', 300),
-            new LongRangeWeapon(this, this.player.x + 250, this.player.y, 'Router', 1, 0, 1, 'RouterProyectile', 1)
-        ];
+        this.weapon = new LongRangeWeapon(this, this.player.x + 50, this.player.y, 'CommandUSB', 1, 20, 200, 'CommandUSBProyectile', 300);
+
+        this.physics.add.overlap(this.enemy, this.player, (enemy, player) => {
+            if (enemy.canAttack()) {
+                player.takeDamage(enemy.damage);
+            }
+        });
+
+        this.physics.add.collider(this.enemy, this.weapon.proyectiles, (enemy, proyectil) => {
+            
+            // Sacamos la información del daño del proyectil 
+            const proyectileDamage = proyectil.getData('damage');
+
+            // Hacemos que el enemigo reciba ese daño 
+            enemy.takeDamage(proyectileDamage);
+
+            // Y destruimos el proyectil
+            proyectil.destroy();
+        });
 
         // ------------------------------------ANIMACIONES JUGADOR-----------------------------------------
 

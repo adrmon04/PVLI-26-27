@@ -60,6 +60,15 @@ export default class Entity extends Phaser.GameObjects.Sprite {
         if (this.health === 0) {
             this.die();
         }
+        else {
+            // Flash rojo al recibir daño
+            this.setTint(0xff0000);
+
+            if (this.hitTimer) this.hitTimer.remove(false);
+            this.hitTimer = this.scene.time.delayedCall(150, () => {
+                if (this.active) this.clearTint();
+            });
+        }
 
         return !this.isDead;
     }

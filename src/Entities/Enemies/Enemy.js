@@ -15,10 +15,22 @@ export default class Enemy extends Entity {
      * @param {number} speed 
      * @param {number} attackSpeed 
      * @param {string} imgKey 
+     * @param {Player} player - Referencia al jugador para poder perseguirle
      */
-    constructor(health, damage, scene, x, y, speed, attackSpeed, imgKey) {
+    constructor(health, damage, scene, x, y, speed, attackSpeed, imgKey, player) {
         super(health, damage, scene, x, y, speed, attackSpeed, imgKey);
         this.nextAttackTime = 0;
+        this.player = player;
+    }
+
+    preUpdate(t, dt) {
+        
+        // Llamamos al preUpdate de la clase padre
+        super.preUpdate(t, dt);
+
+        // Cambiamos su velocidad para que así persiga al jugador
+        const dir = new Phaser.Math.Vector2(this.player.x - this.x, this.player.y - this.y).normalize();
+        this.body.setVelocity(dir.x * this.speed, dir.y * this.speed);
     }
 
     /**
