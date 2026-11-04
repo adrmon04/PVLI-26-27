@@ -1,4 +1,5 @@
 import Player from '../Entities/Player/Player.js';
+import HUD from '../UI/HUD.js';
 import ShortRangeWeapon from '../Entities/Weapons/ShortRangeWeapon.js';
 import LongRangeWeapon from '../Entities/Weapons/LongRangeWeapon.js';
 
@@ -79,6 +80,20 @@ export default class MainGame extends Phaser.Scene {
             frameWidth: 128,
             frameHeight: 128
         });
+
+        // Assets del HUD
+        this.load.spritesheet('hudLife', 'assets/HUD/IconoVida.png', {
+            frameWidth: 16,
+            frameHeight: 32
+        });
+        this.load.spritesheet('hudCoin', 'assets/HUD/IconoMoneda.png', {
+            frameWidth: 16,
+            frameHeight: 16
+        });
+        this.load.spritesheet('hudWeaponSlot', 'assets/HUD/IconoArma.png', {
+            frameWidth: 48,
+            frameHeight: 48
+        });
     }
 
     // create - método de las escenas que se llama una vez la escena está instanciada
@@ -93,6 +108,9 @@ export default class MainGame extends Phaser.Scene {
 
         // roundPixels = true para que la cámara no dibuje en posiciones decimales
         this.cameras.main.startFollow(this.player, true);
+
+        //Creamos el HUD
+        this.hud = new HUD(this);
 
         this.weapons = [
             new ShortRangeWeapon(this, this.player.x - 250, this.player.y, 'MechanicalKeyboard', 1, 0, 10),
@@ -247,6 +265,8 @@ export default class MainGame extends Phaser.Scene {
     }
 
     update() {
-        
+        if (this.hud && this.player) {
+        this.hud.update(this.player);
+        }
     }
 }
