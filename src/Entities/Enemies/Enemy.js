@@ -17,10 +17,20 @@ export default class Enemy extends Entity {
      * @param {string} imgKey 
      * @param {Player} player - Referencia al jugador para poder perseguirle
      */
-    constructor(health, damage, scene, x, y, speed, attackSpeed, imgKey, player) {
-        super(health, damage, scene, x, y, speed, attackSpeed, imgKey);
+    constructor(health, damage, scene, x, y, speed, attackSpeed, imgKey, frame, player) {
+        super(health, damage, scene, x, y, speed, attackSpeed, imgKey, frame);
         this.nextAttackTime = 0;
         this.player = player;
+
+        // Fijamos el tamaño en el que se muestra
+        this.setDisplaySize(player.width * 1.5, player.height * 1.5);
+
+        // Origen en el pivote definido en los pies del fantasma)
+        this.setOrigin(0.54, 0.73);
+
+        // Hitbox ajustado al cuerpo (en píxeles del frame, sin escalar)
+        this.body.setSize(this.width * 0.22, this.height * 0.55);
+        this.body.setOffset(this.width * 0.36, this.height * 0.09);
     }
 
     preUpdate(t, dt) {
@@ -31,6 +41,20 @@ export default class Enemy extends Entity {
         // Cambiamos su velocidad para que así persiga al jugador
         const dir = new Phaser.Math.Vector2(this.player.x - this.x, this.player.y - this.y).normalize();
         this.body.setVelocity(dir.x * this.speed, dir.y * this.speed);
+
+        // Si el enemigo está en movimiento, reproducimos la animación de movimiento
+        if (Math.abs(this.body.velocity.x) > 0 || Math.abs(this.body.velocity.y) > 0) {
+            this.play('pop-up_mov', true);
+            if (this.body.velocity.x > 0) {
+                this.setFlipX(false);
+            }
+            else {
+                this.setFlipX(true);
+            }
+        }
+        else {
+            this.play('pop-up_idle', true);
+        }
     }
 
     /**

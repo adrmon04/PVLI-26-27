@@ -95,6 +95,12 @@ export default class MainGame extends Phaser.Scene {
             frameWidth: 48,
             frameHeight: 48
         });
+
+        // Cargamos la hoja de sprites del enemigo Pop-up
+        this.load.spritesheet('pop-up', 'assets/pop-upSpritesheet.png', {
+            frameWidth: 1448,
+            frameHeight: 788
+        });
     }
 
     // create - método de las escenas que se llama una vez la escena está instanciada
@@ -108,7 +114,7 @@ export default class MainGame extends Phaser.Scene {
             this.cameras.main.centerY, 300, 400, 'player_right', 0);
             
         // Creamos un enemigo
-        this.enemy = new Enemy(100, 20, this, 0, 0, 50, 2/3, 'player_right', this.player);
+        this.enemy = new Enemy(100, 20, this, this.player.x + 200, this.player.y, 50, 2/3, 'pop-up', 0, this.player);
         
         // roundPixels = true para que la cámara no dibuje en posiciones decimales
         this.cameras.main.startFollow(this.player, true);
@@ -144,14 +150,14 @@ export default class MainGame extends Phaser.Scene {
 			frames: this.anims.generateFrameNames("player_right", { start: 0, end: 7}),
 			frameRate: 6,
 			repeat: -1
-		})
+		});
 		
         this.anims.create({
             key: "player_idle_left",
             frames: this.anims.generateFrameNames("player_left", { start: 0, end: 7}),
             frameRate: 6,
             repeat: -1
-        })
+        });
 		
         // Creamos la animación de movimiento del jugador
 		this.anims.create({
@@ -159,14 +165,30 @@ export default class MainGame extends Phaser.Scene {
 			frames: this.anims.generateFrameNames("player_right", { start: 8, end: 13}),
 			frameRate: 6,
 			repeat: -1
-		})
+		});
 		
 		this.anims.create({
 			key: "player_mov_left",
 			frames: this.anims.generateFrameNames("player_left", { start: 8, end: 13}),
 			frameRate: 6,
 			repeat: -1
-		})
+		});
+
+        // ------------------------------------ANIMACIONES ENEMIGOS-----------------------------------------
+
+        this.anims.create({
+            key: 'pop-up_idle',
+            frames: this.anims.generateFrameNumbers('pop-up', { start: 20, end: 27}),
+            frameRate: 8,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: 'pop-up_mov',
+            frames: this.anims.generateFrameNumbers('pop-up', { start: 30, end: 37}),
+            frameRate: 11,
+            repeat: -1
+        });
 
         // ------------------------------------ANIMACIONES ARMAS-----------------------------------------
         
@@ -176,42 +198,42 @@ export default class MainGame extends Phaser.Scene {
             frames: this.anims.generateFrameNames("MechanicalKeyboard", { start: 6, end: 11}),
             frameRate: 6,
             repeat: -1
-        })
+        });
         
 		this.anims.create({
             key: "CPU_fire",
 			frames: this.anims.generateFrameNames("CPU", { start: 6, end: 11}),
 			frameRate: 6,
 			repeat: -1
-		})
+		});
         
 		this.anims.create({
             key: "HDMICable_fire",
 			frames: this.anims.generateFrameNames("HDMICable", { start: 6, end: 11}),
 			frameRate: 6,
 			repeat: -1
-		})
+		});
         
         this.anims.create({
             key: "CommandUSB_fire",
             frames: this.anims.generateFrameNames("CommandUSB", { start: 4, end: 7}),
             frameRate: 6,
             repeat: -1
-        })
+        });
 
         this.anims.create({
             key: "PortablePrinter_fire",
             frames: this.anims.generateFrameNames("PortablePrinter", { start: 4, end: 7}),
             frameRate: 6,
             repeat: -1
-        })
+        });
 
         this.anims.create({
             key: "Router_fire",
             frames: this.anims.generateFrameNames("Router", { start: 4, end: 7}),
             frameRate: 6,
             repeat: -1
-        })
+        });
 
         //Creamos animaciones de idle de las armas que aparecen en el suelo
 		this.anims.create({
@@ -219,42 +241,42 @@ export default class MainGame extends Phaser.Scene {
 			frames: this.anims.generateFrameNames("FloorWeapons", { start: 0, end: 3}),
 			frameRate: 6,
 			repeat: -1
-		})
+		});
 
 		this.anims.create({
 			key: "CPU_idle",
 			frames: this.anims.generateFrameNames("FloorWeapons", { start: 4, end: 7}),
 			frameRate: 6,
 			repeat: -1
-		})
+		});
 
 		this.anims.create({
 			key: "HDMICable_idle",
 			frames: this.anims.generateFrameNames("FloorWeapons", { start: 8, end: 11}),
 			frameRate: 6,
 			repeat: -1
-		})
+		});
 
 		this.anims.create({
 			key: "CommandUSB_idle",
 			frames: this.anims.generateFrameNames("FloorWeapons", { start: 12, end: 15}),
 			frameRate: 6,
 			repeat: -1
-		})
+		});
 
 		this.anims.create({
 			key: "PortablePrinter_idle",
 			frames: this.anims.generateFrameNames("FloorWeapons", { start: 16, end: 19}),
 			frameRate: 6,
 			repeat: -1
-		})
+		});
 
 		this.anims.create({
 			key: "Router_idle",
 			frames: this.anims.generateFrameNames("FloorWeapons", { start: 20, end: 23}),
 			frameRate: 6,
 			repeat: -1
-		})
+		});
 
         // Creamos animaciones de los proyectiles de las armas
 		this.anims.create({
@@ -262,21 +284,21 @@ export default class MainGame extends Phaser.Scene {
 			frames: this.anims.generateFrameNames("CommandUSBProyectile", { start: 0, end: 3}),
 			frameRate: 6,
 			repeat: -1
-		})
+		});
 
 		this.anims.create({
 			key: "PortablePrinter_proyectile",
 			frames: this.anims.generateFrameNames("PortablePrinterProyectile", { start: 0, end: 3}),
 			frameRate: 6,
 			repeat: -1
-		})
+		});
 
 		this.anims.create({
 			key: "Router_proyectile",
 			frames: this.anims.generateFrameNames("RouterProyectile", { start: 0, end: 3}),
 			frameRate: 6,
 			repeat: -1
-		})
+		});
     }
 
     update() {
