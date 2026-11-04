@@ -4,7 +4,7 @@ export default class Credits extends Phaser.Scene {
 	}
 
 	preload() {
-		this.load.spritesheet("menuButtons", "assets/botones_spritesheet2.png", {
+		this.load.spritesheet("menuButtons", "assets/ButtonsSpritesheet2.png", {
 			frameWidth: 144, // Ancho total de la hoja partido del número de columnas
 			frameHeight: 32, // Altura total de la hoja partido del número de filas
 		});
