@@ -18,8 +18,8 @@ export default class Router extends Weapon {
      * @param {string} imgKey_Bullet - nombre de la imagen que representa a la bala
      */
 
-    constructor(scene, x, y, attackSpeed, damage, imgKey, proyectileSpeed, range, penetration, imgKey_Bullet) {
-        super(scene, x, y, attackSpeed, damage, imgKey);
+    constructor(scene, x, y, attackSpeed, damage, imgKey, range, proyectileSpeed, penetration, imgKey_Bullet) {
+        super(scene, x, y, imgKey, attackSpeed, damage, range);
         this.proyectileSpeed = proyectileSpeed;
         this.range = range;
         this.imgKey_Bullet = imgKey_Bullet;

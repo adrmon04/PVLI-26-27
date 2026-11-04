@@ -1,5 +1,6 @@
 import Player from '../Entities/Player/Player.js';
-import Weapon from '../Entities/Weapons/Weapon.js';
+import ShortRangeWeapon from '../Entities/Weapons/ShortRangeWeapon.js';
+import LongRangeWeapon from '../Entities/Weapons/LongRangeWeapon.js';
 
 /**
  * Escena principal.
@@ -13,6 +14,7 @@ export default class MainGame extends Phaser.Scene {
 
     // preload - método de las escenas donde se pueden cargar los recursos que necesitaremos
     preload() {
+
         //Cargamos los assets desde nuestra raiz del proyecto
         this.load.image('fondo', 'assets/space.png');
 
@@ -81,6 +83,7 @@ export default class MainGame extends Phaser.Scene {
 
     // create - método de las escenas que se llama una vez la escena está instanciada
     create() {
+
         //Imagen de fondo
         this.add.image(0, 0, 'fondo').setOrigin(0, 0);
 
@@ -92,18 +95,17 @@ export default class MainGame extends Phaser.Scene {
         this.cameras.main.startFollow(this.player, true);
 
         this.weapons = [
-            new Weapon(this, this.player.x - 250, this.player.y, 1, 0, 'MechanicalKeyboard'),
-            new Weapon(this, this.player.x - 150, this.player.y, 1, 0, 'CPU'),
-            new Weapon(this, this.player.x - 50, this.player.y, 1, 0, 'HDMICable'),
-            new Weapon(this, this.player.x + 50, this.player.y, 1, 0, 'CommandUSB'),
-            new Weapon(this, this.player.x + 150, this.player.y, 1, 0, 'PortablePrinter'),
-            new Weapon(this, this.player.x + 250, this.player.y, 1, 0, 'Router')
+            new ShortRangeWeapon(this, this.player.x - 250, this.player.y, 'MechanicalKeyboard', 1, 0, 10),
+            new ShortRangeWeapon(this, this.player.x - 150, this.player.y, 'CPU', 1, 0, 10),
+            new ShortRangeWeapon(this, this.player.x - 50, this.player.y, 'HDMICable', 1, 0, 10),
+            new LongRangeWeapon(this, this.player.x + 50, this.player.y, 'CommandUSB', 1, 0, 200, 'CommandUSBProyectile', 300),
+            new LongRangeWeapon(this, this.player.x + 150, this.player.y, 'PortablePrinter', 1, 0, 200, 'PortablePrinterProyectile', 300),
+            new LongRangeWeapon(this, this.player.x + 250, this.player.y, 'Router', 1, 0, 1, 'RouterProyectile', 1)
         ];
-
 
         // ------------------------------------ANIMACIONES JUGADOR-----------------------------------------
 
-        // Creamos la animación idle del jugador
+        // Creamos la animación de idle del jugador
 		this.anims.create({
 			key: "player_idle_right",
 			frames: this.anims.generateFrameNames("player_right", { start: 0, end: 7}),
@@ -122,18 +124,16 @@ export default class MainGame extends Phaser.Scene {
 		this.anims.create({
 			key: "player_mov_right",
 			frames: this.anims.generateFrameNames("player_right", { start: 8, end: 13}),
-			frameRate: 9,
+			frameRate: 6,
 			repeat: -1
 		})
-
 		
 		this.anims.create({
 			key: "player_mov_left",
 			frames: this.anims.generateFrameNames("player_left", { start: 8, end: 13}),
-			frameRate: 9,
+			frameRate: 6,
 			repeat: -1
 		})
-
 
         // ------------------------------------ANIMACIONES ARMAS-----------------------------------------
         
@@ -179,7 +179,6 @@ export default class MainGame extends Phaser.Scene {
             frameRate: 6,
             repeat: -1
         })
-
 
         //Creamos animaciones de idle de las armas que aparecen en el suelo
 		this.anims.create({
@@ -250,5 +249,4 @@ export default class MainGame extends Phaser.Scene {
     update() {
         
     }
-
 }

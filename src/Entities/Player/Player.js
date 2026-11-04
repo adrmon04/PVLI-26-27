@@ -37,14 +37,17 @@ export default class Player extends Entity {
 
     followWeapon() {
         if (this.weapon) {
+
             // Redondeamos para que el pixel art no se deforme con posiciones decimales
             this.weapon.setPosition(Math.round(this.x + 1), Math.round(this.y));
+            
             // Una vez colocada, la giramos hacia el ratón
             this.weapon.aimAtPointer();
         }
     }
 
     preUpdate(t, dt) {
+
         super.preUpdate(t, dt);
 
         // En función de las teclas pulsadas, actualizamos la posición del jugador
