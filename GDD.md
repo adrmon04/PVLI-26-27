@@ -229,7 +229,7 @@ El jugador puede conseguir dos tipos de armas, una de cuerpo a cuerpo y otra a d
 | Impresora portátil (fusil de asalto) | Arma que dispara ráfagas de hojas afiladas con un daño moderado por impacto y una cadencia de disparo intermedia, en la dirección hacia la que apunta el jugador. Ofrece un equilibrio entre daño y frecuencia de ataque. | Daño (medio), Velocidad de ataque (media), Velocidad del proyectil, Alcance (medio-alto), Tamaño de ráfaga |
 | Router/antena Wi-Fi (escopeta) | Arma de disparo medio que lanza una onda de varios "paquetes de datos" en cono, provocando un daño elevado a corta y media distancia. El disparo se abre en abanico y puede impactar a varios enemigos a la vez, sacrificando precisión y alcance a cambio de potencia y área de efecto. | Daño (alto), Velocidad de ataque (baja), Velocidad del proyectil, Alcance (medio), Dispersión (alta), Penetración (baja) |
 
-![Armas](<imagenes GDD/obstáculos y armas/Armas.png>)
+![Armas](<Assets/images/weapons/previews/preview_armas_suelo.gif>)
 
 #### 5.2.2 Mejoras
 
@@ -283,7 +283,9 @@ Los obstáculos son elementos del entorno de cada sala que condicionan el movimi
 
 El juego se estructura en salas conectadas entre sí, agrupadas por zonas temáticas correspondientes a distintas áreas de la facultad (aulas, laboratorios, biblioteca, sala de servidores...), a modo de bloques progresivos de dificultad creciente. Cada bloque culmina en una sala de mayor desafío antes de dar paso al siguiente.
 
-El número total de salas, su disposición exacta y los bocetos de nivel quedan pendientes de definir en una fase posterior del desarrollo. Del mismo modo, queda pendiente establecer la unidad de medida del grid de juego (tamaño de sala y tamaño del jugador respecto a dicha unidad), necesaria para mantener coherencia con el resto de parámetros del documento.
+En el transcurso del juego habrá un total de 3 ciclos de salas con 5 salas en cada ciclo, mínimo 1 de estas 5 será un puzle y además la última sala es obligatoriamente una de tienda y recuperación de vida. Después de estos 3 ciclos se enfrentará el jugador al jefe final.
+
+El tamaño del jugador es de 2 unidades y cada unidad es de 64x64 pixeles.
 
 ---
 
