@@ -1,16 +1,16 @@
 //-------------------------------------Entidades-----------------------------------------
-import Player from '../Entities/Player/Player.js';
-import Enemy from '../Entities/Enemies/Enemy.js';
+import Player from '../entities/player/Player.js';
+import Enemy from '../entities/enemies/Enemy.js';
 
 // ------------------------------------Nivel-----------------------------------------
-import Level from '../World/Level.js';
+import Level from '../world/Level.js';
 
 // ------------------------------------Armas-----------------------------------------
-import ShortRangeWeapon from '../Entities/Weapons/ShortRangeWeapon.js';
-import LongRangeWeapon from '../Entities/Weapons/LongRangeWeapon.js';
+import ShortRangeWeapon from '../entities/weapons/ShortRangeWeapon.js';
+import LongRangeWeapon from '../entities/weapons/LongRangeWeapon.js';
 
 // ------------------------------------UI-----------------------------------------
-import HUD from '../UI/HUD.js';
+import HUD from '../ui/HUD.js';
 
 /**
  * Escena principal.
@@ -28,83 +28,83 @@ export default class MainGame extends Phaser.Scene {
         Level.preload(this);
 
         // Cargamos la hoja de sprites del jugador
-		this.load.spritesheet("player_right", "assets/player_right.png", {
+		this.load.spritesheet("player_right", "assets/images/entities/player/player_right.png", {
             frameWidth: 192,
             frameHeight: 192
         });
         
-		this.load.spritesheet("player_left", "assets/player_left.png", {
+		this.load.spritesheet("player_left", "assets/images/entities/player/player_left.png", {
             frameWidth: 192,
             frameHeight: 192
         });
 
         // Hojas de sprites de las armas equipadas (imágenes escaladas x4)
-        this.load.spritesheet("MechanicalKeyboard", "assets/Armas/Combat/MechanicalKeyboard.png", {
+        this.load.spritesheet("MechanicalKeyboard", "assets/images/weapons/combat/mechanicalKeyboard.png", {
             frameWidth: 640,
             frameHeight: 640
         });
 
-        this.load.spritesheet("CPU", "assets/Armas/Combat/CPU.png", {
+        this.load.spritesheet("CPU", "assets/images/weapons/combat/cPU.png", {
             frameWidth: 640,
             frameHeight: 640
         });
 
-        this.load.spritesheet("HDMICable", "assets/Armas/Combat/HDMICable.png", {
+        this.load.spritesheet("HDMICable", "assets/images/weapons/combat/hDMICable.png", {
             frameWidth: 640,
             frameHeight: 256
         });
 
-        this.load.spritesheet("CommandUSB", "assets/Armas/Combat/CommandUSB.png", {
+        this.load.spritesheet("CommandUSB", "assets/images/weapons/combat/commandUSB.png", {
             frameWidth: 384,
             frameHeight: 384
         });
 
-        this.load.spritesheet("PortablePrinter", "assets/Armas/Combat/PortablePrinter.png", {
+        this.load.spritesheet("PortablePrinter", "assets/images/weapons/combat/portablePrinter.png", {
             frameWidth: 384,
             frameHeight: 384
         });
 
-        this.load.spritesheet("Router", "assets/Armas/Combat/Router.png", {
+        this.load.spritesheet("Router", "assets/images/weapons/combat/router.png", {
             frameWidth: 384,
             frameHeight: 384
         });
 
         // Armas que aparecen en el suelo (4 columnas x 6 filas, una fila por arma)
-        this.load.spritesheet("FloorWeapons", "assets/Armas/Objects/FloorWeapons.png", {
+        this.load.spritesheet("FloorWeapons", "assets/images/weapons/objects/floorWeapons.png", {
             frameWidth: 384,
             frameHeight: 256
         });
 
         // Hojas de sprites de los proyectiles (frames 0-3: proyectil en vuelo, 5-9: impacto)
-        this.load.spritesheet("CommandUSBProyectile", "assets/Armas/Proyectiles/CommandUSB_proyectile.png", {
+        this.load.spritesheet("CommandUSBProyectile", "assets/images/weapons/proyectiles/commandUSB_proyectile.png", {
             frameWidth: 128,
             frameHeight: 128
         });
-        this.load.spritesheet("PortablePrinterProyectile", "assets/Armas/Proyectiles/PortablePrinter_proyectile.png", {
+        this.load.spritesheet("PortablePrinterProyectile", "assets/images/weapons/proyectiles/portablePrinter_proyectile.png", {
             frameWidth: 128,
             frameHeight: 128
         });
-        this.load.spritesheet("RouterProyectile", "assets/Armas/Proyectiles/Router_proyectile.png", {
+        this.load.spritesheet("RouterProyectile", "assets/images/weapons/proyectiles/router_proyectile.png", {
             frameWidth: 128,
             frameHeight: 128
         });
 
         // Assets del HUD
-        this.load.spritesheet('hudLife', 'assets/HUD/IconoVida.png', {
+        this.load.spritesheet('hudLife', 'assets/images/hud/iconoVida.png', {
             frameWidth: 16,
             frameHeight: 32
         });
-        this.load.spritesheet('hudCoin', 'assets/HUD/IconoMoneda.png', {
+        this.load.spritesheet('hudCoin', 'assets/images/hud/iconoMoneda.png', {
             frameWidth: 16,
             frameHeight: 16
         });
-        this.load.spritesheet('hudWeaponSlot', 'assets/HUD/IconoArma.png', {
+        this.load.spritesheet('hudWeaponSlot', 'assets/images/hud/iconoArma.png', {
             frameWidth: 48,
             frameHeight: 48
         });
 
         // Cargamos la hoja de sprites del enemigo Pop-up
-        this.load.spritesheet('pop-up', 'assets/pop-upSpritesheet.png', {
+        this.load.spritesheet('pop-up', 'assets/images/entities/enemies/pop-upSpritesheet.png', {
             frameWidth: 1448,
             frameHeight: 788
         });

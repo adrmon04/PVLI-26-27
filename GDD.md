@@ -82,9 +82,9 @@ flowchart TD
 
 ## 3 Personaje jugador
 
-El Defecto era un alumno diferente que un día de clase normal se quedó en la facultad para terminar un entregable. Hubo un gran temblor y todo se oscureció de manera repentina. De un momento a otro, ya no era un chico normal, sino una criatura mutante, y todo a su alrededor había cambiado: ya no estaba en una universidad, sino en el inframundo…
+**E** era un alumno diferente que un día de clase normal se quedó en la facultad para terminar un entregable. Hubo un gran temblor y todo se oscureció de manera repentina. De un momento a otro, ya no era un chico normal, sino una criatura mutante, y todo a su alrededor había cambiado: ya no estaba en una universidad, sino en el inframundo…
 
-![Personaje jugador](<../Imagenes GDD/Personaje y enemigos/personaje jugador.png>)
+![Personaje jugador](<imagenes GDD/personaje y enemigos/personaje jugador.png>)
 
 ### 3.1 Métricas
 
@@ -162,12 +162,12 @@ En la tienda el jugador puede comprar armas y mejoras mediante el pago de una ci
 
 Cada vez que el jugador se adentra en una sala, esta se escoge aleatoriamente, ya sea de puzle o de combate. Sin embargo, cada 5 salas comunes (combate/puzle) la siguiente sala es una de tienda y recuperación de vida obligatoriamente. Como mínimo habrá 1 sala de puzle entre esas 5. Después de repetir este ciclo 3 veces, el jugador entra en la sala del jefe final.
 
-![Sala clase](<../Imagenes GDD/Salas/Sala clase.png>)
-![Sala lag](<../Imagenes GDD/Salas/Sala lag.png>)
-![Sala suelo corrupto](<../Imagenes GDD/Salas/Sala suelo corrupto.png>)
-![Sala tienda&vida](<../Imagenes GDD/Salas/Sala tienda&vida.png>)
-![Sala PAzul](<../Imagenes GDD/Salas/Sala PAzul.png>)
-![Sala cables](<../Imagenes GDD/Salas/Sala cables.png>)
+![Sala clase](<imagenes GDD/salas/Sala clase.png>)
+![Sala lag](<imagenes GDD/salas/Sala lag.png>)
+![Sala suelo corrupto](<imagenes GDD/salas/Sala suelo corrupto.png>)
+![Sala tienda&vida](<imagenes GDD/salas/Sala tienda&vida.png>)
+![Sala PAzul](<imagenes GDD/salas/Sala PAzul.png>)
+![Sala cables](<imagenes GDD/salas/Sala cables.png>)
 
 ---
 
@@ -201,7 +201,8 @@ Todos los enemigos comparten las siguientes características: infligen daño al 
 | Spambot | Mantiene una distancia respecto al jugador (su Alcance) y dispara ráfagas continuas de proyectiles débiles mientras permanece dentro de dicha distancia. | Vida (baja), Daño (bajo), Velocidad (baja), Velocidad de ataque (alta), Velocidad del proyectil (media), Alcance (alto) |
 | Profesor corrupto (élite) | Enemigo de mayor tamaño y presencia. Se desplaza más lento que el resto de enemigos comunes, pero compensa esta debilidad con mayor vida y mayor daño por contacto. | Vida (muy alta), Daño (alto), Velocidad (muy baja) |
 
-![Enemigos](<../Imagenes GDD/Personaje y enemigos/Enemigos.png>)
+![Enemigos](<imagenes GDD/personaje y enemigos/Enemigos.png>)
+![Enemigos](<imagenes GDD/personaje y enemigos/PopUpSpritesheet.png>)
 
 ### 5.2 Objetos
 
@@ -227,7 +228,7 @@ El jugador puede conseguir dos tipos de armas, una de cuerpo a cuerpo y otra a d
 | Impresora portátil (fusil de asalto) | Arma que dispara ráfagas de hojas afiladas con un daño moderado por impacto y una cadencia de disparo intermedia, en la dirección hacia la que apunta el jugador. Ofrece un equilibrio entre daño y frecuencia de ataque. | Daño (medio), Velocidad de ataque (media), Velocidad del proyectil, Alcance (medio-alto), Tamaño de ráfaga |
 | Router/antena Wi-Fi (escopeta) | Arma de disparo medio que lanza una onda de varios "paquetes de datos" en cono, provocando un daño elevado a corta y media distancia. El disparo se abre en abanico y puede impactar a varios enemigos a la vez, sacrificando precisión y alcance a cambio de potencia y área de efecto. | Daño (alto), Velocidad de ataque (baja), Velocidad del proyectil, Alcance (medio), Dispersión (alta), Penetración (baja) |
 
-![Armas](<../Imagenes GDD/Obstáculos y armas/Armas.png>)
+![Armas](<imagenes GDD/obstáculos y armas/Armas.png>)
 
 #### 5.2.2 Mejoras
 
@@ -266,7 +267,7 @@ Los obstáculos son elementos del entorno de cada sala que condicionan el movimi
 | Cables sueltos | Obstáculo estático que no bloquea el paso: el jugador puede pasar por encima, pero recibe daño continuo mientras permanece sobre él. | Daño, Área de efecto |
 | Zona de lag | Zona que reduce la velocidad de movimiento del jugador mientras permanece dentro de ella. | Porcentaje de ralentización, Área de efecto |
 
-![Obstáculos](<../Imagenes GDD/Obstáculos y armas/Obstáculos.png>)
+![Obstáculos](<imagenes GDD/obstáculos y armas/Obstáculos.png>)
 
 #### 5.3.1 Parámetros y detalles (Obstáculos)
 
@@ -289,9 +290,7 @@ El número total de salas, su disposición exacta y los bocetos de nivel quedan 
 
 ### 6.1 Cámara
 
-Cámara ortográfica fija por sala, con vista cenital (top-down). Cada sala cabe por completo en pantalla, sin scroll ni seguimiento del jugador: el encuadre permanece estático durante el combate, de modo que el jugador ve en todo momento a todos los enemigos, proyectiles y obstáculos presentes. Este planteamiento se toma de *The Binding of Isaac*.
-
-Al cruzar una puerta, la cámara no corta en seco a la sala contigua: realiza un desplazamiento lateral rápido (aproximadamente 0,3–0,5 s), reforzando la sensación de recorrer un edificio continuo en lugar de teletransportarse entre pantallas independientes.
+Cámara ortográfica que sigue al jugador en todo momento. De esta forma, pese a que abarca bastante espacio, sigue sin ser suficiente como para que el jugador sea completamente consciente de todos los elementos presentes en la escena. Al superar un ciclo, la cámara realiza una transición para así evitar la sensación de brusquedad.
 
 ### 6.2 HUD
 
@@ -307,7 +306,7 @@ El HUD se mantiene mínimo y pegado a las esquinas, dejando el centro de la pant
 | Mejoras obtenidas | Franja inferior izquierda, junto a las armas | Fila de iconos pequeños con las mejoras acumuladas durante la partida. |
 | Barra de vida del jefe | Franja superior centrada | Visible únicamente durante el enfrentamiento final, junto al nombre del jefe. |
 
-**Interfaz contextual de interacción:** cuando el jugador se encuentra dentro del radio de detección de una entidad interactuable (arma en el suelo, terminal de puzzle, etc.), se muestra un pequeño prompt flotante justo encima del personaje, indicando la tecla y la acción disponible (por ejemplo, *"F: Recoger arma"* o *"Q: Iniciar puzzle"*). Este elemento no ocupa una posición fija del HUD, sino que aparece y desaparece dinámicamente según la mecánica de Interacción (véase 4. Mecánicas).
+**Interfaz contextual de interacción:** cuando el jugador se encuentra dentro del radio de detección de una entidad interactuable (arma en el suelo, terminal de puzzle, etc.), se muestra un pequeño prompt flotante justo encima del personaje, indicando la tecla y la acción disponible (por ejemplo, *"E: Recoger arma"* o *"Q: Iniciar puzzle"*). Este elemento no ocupa una posición fija del HUD, sino que aparece y desaparece dinámicamente según la mecánica de Interacción (véase 4. Mecánicas).
 
 **Retroalimentación visual (sin ocupar HUD fijo):**
 
@@ -427,7 +426,7 @@ Regla de color funcional: todo lo que daña al jugador se dibuja en tonos cálid
 
 ### 9.2 Necesidades de arte
 
-- **Jugador:** sprite de El Defecto con animaciones de idle, caminar en 4 direcciones, ataque cuerpo a cuerpo, disparo, recibir daño y muerte.
+- **Jugador:** sprite de **E** con animaciones de idle, caminar en 4 direcciones, ataque cuerpo a cuerpo, disparo, recibir daño y muerte.
 - **Enemigos:** Bug, Pop-up (incluye animación de aparición y explosión), Troyano (forma camuflada y forma activa), Spam-bot y Profesor corrupto; cada uno con idle, movimiento, ataque y muerte.
 - **Jefe final:** sprite de mayor tamaño con un set de animaciones por ataque, pendiente de definir junto al propio diseño del jefe.
 - **Tilesets:** uno por zona temática (aulas, laboratorios, biblioteca, sala de servidores), con variantes de suelo, paredes y puertas (abierta/cerrada/especial).
