@@ -4,8 +4,8 @@
  */
 
 // Escala de dibujo de las armas y proyectiles (sus imágenes están escaladas x4).
-// Con 0.15 las armas miden unos 30-40 px, en proporción a un jugador de 2 tiles
-export const WEAPON_SCALE = 0.15;
+// Con 0.18 las armas miden unos 36-45 px, en proporción a un jugador de 2 tiles
+export const WEAPON_SCALE = 0.18;
 
 // Distancia máxima al jugador para poder coger el arma
 const PICKUP_RADIUS = 80;
@@ -70,7 +70,7 @@ export default class Weapon extends Phaser.GameObjects.Sprite {
                 // Actualizamos el estado del arma
                 this.taken = true;
                 player.weapon = this;
-                this.stop(); // Paramos su animación de idle 
+                this.stop(); // Paramos su animación de idle
                 this.setTexture(this.imgKey, 0); // Fijamos su frame en el frame 0
             }
 
@@ -81,13 +81,22 @@ export default class Weapon extends Phaser.GameObjects.Sprite {
             }
         }
 
-        // El arma dispara hacia la posicion del raton en caso de que haya pasado tiempo suficiente
-        if (this.attackSpeed > 0 && t - this.lastFireTime >= 1000 / this.attackSpeed) {
+        // El arma dispara hacia la posicion del raton mientras se mantenga pulsado el clic izquierdo
+        // y haya pasado tiempo suficiente desde el último disparo (velocidad de ataque)
+        const clickDown = this.scene.input.activePointer.leftButtonDown();
+
+        if (clickDown && this.attackSpeed > 0 && t - this.lastFireTime >= 700 / this.attackSpeed) {
             
             // Sacamos el objetivo al que apunta el arma y disparamos 
             const target = this.getPointerWorld();
             this.Fire(target.x, target.y);
             this.lastFireTime = t; // Actualizamos cuándo se disparó por última vez
+        }
+
+        // Al soltar el clic, paramos la animación de ataque y dejamos el arma en reposo (frame 0)
+        else if (!clickDown && this.anims.isPlaying) {
+            this.stop();
+            this.setFrame(0);
         }
     }
     
@@ -110,8 +119,7 @@ export default class Weapon extends Phaser.GameObjects.Sprite {
 
     // Suelta el arma en la posición en la que está y vuelve a su animación del suelo
     drop() {
-        this.taken = false;
-        this.setRotation(0);
+        this.taken = false;        this.setRotation(0);
         this.setFlipY(false);
         this.play(this.imgKey + "_idle", true);
     }

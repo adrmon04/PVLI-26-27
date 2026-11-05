@@ -1,0 +1,9 @@
+{
+  "name": "404-faculty-not-found",
+  "version": "1.0.0",
+  "description": "Roguelike dungeon crawler 2D top-down hecho con Phaser - CEC (Compile Error Collective)",
+  "private": true,
+  "scripts": {
+    "start": "npx --yes http-server -c-1 -p 8080 -o"
+  }
+}

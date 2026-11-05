@@ -9,7 +9,7 @@
 - Adrián Montiel Martínez
 - Pablo Polegre Martin
 
-**Fecha de la última actualización:** 30/09/2026
+**Fecha de la última actualización:** 05/11/2026
 
 ---
 
@@ -105,13 +105,14 @@ El Defecto era un alumno diferente que un día de clase normal se quedó en la f
 | A | Mover izquierda |
 | S | Mover abajo |
 | D | Mover derecha |
-| E | Interactuar |
+| E | Interactuar (recoger armas, iniciar puzzles en las terminales) |
 | W+A | Mover diagonal superior izquierda |
 | W+D | Mover diagonal superior derecha |
 | S+A | Mover diagonal inferior izquierda |
 | S+D | Mover diagonal inferior derecha |
 | Hover del ratón | Dirección de los ataques del jugador |
-| Click izquierdo | Seleccionar |
+| Click izquierdo | Atacar (mantener pulsado para ataques continuos) / Seleccionar en menús |
+| Click derecho | Cambiar de arma |
 | Esc | Menú/Pausar |
 
 **Mando:**
@@ -140,7 +141,7 @@ La mecánica de movimiento consiste en el desplazamiento del personaje jugador, 
 
 ### Armas
 
-El sistema de armas consiste en la obtención de las mismas al completar una sala de puzle o comprándolas en la tienda por una cierta cantidad de oro. Estas atacan automáticamente cada cierto tiempo determinado por la velocidad de ataque del jugador y dicha estadística del arma, realizando un daño concreto establecido por la métrica de ataque del jugador y la estadística propia del arma. La dirección del ataque o de los proyectiles disparados es hacia la ubicación del ratón (hover). Al conseguir o comprar un arma que ya se ha adquirido previamente, aumenta su nivel (tier), hasta un máximo de 3, esto mejora sus estadísticas.
+El sistema de armas consiste en la obtención de las mismas al completar una sala de puzle o comprándolas en la tienda por una cierta cantidad de oro. El jugador ataca con ellas pulsando el clic izquierdo; si lo mantiene pulsado, el arma sigue atacando cada cierto tiempo determinado por la velocidad de ataque del jugador y dicha estadística del arma, realizando un daño concreto establecido por la métrica de ataque del jugador y la estadística propia del arma. La dirección del ataque o de los proyectiles disparados es hacia la ubicación del ratón (hover). El jugador lleva dos armas a la vez, una en la ranura cuerpo a cuerpo y otra en la de distancia, y alterna entre ellas con el clic derecho; solo el arma activa ataca. Al conseguir o comprar un arma que ya se ha adquirido previamente, aumenta su nivel (tier), hasta un máximo de 3, esto mejora sus estadísticas.
 
 ### Mejoras
 
@@ -152,7 +153,7 @@ El jugador tiene una estadística de vida máxima la cual puede ser aumentada me
 
 ### Combate
 
-En el combate con los enemigos, el jugador ataca con sus armas apuntando con el ratón mientras se mueve tratando de esquivar los proyectiles/ataques de los enemigos. En función del arma del jugador este se deberá acercar para atacar cuerpo a cuerpo o alejarse y disparar a distancia. Los enemigos se comportan igual, acercándose al jugador para atacar si son enemigos cuerpo a cuerpo o manteniéndose a un rango determinado si son enemigos a distancia.
+En el combate con los enemigos, el jugador ataca con sus armas apuntando con el ratón y pulsando el clic izquierdo mientras se mueve tratando de esquivar los proyectiles/ataques de los enemigos. En función del arma del jugador este se deberá acercar para atacar cuerpo a cuerpo o alejarse y disparar a distancia. Los enemigos se comportan igual, acercándose al jugador para atacar si son enemigos cuerpo a cuerpo o manteniéndose a un rango determinado si son enemigos a distancia.
 
 ### Tienda
 
@@ -307,7 +308,7 @@ El HUD se mantiene mínimo y pegado a las esquinas, dejando el centro de la pant
 | Mejoras obtenidas | Franja inferior izquierda, junto a las armas | Fila de iconos pequeños con las mejoras acumuladas durante la partida. |
 | Barra de vida del jefe | Franja superior centrada | Visible únicamente durante el enfrentamiento final, junto al nombre del jefe. |
 
-**Interfaz contextual de interacción:** cuando el jugador se encuentra dentro del radio de detección de una entidad interactuable (arma en el suelo, terminal de puzzle, etc.), se muestra un pequeño prompt flotante justo encima del personaje, indicando la tecla y la acción disponible (por ejemplo, *"F: Recoger arma"* o *"Q: Iniciar puzzle"*). Este elemento no ocupa una posición fija del HUD, sino que aparece y desaparece dinámicamente según la mecánica de Interacción (véase 4. Mecánicas).
+**Interfaz contextual de interacción:** cuando el jugador se encuentra dentro del radio de detección de una entidad interactuable (arma en el suelo, terminal de puzzle, etc.), se muestra un pequeño prompt flotante justo encima del personaje, indicando la tecla y la acción disponible (por ejemplo, *"E: Recoger arma"* o *"E: Iniciar puzzle"*). Este elemento no ocupa una posición fija del HUD, sino que aparece y desaparece dinámicamente según la mecánica de Interacción (véase 4. Mecánicas).
 
 **Retroalimentación visual (sin ocupar HUD fijo):**
 
@@ -349,7 +350,7 @@ Todos los menús mantienen la estética de terminal/sistema operativo corrupto: 
 
 > *[Boceto: marco con título "TIENDA", contador "MONEDAS", una fila de tres ranuras ARMA 1–3 y otra de tres ranuras MEJORA 1–3.]*
 
-**HUD puzle:** Se abre al interactuar con la terminal de una sala de puzzle (tecla Q), sustituyendo temporalmente la vista de la sala. Presenta el problema informático propuesto, junto con las opciones. Al completarlo con éxito, el jugador obtiene un arma al azar y la pantalla se cierra, abriéndose la puerta de salida de la sala.
+**HUD puzle:** Se abre al interactuar con la terminal de una sala de puzzle (tecla E), sustituyendo temporalmente la vista de la sala. Presenta el problema informático propuesto, junto con las opciones. Al completarlo con éxito, el jugador obtiene un arma al azar y la pantalla se cierra, abriéndose la puerta de salida de la sala.
 
 > *[Boceto: recuadro "PROBLEMA" arriba y, debajo, botones OPCIÓN 1, OPCIÓN 2, OPCIÓN 3 y "…".]*
 

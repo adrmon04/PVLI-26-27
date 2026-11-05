@@ -1,24 +1,29 @@
 /* =====================================================
-   404 : FACULTY NOT FOUND — tema cyberpunk / terminal CRT
+   404 : FACULTY NOT FOUND — tema glitch cyberpunk / terminal CRT
    Estudio: CEC : Compile Error Collective
    ===================================================== */
 
 :root {
 	/* Paleta sacada de la presentación del Hito 1 */
-	--void: #120c18;        /* fondo base, morado casi negro */
+	--void: #0d0912;        /* fondo base, morado casi negro */
 	--void-2: #1b1124;      /* fondo secundario */
 	--panel: #0a0f1f;       /* paneles azul marino oscuro */
 	--phosphor: #5dff3a;    /* verde fósforo de terminal */
 	--phosphor-dim: #2f9a22;
 	--error: #e4204d;       /* rojo de error (el "404") */
 	--magenta: #ee3d84;     /* rosa de los subtítulos */
-	--cyan: #19e3ff;        /* solo para los glitches */
+	--cyan: #19e3ff;        /* glitches y separación RGB */
 	--ice: #e9e4f2;         /* texto principal */
 	--muted: #a79fb8;       /* texto secundario */
 	--bezel: #2b2a33;       /* marco metálico de la terminal */
 
+	/* Separación de color típica del glitch (rojo a un lado, cian al otro) */
+	--rgb-split: -2px 0 rgba(25, 227, 255, 0.55), 2px 0 rgba(228, 32, 77, 0.55);
+
 	--font-display: "Tektur", "Orbitron", "Eurostile", system-ui, sans-serif;
 	--font-term: "Share Tech Mono", "VT323", "Courier New", monospace;
+
+	--page-width: 980px;
 
 	color-scheme: dark;
 }
@@ -32,6 +37,7 @@
 
 html {
 	background: var(--void);
+	scrollbar-color: var(--magenta) var(--void);
 }
 
 body {
@@ -40,14 +46,14 @@ body {
 	padding: clamp(1rem, 3vw, 2.5rem) clamp(1rem, 4vw, 3rem) 2rem;
 	font-family: var(--font-display);
 	font-size: 1rem;
-	line-height: 1.55;
+	line-height: 1.6;
 	letter-spacing: 0.03em;
 	color: var(--ice);
 	background-color: var(--void);
 	background-image:
-		/* resplandores como los de las diapositivas */
-		radial-gradient(60rem 30rem at 95% -5%, rgba(228, 32, 77, 0.22), transparent 60%),
-		radial-gradient(50rem 30rem at -10% 105%, rgba(70, 40, 190, 0.22), transparent 60%),
+		/* resplandores de neón en las esquinas */
+		radial-gradient(60rem 30rem at 95% -5%, rgba(228, 32, 77, 0.25), transparent 60%),
+		radial-gradient(50rem 30rem at -10% 105%, rgba(70, 40, 190, 0.28), transparent 60%),
 		/* estrellas / polvo digital */
 		radial-gradient(1px 1px at 20px 30px, rgba(255, 255, 255, 0.55), transparent 60%),
 		radial-gradient(1px 1px at 90px 120px, rgba(255, 255, 255, 0.35), transparent 60%),
@@ -58,27 +64,116 @@ body {
 	overflow-x: hidden;
 }
 
-/* Raya glitch horizontal, como la de la presentación */
+/* Raya glitch horizontal que salta de vez en cuando */
 body::before {
 	content: "";
 	position: fixed;
 	left: 0;
 	right: 0;
 	top: 68%;
-	height: 4px;
+	height: 3px;
 	background: linear-gradient(90deg,
-		transparent 0%, rgba(93, 255, 58, 0.0) 12%,
+		transparent 0%, rgba(93, 255, 58, 0) 12%,
 		rgba(93, 255, 58, 0.85) 28%, var(--error) 50%,
-		rgba(93, 255, 58, 0.85) 72%, rgba(93, 255, 58, 0.0) 88%, transparent 100%);
+		rgba(93, 255, 58, 0.85) 72%, rgba(93, 255, 58, 0) 88%, transparent 100%);
 	filter: blur(0.6px);
 	opacity: 0.35;
 	pointer-events: none;
 	z-index: 0;
+	animation: glitch-line 7s steps(1, end) infinite;
+}
+
+@keyframes glitch-line {
+	0%, 100% { top: 68%; opacity: 0.35; }
+	62%      { top: 31%; opacity: 0.7; transform: scaleX(0.6); }
+	63%      { top: 68%; opacity: 0.35; transform: none; }
+	88%      { top: 84%; opacity: 0.6; }
+	89%      { top: 68%; opacity: 0.35; }
+}
+
+/* Suelo de rejilla en perspectiva (estilo synthwave) */
+body::after {
+	content: "";
+	position: fixed;
+	left: -50%;
+	right: -50%;
+	bottom: -12vh;
+	height: 60vh;
+	background-image:
+		linear-gradient(rgba(238, 61, 132, 0.4) 1px, transparent 1px),
+		linear-gradient(90deg, rgba(238, 61, 132, 0.4) 1px, transparent 1px);
+	background-size: 64px 64px;
+	transform: perspective(420px) rotateX(62deg);
+	transform-origin: bottom center;
+	-webkit-mask-image: linear-gradient(to top, #000 5%, transparent 85%);
+	mask-image: linear-gradient(to top, #000 5%, transparent 85%);
+	opacity: 0.28;
+	pointer-events: none;
+	z-index: 0;
+	animation: grid-scroll 5s linear infinite;
+}
+
+@keyframes grid-scroll {
+	to { background-position: 0 64px, 0 0; }
 }
 
 body > * {
 	position: relative;
 	z-index: 1;
+}
+
+/* ---------- Glitches aleatorios del fondo (los crea src/backgroundGlitch.js) ---------- */
+.bg-glitch {
+	position: fixed;
+	inset: 0;
+	z-index: 0;              /* detrás del contenido */
+	overflow: hidden;
+	pointer-events: none;
+}
+
+/* Raya de neón con separación RGB que tiembla mientras está visible */
+.bg-glitch__bar {
+	position: absolute;
+	background: var(--color);
+	opacity: 0.4;
+	mix-blend-mode: screen;
+	box-shadow:
+		-6px 0 0 rgba(25, 227, 255, 0.35),
+		6px 0 0 rgba(228, 32, 77, 0.35),
+		0 0 12px var(--color);
+	animation: bar-jitter 0.08s steps(2, end) infinite;
+}
+
+/* Bloque: trozo de "señal corrupta" hecho de líneas */
+.bg-glitch__bar--block {
+	background: repeating-linear-gradient(to bottom,
+		var(--color) 0 2px,
+		transparent 2px 5px);
+	opacity: 0.22;
+	box-shadow: none;
+}
+
+@keyframes bar-jitter {
+	50% { transform: translateX(10px); }
+}
+
+/* Desgarro: toda la pantalla se llena de líneas y se desplaza un instante */
+.bg-glitch--tear::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background:
+		repeating-linear-gradient(to bottom,
+			rgba(238, 61, 132, 0.07) 0 2px,
+			transparent 2px 7px),
+		linear-gradient(90deg, rgba(25, 227, 255, 0.05), rgba(228, 32, 77, 0.05));
+	animation: screen-tear 0.18s steps(3, end);
+}
+
+@keyframes screen-tear {
+	0%   { transform: translateX(-14px); }
+	50%  { transform: translateX(16px) skewX(-2deg); }
+	100% { transform: none; }
 }
 
 ::selection {
@@ -88,11 +183,15 @@ body > * {
 
 a {
 	color: var(--magenta);
-	text-underline-offset: 0.2em;
+	text-decoration: none;
+	border-bottom: 1px dashed rgba(238, 61, 132, 0.6);
+	transition: color 0.15s, border-color 0.15s, text-shadow 0.15s;
 }
 
 a:hover {
 	color: var(--phosphor);
+	border-bottom-color: var(--phosphor);
+	text-shadow: var(--rgb-split);
 }
 
 :focus-visible {
@@ -100,10 +199,49 @@ a:hover {
 	outline-offset: 3px;
 }
 
-/* ---------- Cabecera ---------- */
+/* Barra de scroll (Chrome/Edge) */
+::-webkit-scrollbar {
+	width: 10px;
+}
+
+::-webkit-scrollbar-track {
+	background: var(--void);
+}
+
+::-webkit-scrollbar-thumb {
+	background: linear-gradient(var(--magenta), var(--error));
+	border: 2px solid var(--void);
+}
+
+/* =====================================================
+   Cabecera
+   ===================================================== */
 .site-header {
-	width: min(100%, 980px);
+	width: min(100%, var(--page-width));
 	margin: 0 auto clamp(1.2rem, 3vw, 2rem);
+}
+
+/* Etiqueta de "error del sistema" encima del título */
+.site-header::before {
+	content: "[ ERR_404 ] // SYSTEM FAILURE // FACULTY.EXE NOT RESPONDING";
+	display: block;
+	margin-bottom: 0.6rem;
+	font-family: var(--font-term);
+	font-size: clamp(0.65rem, 1.6vw, 0.8rem);
+	letter-spacing: 0.18em;
+	color: var(--magenta);
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	opacity: 0.85;
+	animation: blink-soft 3.2s steps(1, end) infinite;
+}
+
+@keyframes blink-soft {
+	0%, 100% { opacity: 0.85; }
+	92%      { opacity: 0.3; }
+	94%      { opacity: 0.85; }
+	96%      { opacity: 0.4; }
 }
 
 .title {
@@ -115,51 +253,73 @@ a:hover {
 	line-height: 0.95;
 }
 
+/* ---- "404" con glitch periódico ---- */
 .title__num {
 	position: relative;
 	display: inline-block;
 	font-size: clamp(3.6rem, 12vw, 7rem);
 	color: var(--error);
-	text-shadow: 0 0 28px rgba(228, 32, 77, 0.5);
+	text-shadow:
+		0 0 28px rgba(228, 32, 77, 0.55),
+		var(--rgb-split);
 }
 
-/* Glitch de entrada: ocurre una vez al cargar la página */
 .title__num::before,
-.title__num::after {
+.title__num::after,
+.title__name::before,
+.title__name::after {
 	content: attr(data-text);
 	position: absolute;
 	inset: 0;
 	overflow: hidden;
 	clip-path: inset(0 0 100% 0);
-	animation: glitch-in 0.9s steps(1, end) 1 both;
+	pointer-events: none;
 }
 
-.title__num::before {
+.title__num::before,
+.title__name::before {
 	color: var(--cyan);
+	animation: glitch-burst 4.5s steps(1, end) infinite;
 }
 
-.title__num::after {
+.title__num::after,
+.title__name::after {
 	color: var(--phosphor);
-	animation-delay: 0.12s;
+	animation: glitch-burst 4.5s steps(1, end) 0.15s infinite;
 }
 
-@keyframes glitch-in {
-	0%   { clip-path: inset(0 0 85% 0); transform: translate(-6px, 0); }
-	20%  { clip-path: inset(40% 0 30% 0); transform: translate(6px, 0); }
-	40%  { clip-path: inset(70% 0 5% 0); transform: translate(-4px, 0); }
-	60%  { clip-path: inset(10% 0 60% 0); transform: translate(4px, 0); }
-	80%  { clip-path: inset(55% 0 20% 0); transform: translate(-2px, 0); }
-	100% { clip-path: inset(0 0 100% 0); transform: none; }
+/* El glitch solo aparece en ráfagas cortas al final de cada ciclo */
+@keyframes glitch-burst {
+	0%, 84%, 100% { clip-path: inset(0 0 100% 0); transform: none; }
+	86% { clip-path: inset(0 0 82% 0);  transform: translate(-6px, 0); }
+	88% { clip-path: inset(38% 0 34% 0); transform: translate(6px, 0); }
+	90% { clip-path: inset(70% 0 6% 0);  transform: translate(-4px, 0); }
+	92% { clip-path: inset(12% 0 58% 0); transform: translate(5px, 0); }
+	94% { clip-path: inset(52% 0 22% 0); transform: translate(-3px, 0); }
+	96% { clip-path: inset(0 0 100% 0);  transform: none; }
 }
 
+/* ---- "Faculty Not Found" ---- */
 .title__name {
+	position: relative;
 	font-size: clamp(1.5rem, 5.6vw, 3.2rem);
 	font-weight: 600;
 	letter-spacing: 0.12em;
 	text-transform: uppercase;
 	color: #fff;
+	text-shadow: var(--rgb-split), 0 0 18px rgba(238, 61, 132, 0.35);
 }
 
+/* El nombre usa el mismo glitch pero desfasado respecto al 404 */
+.title__name::before {
+	animation-delay: 1.8s;
+}
+
+.title__name::after {
+	animation-delay: 1.95s;
+}
+
+/* ---- Subtítulo como línea de terminal ---- */
 .tagline {
 	margin: 0.9rem 0 0;
 	font-family: var(--font-term);
@@ -170,36 +330,55 @@ a:hover {
 	text-shadow: 0 0 8px rgba(93, 255, 58, 0.45);
 }
 
+.tagline::before {
+	content: "> ";
+	color: var(--magenta);
+}
+
 .tagline span {
 	color: var(--muted);
 	text-shadow: none;
+}
+
+.tagline::after {
+	content: "_";
+	margin-left: 0.3em;
+	color: var(--phosphor);
+	animation: cursor 1s steps(1) infinite;
 }
 
 /* =====================================================
    #gameContainer — TERMINAL ANTIGUA (CRT)
    ===================================================== */
 #gameContainer {
-	display: flex;
-	align-items: center;
-	flex-direction: column;
 	position: relative;
 	isolation: isolate;
-	width: min(100%, 980px);
-	aspect-ratio: 16 / 9;
+	width: min(100%, var(--page-width));
+	/* Solo el hueco de la barra de título: el alto lo marca #gameCanvas */
+	padding-top: 2rem;
 	margin: 0 auto;
-	padding: 2.4rem 0.9rem 0.9rem; /* hueco superior para la barra de título */
-	display: grid;
-	place-items: center;
 	background: #040707;
-	border: 2px solid var(--bezel);
-	border-radius: 14px;
+	border: 1px solid #3a3846;
+	border-radius: 12px;
 	overflow: hidden;
 	box-shadow:
 		0 0 0 1px #000,
-		0 0 26px rgba(93, 255, 58, 0.22),
-		0 0 90px rgba(228, 32, 77, 0.18),
-		0 18px 50px rgba(0, 0, 0, 0.7),
-		inset 0 0 50px rgba(0, 0, 0, 0.95);
+		/* separación RGB del marco */
+		-3px 0 0 rgba(25, 227, 255, 0.28),
+		3px 0 0 rgba(228, 32, 77, 0.32),
+		/* resplandor */
+		0 0 26px rgba(93, 255, 58, 0.2),
+		0 0 90px rgba(228, 32, 77, 0.2),
+		0 22px 60px rgba(0, 0, 0, 0.75);
+	animation: frame-glitch 9s steps(1, end) infinite;
+}
+
+/* De vez en cuando el marco "salta" un par de píxeles */
+@keyframes frame-glitch {
+	0%, 100% { transform: none; }
+	71%      { transform: translate(2px, 0) skewX(-0.4deg); }
+	72%      { transform: translate(-2px, 0); }
+	73%      { transform: none; }
 }
 
 /* Barra de título tipo ventana de escritorio antiguo */
@@ -227,6 +406,7 @@ a:hover {
 		radial-gradient(circle at 3.1rem 50%, var(--phosphor) 0 0.28rem, transparent 0.32rem),
 		linear-gradient(#1f1c27, #14121a);
 	border-bottom: 1px solid var(--bezel);
+	box-shadow: 0 1px 0 rgba(93, 255, 58, 0.15);
 }
 
 /* Capa CRT: líneas de barrido + viñeta + tinte verde */
@@ -284,6 +464,18 @@ a:hover {
 	50% { opacity: 0; }
 }
 
+/* Pantalla del juego: misma proporción que el juego (854x480 en Game.js),
+   así el canvas la llena entera sin bandas negras. Phaser mide este div */
+#gameCanvas {
+	position: relative;
+	z-index: 1;
+	width: 100%;
+	aspect-ratio: 854 / 480;
+	display: grid;
+	place-items: center;
+	overflow: hidden;
+}
+
 /* El canvas de Phaser */
 #gameContainer canvas {
 	position: relative;
@@ -291,46 +483,175 @@ a:hover {
 	display: block;
 	max-width: 100%;
 	margin: 0 auto;
-	border: 1px solid rgba(93, 255, 58, 0.28);
-	border-radius: 3px;
 	background: #000;
 	image-rendering: pixelated;      /* pixel art nítido */
 	image-rendering: crisp-edges;
 	image-rendering: pixelated;
 }
 
-/* ---------- Paneles (estilo diapositiva) ---------- */
+/* ---------- Botón de pantalla completa ---------- */
+.fullscreen-btn {
+	position: absolute;
+	top: 2.6rem;             /* justo debajo de la barra de título (2rem) */
+	right: 0.6rem;
+	z-index: 4;              /* por encima de la capa CRT (z-index 2) */
+	display: grid;
+	place-items: center;
+	width: 2.25rem;
+	height: 2.25rem;
+	padding: 0;
+	color: var(--phosphor);
+	background: rgba(4, 7, 7, 0.45);
+	border: 1px solid rgba(93, 255, 58, 0.35);
+	border-radius: 0;
+	/* esquinas cortadas, como los paneles */
+	clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px);
+	opacity: 0.55;
+	cursor: pointer;
+	transition: opacity 0.15s, background-color 0.15s, border-color 0.15s, filter 0.15s;
+}
+
+.fullscreen-btn:hover,
+.fullscreen-btn:focus-visible {
+	opacity: 1;
+	background: rgba(4, 7, 7, 0.85);
+	border-color: var(--phosphor);
+	filter: drop-shadow(-1px 0 0 var(--cyan)) drop-shadow(1px 0 0 var(--error));
+}
+
+.fullscreen-btn svg {
+	width: 1.25rem;
+	height: 1.25rem;
+	fill: none;
+	stroke: currentColor;
+	stroke-width: 2;
+	stroke-linecap: square;
+}
+
+/* Fuera de pantalla completa se ve el icono de "ampliar"; dentro, el de "reducir" */
+.fullscreen-btn .icon-exit {
+	display: none;
+}
+
+#gameContainer:fullscreen .fullscreen-btn .icon-enter {
+	display: none;
+}
+
+#gameContainer:fullscreen .fullscreen-btn .icon-exit {
+	display: block;
+}
+
+/* En pantalla completa el juego ocupa toda la pantalla: sin marco, barra ni animaciones */
+#gameContainer:fullscreen {
+	padding: 0;
+	border: 0;
+	border-radius: 0;
+	box-shadow: none;
+	animation: none;
+}
+
+#gameContainer:fullscreen::before {
+	display: none;
+}
+
+#gameContainer:fullscreen::after {
+	top: 0;
+}
+
+/* Si el monitor no es 16:9, Phaser pone bandas */
+#gameContainer:fullscreen #gameCanvas {
+	height: 100%;
+	aspect-ratio: auto;
+}
+
+#gameContainer:fullscreen .fullscreen-btn {
+	top: 1rem;
+	right: 1rem;
+}
+
+/* =====================================================
+   Paneles (estilo diapositiva / ventanas de HUD)
+   ===================================================== */
 .panels {
-	width: min(100%, 980px);
-	margin: clamp(1.2rem, 3vw, 2rem) auto 0;
+	width: min(100%, var(--page-width));
+	margin: clamp(1.5rem, 3.5vw, 2.4rem) auto 0;
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
 	gap: 1rem;
+	counter-reset: panel;
 }
 
 .panel {
-	padding: 1.1rem 1.3rem 1.2rem;
-	background: linear-gradient(180deg, rgba(10, 15, 31, 0.92), rgba(7, 10, 22, 0.92));
-	border: 1px solid rgba(93, 255, 58, 0.4);
-	clip-path: polygon(10px 0, calc(100% - 10px) 0, 100% 10px, 100% calc(100% - 10px),
-		calc(100% - 10px) 100%, 10px 100%, 0 calc(100% - 10px), 0 10px);
+	--accent: var(--phosphor);
+	position: relative;
+	padding: 1.2rem 1.3rem 1.3rem;
+	background:
+		/* líneas de barrido muy suaves */
+		repeating-linear-gradient(to bottom, transparent 0 3px, rgba(255, 255, 255, 0.018) 3px 4px),
+		linear-gradient(180deg, rgba(10, 15, 31, 0.94), rgba(7, 10, 22, 0.94));
+	border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+	clip-path: polygon(12px 0, calc(100% - 12px) 0, 100% 12px, 100% calc(100% - 12px),
+		calc(100% - 12px) 100%, 12px 100%, 0 calc(100% - 12px), 0 12px);
+	counter-increment: panel;
+	transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+
+/* Línea de neón en la parte superior */
+.panel::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 12px;
+	width: 45%;
+	height: 2px;
+	background: linear-gradient(90deg, var(--accent), transparent);
+	box-shadow: 0 0 10px var(--accent);
+}
+
+/* Esquina inferior derecha de HUD */
+.panel::after {
+	content: "";
+	position: absolute;
+	right: 6px;
+	bottom: 6px;
+	width: 14px;
+	height: 14px;
+	border-right: 2px solid var(--accent);
+	border-bottom: 2px solid var(--accent);
+	opacity: 0.6;
+}
+
+.panel:hover {
+	transform: translateY(-3px);
+	border-color: var(--accent);
+	box-shadow: inset 0 0 30px color-mix(in srgb, var(--accent) 12%, transparent);
+}
+
+.panel--alert {
+	--accent: var(--magenta);
 }
 
 .panel h2 {
-	margin: 0 0 0.8rem;
+	margin: 0 0 0.9rem;
 	font-size: 1.05rem;
 	font-weight: 800;
 	letter-spacing: 0.12em;
 	text-transform: uppercase;
-	color: var(--phosphor);
+	color: var(--accent);
+	text-shadow: 0 0 10px color-mix(in srgb, var(--accent) 45%, transparent);
 }
 
-.panel--alert h2 {
-	color: var(--magenta);
+/* Numeración automática "01 //", "02 //"... */
+.panel h2::before {
+	content: counter(panel, decimal-leading-zero) " // ";
+	font-family: var(--font-term);
+	font-weight: 400;
+	color: var(--muted);
+	text-shadow: none;
 }
 
-.panel--alert {
-	border-color: rgba(238, 61, 132, 0.45);
+.panel:hover h2 {
+	text-shadow: var(--rgb-split);
 }
 
 .panel p {
@@ -339,15 +660,161 @@ a:hover {
 	color: var(--ice);
 }
 
+/* Listas como salida de terminal */
+.panel ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	font-family: var(--font-term);
+	font-size: 1.02rem;
+}
+
+.panel li {
+	position: relative;
+	padding: 0.15rem 0 0.15rem 1.4em;
+	color: var(--ice);
+	transition: color 0.15s, transform 0.15s;
+}
+
+.panel li::before {
+	content: ">";
+	position: absolute;
+	left: 0;
+	color: var(--accent);
+}
+
+.panel li:hover {
+	color: var(--accent);
+	transform: translateX(4px);
+}
+
+/* Paneles que ocupan toda la fila (Historia, Controles) */
+.panel--wide {
+	grid-column: 1 / -1;
+}
+
+/* Subtítulos dentro de un panel */
+.panel h3 {
+	margin: 0 0 0.8rem;
+	font-family: var(--font-term);
+	font-size: 0.85rem;
+	font-weight: 400;
+	letter-spacing: 0.2em;
+	text-transform: uppercase;
+	color: var(--muted);
+}
+
+.panel h3::before {
+	content: "[ ";
+	color: var(--accent);
+}
+
+.panel h3::after {
+	content: " ]";
+	color: var(--accent);
+}
+
+/* Dos columnas dentro de un panel ancho (se apilan en pantallas estrechas) */
+.panel__cols {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+	gap: 1.4rem 2.2rem;
+}
+
+/* ---- Historia ---- */
+.story p {
+	max-width: none;
+}
+
+.story p + p {
+	margin-top: 0.8rem;
+}
+
+.story strong {
+	color: var(--magenta);
+	font-weight: 600;
+}
+
+/* ---- Glitch al pasar el ratón (reutilizable: class="glitch-hover" data-text="mismo texto") ---- */
+.glitch-hover {
+	position: relative;
+	display: inline-block;
+	cursor: default;
+}
+
+/* Dos copias del texto (cian y verde) que solo aparecen en el hover */
+.glitch-hover::before,
+.glitch-hover::after {
+	content: attr(data-text);
+	position: absolute;
+	inset: 0;
+	overflow: hidden;
+	clip-path: inset(0 0 100% 0);
+	pointer-events: none;
+}
+
+.glitch-hover::before {
+	color: var(--cyan);
+}
+
+.glitch-hover::after {
+	color: var(--phosphor);
+}
+
+.glitch-hover:hover {
+	color: var(--error);
+	text-shadow: var(--rgb-split);
+	animation: glitch-jitter 0.3s steps(2, end) infinite;
+}
+
+.glitch-hover:hover::before {
+	animation: glitch-slices 0.45s steps(1, end) infinite;
+}
+
+.glitch-hover:hover::after {
+	animation: glitch-slices 0.45s steps(1, end) 0.12s infinite reverse;
+}
+
+/* La palabra tiembla un poco */
+@keyframes glitch-jitter {
+	0%   { transform: translate(0, 0); }
+	25%  { transform: translate(-1px, 1px); }
+	50%  { transform: translate(1px, -1px) skewX(-6deg); }
+	75%  { transform: translate(-1px, 0); }
+	100% { transform: translate(0, 0); }
+}
+
+/* Las copias aparecen a trozos horizontales desplazados */
+@keyframes glitch-slices {
+	0%   { clip-path: inset(0 0 70% 0);   transform: translate(-3px, 0); }
+	20%  { clip-path: inset(60% 0 10% 0); transform: translate(3px, 0); }
+	40%  { clip-path: inset(30% 0 45% 0); transform: translate(-2px, 0); }
+	60%  { clip-path: inset(80% 0 0 0);   transform: translate(4px, 0); }
+	80%  { clip-path: inset(10% 0 60% 0); transform: translate(-4px, 0); }
+	100% { clip-path: inset(45% 0 30% 0); transform: translate(2px, 0); }
+}
+
+.story__quote {
+	padding-left: 0.9rem;
+	font-family: var(--font-term);
+	font-size: 1.05rem;
+	color: var(--phosphor) !important;
+	border-left: 2px solid var(--magenta);
+	text-shadow: 0 0 8px rgba(93, 255, 58, 0.35);
+}
+
+/* ---- Controles ---- */
 .controls {
 	display: grid;
 	grid-template-columns: auto 1fr;
-	gap: 0.55rem 1rem;
+	gap: 0.6rem 1rem;
 	align-items: center;
 	margin: 0;
 }
 
 .controls dt {
+	display: flex;
+	gap: 0.25rem;
 	justify-self: start;
 	white-space: nowrap;
 }
@@ -355,6 +822,29 @@ a:hover {
 .controls dd {
 	margin: 0;
 	color: var(--muted);
+}
+
+/* Cada fila agrupa tecla + descripción. display: contents hace que el div no cuente
+   para la rejilla (dt y dd siguen siendo sus columnas), pero sí detecta el hover */
+.controls__row {
+	display: contents;
+}
+
+.controls dt,
+.controls dd {
+	transition: color 0.15s, transform 0.15s;
+}
+
+/* Mismo hover que los pasos de "Cómo jugar": se ilumina y se desplaza un poco */
+.controls__row:hover dt,
+.controls__row:hover dd {
+	color: var(--accent);
+	transform: translateX(4px);
+}
+
+.controls__row:hover kbd {
+	border-color: var(--phosphor);
+	box-shadow: 0 0 12px rgba(93, 255, 58, 0.45);
 }
 
 kbd {
@@ -369,12 +859,41 @@ kbd {
 	border: 1px solid var(--phosphor-dim);
 	border-bottom-width: 3px;
 	border-radius: 4px;
+	box-shadow: 0 0 8px rgba(93, 255, 58, 0.15);
 }
 
-/* ---------- Pie ---------- */
+/* ---- Cómo jugar: pasos numerados tipo terminal ---- */
+.steps {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	counter-reset: step;
+}
+
+.steps li {
+	position: relative;
+	padding: 0.2rem 0 0.2rem 2.4em;
+	font-family: var(--font-display);
+	font-size: 0.95rem;
+	counter-increment: step;
+}
+
+.steps li + li {
+	margin-top: 0.35rem;
+}
+
+/* Sustituye al ">" de las listas normales por el número del paso */
+.steps li::before {
+	content: counter(step, decimal-leading-zero) ">";
+	font-family: var(--font-term);
+}
+
+/* =====================================================
+   Pie
+   ===================================================== */
 .site-footer {
-	width: min(100%, 980px);
-	margin: 2rem auto 0;
+	width: min(100%, var(--page-width));
+	margin: 2.4rem auto 0;
 	padding-top: 1rem;
 	display: flex;
 	flex-wrap: wrap;
@@ -383,7 +902,17 @@ kbd {
 	font-family: var(--font-term);
 	font-size: 0.9rem;
 	color: var(--muted);
-	border-top: 1px solid rgba(238, 61, 132, 0.35);
+	border-top: 1px solid transparent;
+	border-image: linear-gradient(90deg, var(--magenta), rgba(93, 255, 58, 0.5), transparent) 1;
+}
+
+.site-footer p {
+	margin: 0;
+}
+
+.site-footer p::before {
+	content: "// ";
+	color: var(--phosphor-dim);
 }
 
 .site-footer strong {
@@ -391,10 +920,11 @@ kbd {
 	font-weight: 400;
 }
 
-/* ---------- Responsive ---------- */
+/* =====================================================
+   Responsive
+   ===================================================== */
 @media (max-width: 560px) {
 	#gameContainer {
-		padding: 2.2rem 0.4rem 0.4rem;
 		border-radius: 10px;
 	}
 
@@ -407,15 +937,18 @@ kbd {
 		gap: 0.7rem;
 		display: flex;
 		flex-direction: column;
+		align-items: flex-start;
 	}
 }
 
-/* ---------- Accesibilidad: sin animaciones si el usuario lo pide ---------- */
+/* =====================================================
+   Accesibilidad: sin animaciones si el usuario lo pide
+   ===================================================== */
 @media (prefers-reduced-motion: reduce) {
-	#gameContainer::after,
-	#gameContainer .boot::after,
-	.title__num::before,
-	.title__num::after {
-		animation: none;
+	*,
+	*::before,
+	*::after {
+		animation: none !important;
+		transition: none !important;
 	}
 }

@@ -4,19 +4,26 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Fuentes: Tektur (títulos) y Share Tech Mono (texto de terminal) -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Tektur:wght@400;600;800&display=swap">
         <link rel="stylesheet" href="./css/game.css">
         <script src="./lib/phaser4.2.1.js"></script>
-        <link rel="icon" type="image/x-icon"
-            href="http://labs.phaser.io/assets/sprites/star.png">
+        <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg">
         <title>404 : Faculty Not Found</title>
         <script src="./src/Game.js" type="module"></script>
+        
+        <script src="./pageElements/fullscreen.js" defer></script>
+        <script src="./pageElements/backgroundGlitch.js" defer></script>
     </head>
 
     <body>
         <header class="site-header">
             <h1 class="title">
                 <span class="title__num" data-text="404">404</span>
-                <span class="title__name">Faculty Not Found</span>
+                <span class="title__name" data-text="Faculty Not Found">Faculty Not Found</span>
             </h1>
             <p class="tagline">Desarrollado por: <span>CEC (Compile Error
                     Collective)</span></p>
@@ -26,9 +33,103 @@
             <div id="gameContainer"
                 aria-label="Juego 404: Faculty Not Found">
                 <p class="boot">Iniciando juego</p>
+
+                <!-- Aquí mete Phaser el canvas (sin padding, para que mida bien el hueco) -->
+                <div id="gameCanvas"></div>
+
+                <!-- Botón de pantalla completa (se muestra un icono u otro según el estado) -->
+                <button id="fullscreenBtn" class="fullscreen-btn" type="button"
+                    aria-label="Pantalla completa" title="Pantalla completa">
+                    <svg class="icon-enter" viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5" />
+                    </svg>
+                    <svg class="icon-exit" viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M9 4v5H4M20 9h-5V4M15 20v-5h5M4 15h5v5" />
+                    </svg>
+                </button>
             </div>
 
             <section class="panels" aria-label="Información del juego">
+                <article class="panel panel--alert panel--wide story">
+                    <h2>Historia</h2>
+                    <p>
+                        Nadie recuerda bien cuándo empezó. Un compilador que
+                        tardaba demasiado, una pantalla que parpadeó en rojo, y
+                        de pronto los pasillos ya no llevaban a donde debían.
+                        <strong class="glitch-hover" data-text="El Defecto">El Defecto</strong>, un alumno que se quedó de
+                        noche en el laboratorio terminando una entrega, cruzó sin
+                        querer al otro lado: una copia corrupta y demoníaca de la
+                        facultad, llena de bugs, virus y profesores poseídos.
+                    </p>
+                    <p>
+                        Las aulas sangran código, los proyectores escupen fuego y
+                        algo respira en la sala de servidores. Para volver a casa
+                        tendrá que abrirse paso sala por sala hasta enfrentarse a
+                        lo que gobierna ese lugar.
+                    </p>
+                    <p class="story__quote">
+                        Dicen que quien entra puede volver... si sobrevive a las
+                        prácticas.
+                    </p>
+                </article>
+
+                <article class="panel panel--wide">
+                    <h2>Controles y cómo jugar</h2>
+
+                    <div class="panel__cols">
+                        <div>
+                            <h3>Teclado y ratón</h3>
+                            <dl class="controls">
+                                <div class="controls__row">
+                                    <dt><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd></dt>
+                                    <dd>Moverte (combínalas para ir en diagonal)</dd>
+                                </div>
+
+                                <div class="controls__row">
+                                    <dt><kbd>Ratón</kbd></dt>
+                                    <dd>Apuntar hacia el cursor</dd>
+                                </div>
+
+                                <div class="controls__row">
+                                    <dt><kbd>Clic izq.</kbd></dt>
+                                    <dd>Atacar (mantén pulsado para seguir atacando) y seleccionar en los menús</dd>
+                                </div>
+
+                                <div class="controls__row">
+                                    <dt><kbd>Clic der.</kbd></dt>
+                                    <dd>Cambiar de arma</dd>
+                                </div>
+
+                                <div class="controls__row">
+                                    <dt><kbd>E</kbd></dt>
+                                    <dd>Interactuar (recoger armas, terminales de puzle)</dd>
+                                </div>
+
+                                <div class="controls__row">
+                                    <dt><kbd>Esc</kbd></dt>
+                                    <dd>Pausar / menú</dd>
+                                </div>
+                            </dl>
+                        </div>
+
+                        <div>
+                            <h3>Cómo jugar</h3>
+                            <ol class="steps">
+                                <li>Entra en una sala y derrota a todos los
+                                    enemigos para abrir la puerta.</li>
+                                <li>Esquiva las trampas: cables sueltos, suelo
+                                    corrupto, zonas de lag y pantallazos azules.</li>
+                                <li>Consigue armas y mejoras al limpiar salas y
+                                    resolver puzles informáticos.</li>
+                                <li>Cada 5 salas, recupera vida y gasta tu oro
+                                    en la tienda.</li>
+                                <li>Derrota al jefe final para escapar. Si tu
+                                    vida llega a 0, vuelves a empezar.</li>
+                            </ol>
+                        </div>
+                    </div>
+                </article>
+
                 <article class="panel panel--alert">
                     <h2>El juego</h2>
                     <p>
@@ -58,6 +159,7 @@
                         <li>Enter The Gungeon</li>
                         <li>Dead Cells</li>
                         <li>Undertale</li>
+                        <li>Soul Knight</li>
                     </ul>
                 </article>
             </section>

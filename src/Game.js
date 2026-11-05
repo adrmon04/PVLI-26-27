@@ -11,7 +11,8 @@ let config = {
 	// Resolución interna (16:9): 480 px de alto = 15 tiles visibles, como en los juegos de referencia
 	width: 854,
 	height: 480,
-	parent: 'gameContainer',
+	// Div interior del marco CRT: Phaser ajusta el canvas a su tamaño
+	parent: 'gameCanvas',
 	pixelArt: true,
 	scale: {
 		mode: Phaser.Scale.FIT

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Pantalla de terminal -->
+  <rect x="1" y="1" width="30" height="30" rx="5" fill="#0d0912" stroke="#ee3d84" stroke-width="2"/>
+
+  <!-- Prompt ">_" con separación RGB del glitch: cian a la izquierda, rojo a la derecha y verde encima -->
+  <g fill="none" stroke-width="3" stroke-linecap="square" stroke-linejoin="miter">
+    <polyline points="7,9 14,16 7,23" stroke="#19e3ff" transform="translate(-1.2 0)"/>
+    <polyline points="7,9 14,16 7,23" stroke="#e4204d" transform="translate(1.2 0)"/>
+    <polyline points="7,9 14,16 7,23" stroke="#5dff3a"/>
+  </g>
+  <rect x="16" y="21" width="9" height="3" fill="#e4204d" transform="translate(1.2 0)"/>
+  <rect x="16" y="21" width="9" height="3" fill="#19e3ff" transform="translate(-1.2 0)"/>
+  <rect x="16" y="21" width="9" height="3" fill="#5dff3a"/>
+
+  <!-- Raya de glitch -->
+  <rect x="3" y="13" width="26" height="1.5" fill="#ee3d84" opacity="0.7"/>
+</svg>
