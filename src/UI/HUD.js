@@ -12,7 +12,7 @@ export default class HUD {
         // Cinco iconos de vida en la esquina superior izquierda.
         this.lifeIcons = Array.from({ length: 5 }, (_, i) =>
             fijarEnPantalla(
-                scene.add.sprite(16 + i * 24, 16, 'hudLife', 4)
+                scene.add.sprite(16 + i * 24, 30, 'hudLife', 4)
                     .setDisplaySize(16, 32),
                 0.9
             )
@@ -20,7 +20,7 @@ export default class HUD {
 
         // Casilla del arma equipada, en la esquina inferior izquierda.
         this.weaponSlot = fijarEnPantalla(
-            scene.add.image(32, scene.scale.height - 32, 'hudWeaponSlot', 1)
+            scene.add.image(32, scene.scale.height - 80, 'hudWeaponSlot', 1)
                 .setDisplaySize(48, 48),
             0.9
         );
@@ -39,14 +39,14 @@ export default class HUD {
 
         // Moneda animada y contador en la esquina inferior derecha.
         this.coinIcon = fijarEnPantalla(
-            scene.add.sprite(scene.scale.width - 58, scene.scale.height - 28, 'hudCoin')
+            scene.add.sprite(scene.scale.width - 58, scene.scale.height - 60, 'hudCoin')
                 .setDisplaySize(24, 24),
             0.9
         );
         this.coinIcon.play('hudCoinSpin');
 
         this.coinText = fijarEnPantalla(
-            scene.add.text(scene.scale.width - 42, scene.scale.height - 28, '0', {
+            scene.add.text(scene.scale.width - 42, scene.scale.height - 60, '0', {
                 fontSize: '20px',
                 color: '#ffffff'
             }).setOrigin(0, 0.5),
