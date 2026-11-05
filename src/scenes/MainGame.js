@@ -1,8 +1,16 @@
+//-------------------------------------Entidades-----------------------------------------
 import Player from '../Entities/Player/Player.js';
-import HUD from '../UI/HUD.js';
+import Enemy from '../Entities/Enemies/Enemy.js';
+
+// ------------------------------------Nivel-----------------------------------------
+import Level from '../World/Level.js';
+
+// ------------------------------------Armas-----------------------------------------
 import ShortRangeWeapon from '../Entities/Weapons/ShortRangeWeapon.js';
 import LongRangeWeapon from '../Entities/Weapons/LongRangeWeapon.js';
-import Enemy from '../Entities/Enemies/Enemy.js';
+
+// ------------------------------------UI-----------------------------------------
+import HUD from '../UI/HUD.js';
 
 /**
  * Escena principal.
@@ -16,9 +24,8 @@ export default class MainGame extends Phaser.Scene {
 
     // preload - método de las escenas donde se pueden cargar los recursos que necesitaremos
     preload() {
-
-        //Cargamos los assets desde nuestra raiz del proyecto
-        this.load.image('fondo', 'assets/space.png');
+        // Cargamos el nivel y todas sus salas
+        Level.preload(this);
 
         // Cargamos la hoja de sprites del jugador
 		this.load.spritesheet("player_right", "assets/player_right.png", {
@@ -105,16 +112,18 @@ export default class MainGame extends Phaser.Scene {
 
     // create - método de las escenas que se llama una vez la escena está instanciada
     create() {
+        // Creamos el nivel y añadimos las entidades a todas las salas
+        this.level = new Level(this);
 
-        //Imagen de fondo
-        this.add.image(0, 0, 'fondo').setOrigin(0, 0);
-
-        // Creamos el jugador y lo añadimos a la escena
-        this.player = new Player(100, 100, this, this.cameras.main.centerX,
-            this.cameras.main.centerY, 300, 400, 'player_right', 0);
+        // Creamos el jugador en el centro del suelo de Sala1 y lo añadimos a la escena
+        this.player = new Player(100, 100, this, 976, 880, 300, 400, 'player_right', 0);
             
         // Creamos un enemigo
         this.enemy = new Enemy(100, 20, this, this.player.x + 200, this.player.y, 50, 2/3, 'pop-up', 0, this.player);
+        
+        // Agregacion de entidades(esto se hara en el futuro con una funcion en level)
+        this.level.addEntity(this.player);
+        this.level.addEntity(this.enemy);
         
         // roundPixels = true para que la cámara no dibuje en posiciones decimales
         this.cameras.main.startFollow(this.player, true);
@@ -124,19 +133,27 @@ export default class MainGame extends Phaser.Scene {
 
         this.weapon = new LongRangeWeapon(this, this.player.x + 50, this.player.y, 'CommandUSB', 1, 20, 200, 'CommandUSBProyectile', 300);
 
-        this.physics.add.overlap(this.enemy, this.player, (enemy, player) => {
-            if (enemy.canAttack()) {
-                player.takeDamage(enemy.damage);
+        // Profundidad: las capas de la sala usan 0-2, así que las entidades van por encima
+        this.player.setDepth(3);
+        this.enemy.setDepth(3);
+        this.weapon.setDepth(4);
+
+        // El daño se comprueba con las hurtboxes (cubren el dibujo), no con los body (que van en los pies).
+        // owner es la entidad a la que pertenece cada hurtbox
+        this.physics.add.overlap(this.enemy.hurtbox, this.player.hurtbox, (enemyBox, playerBox) => {
+            if (enemyBox.owner.canAttack()) {
+                playerBox.owner.takeDamage(enemyBox.owner.damage);
             }
         });
 
-        this.physics.add.collider(this.enemy, this.weapon.proyectiles, (enemy, proyectil) => {
-            
-            // Sacamos la información del daño del proyectil 
+        // overlap (y no collider) para que el proyectil no empuje a la hurtbox
+        this.physics.add.overlap(this.enemy.hurtbox, this.weapon.proyectiles, (enemyBox, proyectil) => {
+
+            // Sacamos la información del daño del proyectil
             const proyectileDamage = proyectil.getData('damage');
 
-            // Hacemos que el enemigo reciba ese daño 
-            enemy.takeDamage(proyectileDamage);
+            // Hacemos que el enemigo reciba ese daño
+            enemyBox.owner.takeDamage(proyectileDamage);
 
             // Y destruimos el proyectil
             proyectil.destroy();
@@ -303,7 +320,7 @@ export default class MainGame extends Phaser.Scene {
 
     update() {
         if (this.hud && this.player) {
-        this.hud.update(this.player);
+            this.hud.update(this.player);
         }
     }
 }

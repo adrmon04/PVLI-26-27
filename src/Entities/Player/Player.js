@@ -23,6 +23,17 @@ export default class Player extends Entity {
         // Llamamos al constructor de Entity
         super(health, damage, scene, x, y, speed, attackSpeed, imgKey, frame);
 
+        // Hitbox solo en los pies, para que en la vista 3/4 choque con la base de los muros
+        // (medidas en píxeles del frame original de 192x192; el dibujo acaba en y = 182)
+        const bodyW = 60;
+        const bodyH = 30;
+        const feetY = 182;
+        this.body.setSize(bodyW, bodyH);
+        this.body.setOffset((this.width - bodyW) / 2, feetY - bodyH);
+
+        // Caja de daño que cubre el dibujo (el dibujo mide unos 47x64 en pantalla)
+        this.createHurtbox(32, 50);
+
         this.weapon = null;
         this.lastDirection = "right";
 

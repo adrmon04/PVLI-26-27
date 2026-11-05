@@ -263,7 +263,7 @@ Los obstáculos son elementos del entorno de cada sala que condicionan el movimi
 |---|---|---|
 | Suelo corrupto | Zona del suelo que inflige daño continuo al jugador mientras permanece sobre ella. | Daño, Área de efecto |
 | Pantallazo azul (BSOD) | Zona que, al ser pisada, inmoviliza brevemente al jugador. | Duración de inmovilización, Área de efecto |
-| Cables sueltos | Obstáculo físico y estático que bloquea el paso por una zona de la sala. | Área de efecto |
+| Cables sueltos | Obstáculo estático que no bloquea el paso: el jugador puede pasar por encima, pero recibe daño continuo mientras permanece sobre él. | Daño, Área de efecto |
 | Zona de lag | Zona que reduce la velocidad de movimiento del jugador mientras permanece dentro de ella. | Porcentaje de ralentización, Área de efecto |
 
 ![Obstáculos](<../Imagenes GDD/Obstáculos y armas/Obstáculos.png>)

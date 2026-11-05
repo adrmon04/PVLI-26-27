@@ -8,8 +8,9 @@ import Credits from "./scenes/Credits.js";
  */
 let config = {
 	type: Phaser.AUTO,
-	width: 800,
-	height: 450,
+	// Resolución interna (16:9): 480 px de alto = 15 tiles visibles, como en los juegos de referencia
+	width: 854,
+	height: 480,
 	parent: 'gameContainer',
 	pixelArt: true,
 	scale: {

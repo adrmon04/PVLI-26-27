@@ -1,3 +1,16 @@
+// Tamaño de los tiles de las salas y altura en pantalla del DIBUJO de las entidades (2 tiles)
+export const TILE_SIZE = 32;
+export const ENTITY_SIZE = TILE_SIZE * 2;
+
+// Altura (en píxeles del frame original) que ocupa el dibujo dentro de cada spritesheet.
+// Los frames tienen mucho espacio transparente alrededor, así que se escala según el dibujo
+// y no según el frame entero. Si una imagen no está aquí, se usa la altura del frame.
+const ART_HEIGHT = {
+    'player_right': 162,   // frame 192x192
+    'player_left': 162,    // frame 192x192
+    'pop-up': 520,         // frame 1448x788
+};
+
 /**
  * Clase que representa una entidad en el juego
  * Heredan de ella Player y Enemy
@@ -29,8 +42,15 @@ export default class Entity extends Phaser.GameObjects.Sprite {
         // Le añadimos físicas a la entidad
         this.scene.physics.add.existing(this);
 
-        // asignamos el tamaño con el que queremos que se vea su imagen
-        this.setDisplaySize(100, 100);
+        // Escalamos para que el dibujo mida 2 tiles de alto.
+        // setScale (y no setDisplaySize) para mantener las proporciones de frames no cuadrados
+        let artHeight = ART_HEIGHT[imgKey];
+
+        if (artHeight === undefined || artHeight === null) {
+            artHeight = this.height;
+        }
+
+        this.setScale(ENTITY_SIZE / artHeight);
 
         // Le asignamos su velocidad de movimiento y de ataque
         this.speed = speed;
@@ -39,6 +59,39 @@ export default class Entity extends Phaser.GameObjects.Sprite {
 
         // Queremos que la entidad no se salga de los límites del mundo
         this.body.setCollideWorldBounds();
+    }
+
+    /**
+     * Crea una caja de daño (hurtbox) que sigue a la entidad.
+     * Es independiente del body de físicas, que va en los pies y solo sirve para chocar con los muros.
+     * La hurtbox cubre el dibujo y es la que se usa para recibir golpes de enemigos y proyectiles.
+     * @param {number} w - Ancho en píxeles de pantalla
+     * @param {number} h - Alto en píxeles de pantalla
+     * @param {number} [offsetY=0] - Desplazamiento vertical respecto al centro del sprite
+     */
+    createHurtbox(w, h, offsetY = 0) {
+        this.hurtbox = this.scene.add.zone(this.x, this.y, w, h);
+        this.scene.physics.add.existing(this.hurtbox);
+
+        // Guardamos de quién es, para saberlo dentro de los overlap
+        this.hurtbox.owner = this;
+        this.hurtboxOffsetY = offsetY;
+        this.followHurtbox();
+
+        // La colocamos después de que las físicas muevan a la entidad (igual que el arma del jugador)
+        this.scene.events.on('postupdate', this.followHurtbox, this);
+        this.once('destroy', () => {
+            this.scene.events.off('postupdate', this.followHurtbox, this);
+            this.hurtbox.destroy();
+        });
+    }
+
+    /**
+     * Coloca la hurtbox en el centro del dibujo de la entidad.
+     */
+    followHurtbox() {
+        const center = this.getCenter();
+        this.hurtbox.setPosition(center.x, center.y + this.hurtboxOffsetY);
     }
 
     /**
@@ -86,7 +139,7 @@ export default class Entity extends Phaser.GameObjects.Sprite {
         // (Arturo - Creo que habría que quitar el setVelocity porque destruimos a la
         // entidad justo despues)
         // this.body.setVelocity(0, 0);
-        
+
         this.destroy();
     }
 }

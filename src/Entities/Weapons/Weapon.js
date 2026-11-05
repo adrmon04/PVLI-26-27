@@ -3,8 +3,9 @@
  * @extends Phaser.GameObjects.Sprite
  */
 
-// Escala de dibujo de las armas y proyectiles (sus imágenes están escaladas x4)
-export const WEAPON_SCALE = 0.25;
+// Escala de dibujo de las armas y proyectiles (sus imágenes están escaladas x4).
+// Con 0.15 las armas miden unos 30-40 px, en proporción a un jugador de 2 tiles
+export const WEAPON_SCALE = 0.15;
 
 // Distancia máxima al jugador para poder coger el arma
 const PICKUP_RADIUS = 80;
