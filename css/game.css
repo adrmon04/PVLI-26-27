@@ -775,6 +775,15 @@ a:hover {
 	animation: glitch-slices 0.45s steps(1, end) 0.12s infinite reverse;
 }
 
+/* Variante del protagonista: se pone verde en vez de rojo y las copias son cian y magenta */
+.glitch-hover--hero:hover {
+	color: var(--phosphor);
+}
+
+.glitch-hover--hero::after {
+	color: var(--magenta);
+}
+
 /* La palabra tiembla un poco */
 @keyframes glitch-jitter {
 	0%   { transform: translate(0, 0); }
