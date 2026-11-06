@@ -268,7 +268,7 @@ Los obstáculos son elementos del entorno de cada sala que condicionan el movimi
 | Cables sueltos | Obstáculo estático que no bloquea el paso: el jugador puede pasar por encima, pero recibe daño continuo mientras permanece sobre él. | Daño, Área de efecto |
 | Zona de lag | Zona que reduce la velocidad de movimiento del jugador mientras permanece dentro de ella. | Porcentaje de ralentización, Área de efecto |
 
-![Obstáculos](<Assets/images/preview_traps.gif>)
+![Obstáculos](<imagenes GDD/obstáculos y armas/preview_traps.gif>)
 
 #### 5.3.1 Parámetros y detalles (Obstáculos)
 

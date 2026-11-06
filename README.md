@@ -6,9 +6,11 @@
 
 El proyecto consiste en un videojuego de acción roguelike en 2D con perspectiva cenital. El jugador explora una versión corrupta y demoníaca de una facultad, combate enemigos y avanza por distintas salas mientras consigue armas y mejoras. La propuesta combina exploración y combate con una ambientación de terror y humor inspirada en el entorno universitario y la informática.
 
-**Gameplay básico**
+**Capturas del juego**
 
-<video src="./assets/demo/demoVideo.mp4" width="640" controls muted loop></video>
+![Capturas](<imagenes GDD/capturas de juego/Captura 1.png>)
+![Capturas](<imagenes GDD/capturas de juego/Captura 2.png>)
+![Capturas](<imagenes GDD/capturas de juego/Captura 3.png>)
 
 **Miembros del equipo**
 

@@ -11,7 +11,7 @@ export default class Credits extends Phaser.Scene {
 	}
 
 	create() {
-		const fuente = new FontFace('Fuente', 'url(assets/images/fuente.ttf)');
+		const fuente = new FontFace('Fuente', 'url(Assets/fonts/fuente.ttf)');
 		fuente.load().then((loaded) => {
 			document.fonts.add(loaded);
 
