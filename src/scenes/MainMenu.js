@@ -11,13 +11,10 @@ export default class MainMenu extends Phaser.Scene {
 
 		
 		// Cargamos la hoja de sprites de los botones de "INICIAR PARTIDA" y "CRÉDITOS"
-		this.load.spritesheet("mainMenuButtons", "assets/images/menu/buttonsSpritesheet.png", {
+		this.load.spritesheet("mainMenuButtons", "Assets/images/menu/buttonsSpritesheet.png", {
 			frameWidth: 144, // Ancho total de la hoja partido del número de columnas
 			frameHeight: 32, // Altura total de la hoja partido del número de filas
 		});
-		
-		// Carga del logo del juego
-		this.load.image("stratImage", "assets/images/phaser3.png")
 	}
 
 	create(){
