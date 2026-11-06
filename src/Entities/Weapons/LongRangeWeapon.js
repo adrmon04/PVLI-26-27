@@ -16,8 +16,10 @@ export default class LongRangeWeapon extends Weapon {
      * @param {number} range - rango del arma 
      * @param {string} proyectileImgKey - Nombre de la imagen del proyectil
      * @param {number} proyectileSpeed - Velocidad del proyectil
+     * @param {number} penetration - nº enemigos que puede atravesar el proyectil
+     * @param {number} burstSize - nº de proyectiles que dispara en ráfaga
     */
-    constructor(scene, x, y, imgKey, attackSpeed, damage, range, proyectileImgKey, proyectileSpeed) {
+    constructor(scene, x, y, imgKey, attackSpeed, damage, range, proyectileSpeed, penetration, burstSize) {
 
         // Llamamos al constructor de la clase weapon
         super(scene, x, y, imgKey, attackSpeed, damage, range);
@@ -27,14 +29,17 @@ export default class LongRangeWeapon extends Weapon {
         // al crearse, modificarán su escala de acuerdo a WEAPON_SCALE y reproducirán su animación
         this.proyectiles = scene.physics.add.group({
             classType: Phaser.Physics.Arcade.Sprite,
-            defaultKey: proyectileImgKey,
+            defaultKey: this.imgKey + "Proyectile",
             collideWorldBounds: true,
+            enemiesPenetrated: 0,
             createCallback: (proyectile) => {
                 proyectile.setScale(WEAPON_SCALE);
                 proyectile.play(this.imgKey + "_proyectile", true);
             }
         });
         this.proyectileSpeed = proyectileSpeed; 
+        this.penetration = penetration;
+        this.burstSize = burstSize;
     }
 
     preUpdate(t, dt) {
@@ -60,8 +65,9 @@ export default class LongRangeWeapon extends Weapon {
     }
     
     // Dispara un proyectil hacia el objetivo
-    Fire(targetX, targetY) {
-        
+    Fire(targetX, targetY, remainingBullets = this.burstSize) {
+        const fireInterval = 1000 / this.attackSpeed; // Intervalo entre disparos en milisegundos
+
         // Si se dispara el arma, reproducimos la animacion de disparo
         this.play(this.imgKey + "_fire", true);
 
@@ -75,7 +81,12 @@ export default class LongRangeWeapon extends Weapon {
         // Configuramos su rotación y su velocidad
         proyectile.setRotation(Phaser.Math.Angle.Between(this.x, this.y, targetX, targetY)); 
         proyectile.body.setVelocity(targetX - this.x, targetY - this.y);
-        proyectile.body.velocity.normalize().scale(this.proyectileSpeed);
-        
+        proyectile.body.velocity.normalize().scale(this.proyectileSpeed);        
+
+        remainingBullets--;
+
+        if (remainingBullets > 0) setTimeout(() => {
+            this.Fire(targetX, targetY, remainingBullets);
+        }, fireInterval);
     }
 }
