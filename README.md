@@ -8,10 +8,7 @@ El proyecto consiste en un videojuego de acción roguelike en 2D con perspectiva
 
 **Gameplay básico**
 
-<video autoplay muted loop width="640" style="pointer-events: none;">
-  <source src="assets/demo/demoVideo.mp4" type="video/mp4">
-  Tu navegador no soporta la reproducción de vídeo.
-</video>
+<video src="./assets/demo/demoVideo.mp4" width="640" controls muted loop></video>
 
 **Miembros del equipo**
 
