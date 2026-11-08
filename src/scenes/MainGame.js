@@ -11,7 +11,6 @@ import LongRangeWeapon from '../Entities/Weapons/LongRangeWeapon.js';
 
 // ------------------------------------UI-----------------------------------------
 import HUD from '../UI/HUD.js';
-import Popup from '../Entities/Enemies/Types/PopUP.js';
 
 /**
  * Escena principal.
@@ -120,8 +119,8 @@ export default class MainGame extends Phaser.Scene {
         this.player = new Player(100, 100, this, 976, 880, 300, 400, 'player_right', 0);
             
         // Creamos un enemigo
-        this.enemy = new Popup(100, 20, this, this.player.x - 450, this.player.y, 150, 'pop-up', 0, this.player, 300, 100);
-        
+        this.enemy = new Enemy(1000, 20, this, this.player.x + 300, this.player.y, 50, 2/3, 'pop-up', 0, this.player);
+
         // Agregacion de entidades(esto se hara en el futuro con una funcion en level)
         this.level.addEntity(this.player);
         this.level.addEntity(this.enemy);
@@ -132,12 +131,19 @@ export default class MainGame extends Phaser.Scene {
         //Creamos el HUD
         this.hud = new HUD(this);
 
-        this.weapon = new LongRangeWeapon(this, this.player.x + 50, this.player.y, 'CommandUSB', 1, 20, 200, 'CommandUSBProyectile', 300);
+        this.weapons = [
+            new LongRangeWeapon(this, this.player.x + 50, this.player.y, 'CommandUSB', 10, 20, 200, 300, 1, 1),
+            new LongRangeWeapon(this, this.player.x + 100, this.player.y, 'PortablePrinter', 3, 100, 200, 300, 1, 3),
+            new LongRangeWeapon(this, this.player.x + 150, this.player.y, 'Router', 1, 200, 200, 300, 2, 1),
+            new ShortRangeWeapon(this, this.player.x - 50, this.player.y, 'MechanicalKeyboard', 3, 100, 10),
+            new ShortRangeWeapon(this, this.player.x - 100, this.player.y, 'CPU', 1, 200, 20),
+            new ShortRangeWeapon(this, this.player.x - 150, this.player.y, 'HDMICable', 10, 30, 10)
+        ];
 
         // Profundidad: las capas de la sala usan 0-2, así que las entidades van por encima
         this.player.setDepth(3);
         this.enemy.setDepth(3);
-        this.weapon.setDepth(4);
+        this.weapons.forEach(weapon => weapon.setDepth(4));
 
         // El daño se comprueba con las hurtboxes (cubren el dibujo), no con los body (que van en los pies).
         // owner es la entidad a la que pertenece cada hurtbox
@@ -147,17 +153,15 @@ export default class MainGame extends Phaser.Scene {
             }
         });
 
-        // overlap (y no collider) para que el proyectil no empuje a la hurtbox
-        this.physics.add.overlap(this.enemy.hurtbox, this.weapon.proyectiles, (enemyBox, proyectil) => {
+        // Registramos cada grupo de proyectiles; las armas de corto alcance no tienen uno.
+        this.weapons.forEach(weapon => {
+            if (!(weapon instanceof LongRangeWeapon || !weapon.taken)) return;
 
-            // Sacamos la información del daño del proyectil
-            const proyectileDamage = proyectil.getData('damage');
-
-            // Hacemos que el enemigo reciba ese daño
-            enemyBox.owner.takeDamage(proyectileDamage);
-
-            // Y destruimos el proyectil
-            proyectil.destroy();
+            // overlap (y no collider) para que el proyectil no empuje a la hurtbox
+            this.physics.add.overlap(this.enemy.hurtbox, weapon.proyectiles, (enemyBox, proyectile) => {
+                enemyBox.owner.takeDamage(proyectile.getData('damage'));
+                proyectile.destroy();
+            });
         });
 
         // ------------------------------------ANIMACIONES JUGADOR-----------------------------------------
@@ -358,5 +362,9 @@ export default class MainGame extends Phaser.Scene {
         if (this.hud && this.player) {
             this.hud.update(this.player);
         }
+
+        if (this.player.isDead) setTimeout(() => {
+            this.scene.start('MainMenu');
+        }, 1000);
     }
 }

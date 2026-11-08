@@ -21,9 +21,10 @@ export default class Weapon extends Phaser.GameObjects.Sprite {
      * @param {number} attackSpeed - velocidad de ataque del arma (ataques por segundo)
      * @param {number} damage - daño que inflige el arma
      * @param {number} range - rango del arma 
+     * @param {boolean} taken - indica si el arma está en el suelo o cogida por el jugador
     */
 
-    constructor(scene, x, y, imgKey, attackSpeed, damage, range) {
+    constructor(scene, x, y, imgKey, attackSpeed, damage, range, taken = false) {
 
         super(scene, x, y, imgKey);
 
@@ -34,6 +35,7 @@ export default class Weapon extends Phaser.GameObjects.Sprite {
         this.attackSpeed = attackSpeed;
         this.damage = damage;
         this.range = range;
+        this.taken = taken;
 
         // Propiedad que indica si el arma se ha cogido o está en el suelo
         this.taken = false;
@@ -119,7 +121,8 @@ export default class Weapon extends Phaser.GameObjects.Sprite {
 
     // Suelta el arma en la posición en la que está y vuelve a su animación del suelo
     drop() {
-        this.taken = false;        this.setRotation(0);
+        this.taken = false;     
+        this.setRotation(0);
         this.setFlipY(false);
         this.play(this.imgKey + "_idle", true);
     }

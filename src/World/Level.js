@@ -29,7 +29,7 @@ import Room from './Room.js';
 
 const ROOMS = [
     { key: 'room1', path: 'Assets/Tiles/Sala1.json', x: 0, y: 0 },
-     // { key: 'sala2', path: 'Assets/Tiles/Sala2.json', x: 1920, y: 0 }, Esto se aplicara en el futuro con una generacion procedural de salas
+    // { key: 'sala2', path: 'Assets/Tiles/Sala2.json', x: 1920, y: 0 }, Esto se aplicara en el futuro con una generacion procedural de salas
 ];
 
 export default class Level{
