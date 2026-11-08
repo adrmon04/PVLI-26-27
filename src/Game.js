@@ -1,6 +1,7 @@
-import MainGame from "./scenes/MainGame.js";
-import MainMenu from "./scenes/MainMenu.js";
-import Credits from "./scenes/Credits.js";
+import MainGame from "./Scenes/MainGame.js";
+import MainMenu from "./Scenes/MainMenu.js";
+import Credits from "./Scenes/Credits.js";
+
 
 /**
  * Inicio del juego en Phaser. Creamos el archivo de configuración del juego y creamos
@@ -23,7 +24,7 @@ let config = {
 	physics: {
 		default: 'arcade',
 		arcade: {
-			debug: false
+			debug: true
 		}
 	}
 };

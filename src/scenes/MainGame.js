@@ -1,5 +1,7 @@
 //-------------------------------------Entidades-----------------------------------------
 import Player from '../Entities/Player/Player.js';
+import Enemy from '../Entities/Enemies/Enemy.js';
+import Upgrade from '../Entities/Upgrades/Upgrade.js';
 
 // ------------------------------------Nivel-----------------------------------------
 import Level from '../World/Level.js';
@@ -108,6 +110,14 @@ export default class MainGame extends Phaser.Scene {
             frameWidth: 1448,
             frameHeight: 788
         });
+
+        // Hojas de sprites de las mejoras (8 frames de 800x1000)
+        ['Antivirus', 'Overclock', 'Turbo', 'Luck', 'CrackedLicense'].forEach(key => {
+            this.load.spritesheet(key, `Assets/images/upgrades/${key}.png`, {
+                frameWidth: 800,
+                frameHeight: 1000
+            });
+        });
     }
 
     // create - método de las escenas que se llama una vez la escena está instanciada
@@ -116,14 +126,16 @@ export default class MainGame extends Phaser.Scene {
         this.level = new Level(this);
 
         // Creamos el jugador en el centro del suelo de Sala1 y lo añadimos a la escena
-        this.player = new Player(100, 100, this, 976, 880, 300, 400, 'player_right', 0);
+        this.player = new Player(100, 100, this, 976, 880, 300, 1, 'player_right', 0);
             
         // Creamos un enemigo
         this.enemy = new Popup(100, 20, this, this.player.x - 450, this.player.y, 150, 'pop-up', 0, this.player, 300, 100);
+        this.enemy = new Popup(100, 20, this, this.player.x - 550, this.player.y, 150, 'pop-up', 0, this.player, 300, 100);
+        this.enemy = new Popup(100, 20, this, this.player.x - 650, this.player.y, 150, 'pop-up', 0, this.player, 300, 100);
 
         // Agregacion de entidades(esto se hara en el futuro con una funcion en level)
         this.level.addEntity(this.player);
-        this.level.addEntity(this.enemy);
+        this.enemies.forEach(enemy => this.level.addEntity(enemy));
         
         // roundPixels = true para que la cámara no dibuje en posiciones decimales
         this.cameras.main.startFollow(this.player, true);
@@ -140,17 +152,28 @@ export default class MainGame extends Phaser.Scene {
             new ShortRangeWeapon(this, this.player.x - 150, this.player.y, 'HDMICable', 10, 30, 10)
         ];
 
+        this.upgrades = [
+            new Upgrade(this, this.player.x, this.player.y - 50, 'Antivirus'),
+            new Upgrade(this, this.player.x + 50, this.player.y - 50, 'Overclock'),
+            new Upgrade(this, this.player.x + 100, this.player.y - 50, 'Turbo'),
+            new Upgrade(this, this.player.x - 50, this.player.y - 50, 'Luck'),
+            new Upgrade(this, this.player.x - 100, this.player.y - 50, 'CrackedLicense')
+        ];
+
         // Profundidad: las capas de la sala usan 0-2, así que las entidades van por encima
         this.player.setDepth(3);
-        this.enemy.setDepth(3);
+        this.enemies.forEach(enemy => enemy.setDepth(3));
         this.weapons.forEach(weapon => weapon.setDepth(4));
+        this.upgrades.forEach(upgrade => upgrade.setDepth(4));
 
         // El daño se comprueba con las hurtboxes (cubren el dibujo), no con los body (que van en los pies).
         // owner es la entidad a la que pertenece cada hurtbox
-        this.physics.add.overlap(this.enemy.hurtbox, this.player.hurtbox, (enemyBox, playerBox) => {
-            if (enemyBox.owner.canAttack()) {
-                playerBox.owner.takeDamage(enemyBox.owner.damage);
-            }
+        this.enemies.forEach(enemy => {
+            this.physics.add.overlap(enemy.hurtbox, this.player.hurtbox, (enemyBox, playerBox) => {
+                if (enemyBox.owner.canAttack()) {
+                    playerBox.owner.takeDamage(enemyBox.owner.damage);
+                }
+            });
         });
 
         // Registramos cada grupo de proyectiles; las armas de corto alcance no tienen uno.
@@ -158,9 +181,12 @@ export default class MainGame extends Phaser.Scene {
             if (!(weapon instanceof LongRangeWeapon || !weapon.taken)) return;
 
             // overlap (y no collider) para que el proyectil no empuje a la hurtbox
-            this.physics.add.overlap(this.enemy.hurtbox, weapon.proyectiles, (enemyBox, proyectile) => {
-                enemyBox.owner.takeDamage(proyectile.getData('damage'));
-                proyectile.destroy();
+            this.enemies.forEach(enemy => {
+                this.physics.add.overlap(enemy.hurtbox, weapon.proyectiles, (enemyBox, proyectile) => {
+                    enemyBox.owner.takeDamage(proyectile.getData('damage'));
+                    if (proyectile.enemiesPenetrated <= 0) proyectile.destroy();
+                    else proyectile.enemiesPenetrated--;
+                });
             });
         });
 
@@ -356,6 +382,43 @@ export default class MainGame extends Phaser.Scene {
 			frameRate: 6,
 			repeat: -1
 		});
+
+        // ------------------------------------ANIMACIONES MEJORAS-----------------------------------------
+
+		this.anims.create({
+			key: "Antivirus_idle",
+			frames: this.anims.generateFrameNames("Antivirus", { start: 0, end: 7}),
+			frameRate: 6,
+			repeat: -1
+		});
+
+        this.anims.create({
+			key: "Overclock_idle",
+			frames: this.anims.generateFrameNames("Overclock", { start: 0, end: 7}),
+			frameRate: 6,
+			repeat: -1
+		});
+
+        this.anims.create({
+			key: "Luck_idle",
+			frames: this.anims.generateFrameNames("Luck", { start: 0, end: 7}),
+			frameRate: 6,
+			repeat: -1
+		});
+
+        this.anims.create({
+			key: "CrackedLicense_idle",
+			frames: this.anims.generateFrameNames("CrackedLicense", { start: 0, end: 7}),
+			frameRate: 6,
+			repeat: -1
+		});
+
+        this.anims.create({
+			key: "Turbo_idle",
+			frames: this.anims.generateFrameNames("Turbo", { start: 0, end: 7}),
+			frameRate: 6,
+			repeat: -1
+		});
     }
 
     update() {
@@ -366,5 +429,9 @@ export default class MainGame extends Phaser.Scene {
         if (this.player.isDead) setTimeout(() => {
             this.scene.start('MainMenu');
         }, 1000);
+
+        setTimeout(() => {
+            this.player.showStats();
+        }, 5000);
     }
 }

@@ -20,7 +20,6 @@ export default class LongRangeWeapon extends Weapon {
      * @param {number} burstSize - nº de proyectiles que dispara en ráfaga
     */
     constructor(scene, x, y, imgKey, attackSpeed, damage, range, proyectileSpeed, penetration, burstSize) {
-
         // Llamamos al constructor de la clase weapon
         super(scene, x, y, imgKey, attackSpeed, damage, range);
 
@@ -31,7 +30,7 @@ export default class LongRangeWeapon extends Weapon {
             classType: Phaser.Physics.Arcade.Sprite,
             defaultKey: this.imgKey + "Proyectile",
             collideWorldBounds: true,
-            enemiesPenetrated: 0,
+            enemiesPenetrated: penetration,
             createCallback: (proyectile) => {
                 proyectile.setScale(WEAPON_SCALE);
                 proyectile.play(this.imgKey + "_proyectile", true);

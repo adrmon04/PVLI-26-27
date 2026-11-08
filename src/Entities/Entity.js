@@ -20,7 +20,8 @@ export default class Entity extends Phaser.GameObjects.Sprite {
 
     /**
      * Constructor de Entity
-     * @param {number} health - Vida máxima e inicial
+     * @param {number} maxHealth - Vida máxima e inicial
+     * @param {number} health - Vida actual
      * @param {number} damage - Daño que inflige
      * @param {Phaser.Scene} scene - Escena de aparición
      * @param {number} x - Coordenada X
@@ -29,11 +30,11 @@ export default class Entity extends Phaser.GameObjects.Sprite {
      * @param {number} attackSpeed - Ataques por segundo
      * @param {string} imgKey - Nombre de la imagen que representa a la entidad
      */
-    constructor(health, damage, scene, x, y, speed, attackSpeed, imgKey, frame) {
+    constructor(maxHealth, damage, scene, x, y, speed, attackSpeed, imgKey, frame) {
         super(scene, x, y, imgKey, frame)
 
-        this.maxHealth = health;
-        this.health = health;
+        this.maxHealth = maxHealth;
+        this.health = maxHealth;
         this.damage = damage;
 
         // Añadimos la entidad a la escena

@@ -9,6 +9,7 @@ export default class Player extends Entity {
 
     /**
      * @param {number} health 
+     * @param {number} maxHealth
      * @param {number} damage 
      * @param {Scene} scene 
      * @param {number} x 
@@ -17,11 +18,13 @@ export default class Player extends Entity {
      * @param {number} attackSpeed 
      * @param {string} imgKey 
      * @param {Weapon} weapon
+     * @param {number} shopDiscount
+     * @param {boolean} lucky
      */
-    constructor(health, damage, scene, x, y, speed, attackSpeed, imgKey, frame) {
+    constructor(maxHealth, damage, scene, x, y, speed, attackSpeed, imgKey, frame) {
 
         // Llamamos al constructor de Entity
-        super(health, damage, scene, x, y, speed, attackSpeed, imgKey, frame);
+        super(maxHealth, damage, scene, x, y, speed, attackSpeed, imgKey, frame);
 
         // Hitbox solo en los pies, para que en la vista 3/4 choque con la base de los muros
         // (medidas en píxeles del frame original de 192x192; el dibujo acaba en y = 182)
@@ -35,6 +38,8 @@ export default class Player extends Entity {
         this.createHurtbox(32, 50);
 
         this.weapon = null;
+        this.shopDiscount = 0;
+        this.lucky = false;
         this.lastDirection = "right";
 
         // Creamos el objeto keys para saber cuando se han pulsado las teclas W, A, S y D
@@ -78,5 +83,13 @@ export default class Player extends Entity {
         else {
             this.play("player_idle_" + this.lastDirection, true);
         }
+    }
+
+    showStats() {
+        console.log('Health: ' + this.health + '/' + this.maxHealth);
+        console.log('Damage: ' + this.damage);
+        console.log('Attack Speed: ' + this.attackSpeed);
+        console.log('Shop Discount: ' + this.shopDiscount);
+        console.log('Lucky: ' + this.lucky);
     }
 }

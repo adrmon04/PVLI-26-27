@@ -8,7 +8,7 @@
 export const WEAPON_SCALE = 0.18;
 
 // Distancia máxima al jugador para poder coger el arma
-const PICKUP_RADIUS = 80;
+const PICKUP_RADIUS = 30;
 
 export default class Weapon extends Phaser.GameObjects.Sprite {
     
@@ -87,8 +87,7 @@ export default class Weapon extends Phaser.GameObjects.Sprite {
         // y haya pasado tiempo suficiente desde el último disparo (velocidad de ataque)
         const clickDown = this.scene.input.activePointer.leftButtonDown();
 
-        if (clickDown && this.attackSpeed > 0 && t - this.lastFireTime >= 700 / this.attackSpeed) {
-            
+        if (clickDown && this.attackSpeed > 0 && t - this.lastFireTime >= 700 / this.attackSpeed * player.attackSpeed) {            
             // Sacamos el objetivo al que apunta el arma y disparamos 
             const target = this.getPointerWorld();
             this.Fire(target.x, target.y);
