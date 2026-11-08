@@ -40,40 +40,6 @@ export default class Enemy extends Entity {
         this.createHurtbox(32, 50, -8);
     }
 
-    preUpdate(t, dt) {
-        
-        // Llamamos al preUpdate de la clase padre
-        super.preUpdate(t, dt);
-
-        // Perseguimos al jugador de centro a centro de las hurtboxes (la parte media del dibujo)
-        const target = this.player.hurtbox;
-        const from = this.hurtbox;
-        const dir = new Phaser.Math.Vector2(target.x - from.x, target.y - from.y);
-
-        // Si ya está encima, se para (evita que tiemble al llegar)
-        if (dir.length() < 2) {
-            this.body.setVelocity(0, 0);
-        }
-        else {
-            dir.normalize();
-            this.body.setVelocity(dir.x * this.speed, dir.y * this.speed);
-        }
-
-        // Si el enemigo está en movimiento, reproducimos la animación de movimiento
-        if (Math.abs(this.body.velocity.x) > 0 || Math.abs(this.body.velocity.y) > 0) {
-            this.play('pop-up_mov', true);
-            if (this.body.velocity.x > 0) {
-                this.setFlipX(false);
-            }
-            else {
-                this.setFlipX(true);
-            }
-        }
-        else {
-            this.play('pop-up_idle', true);
-        }
-    }
-
     /**
      * Comprueba y consume el intervalo común entre ataques.
      * Llamar cuando el ataque específico del enemigo pueda ejecutarse.

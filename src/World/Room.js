@@ -1,7 +1,7 @@
-import BlueScreen from '../entities/levelElements/obstacles/BlueScreen.js';
-import CorruptedFloor from '../entities/levelElements/obstacles/CorruptedFloor.js';
-import LagZone from '../entities/levelElements/obstacles/LagZone.js';
-import LooseCables from '../entities/levelElements/obstacles/LooseCables.js';
+import BlueScreen from '../Entities/LevelElements/Obstacles/BlueScreen.js';
+import CorruptedFloor from '../Entities/LevelElements/Obstacles/CorruptedFloor.js';
+import LagZone from '../Entities/LevelElements/Obstacles/LagZone.js';
+import LooseCables from '../Entities/LevelElements/Obstacles/LooseCables.js';
 
 /**
  * Room: una sala del juego construida a partir de un mapa exportado de Tiled (.json).
@@ -41,11 +41,11 @@ import LooseCables from '../entities/levelElements/obstacles/LooseCables.js';
 
 const TILESETS = [
     // [nombre en Tiled, key de la imagen, ruta]
-    ['faculty_tileset',   'tiles_sala',   'assets/tiles/tiledsets/faculty_tileset.png'],
-    ['faculty_hazards',   'tiles_hazard', 'assets/tiles/tiledsets/faculty_hazards_tileset.png'],
-    ['faculty_doors',     'tiles_doors',  'assets/tiles/tiledsets/faculty_doors.png'],
-    ['faculty_trap_bsod', 'tiles_bsod',   'assets/tiles/tiledsets/faculty_trap_bsod.png'],
-    ['faculty_trap_lag',  'tiles_lag',    'assets/tiles/tiledsets/faculty_trap_lag.png'],
+    ['faculty_tileset',   'tiles_sala',   'Assets/Tiles/tiledsets/faculty_tileset.png'],
+    ['faculty_hazards',   'tiles_hazard', 'Assets/Tiles/tiledsets/faculty_hazards_tileset.png'],
+    ['faculty_doors',     'tiles_doors',  'Assets/Tiles/tiledsets/faculty_doors.png'],
+    ['faculty_trap_bsod', 'tiles_bsod',   'Assets/Tiles/tiledsets/faculty_trap_bsod.png'],
+    ['faculty_trap_lag',  'tiles_lag',    'Assets/Tiles/tiledsets/faculty_trap_lag.png'],
 ];
 
 // Daño por segundo de las trampas de daño (se ajusta aquí, no en Tiled)

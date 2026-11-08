@@ -1,16 +1,17 @@
 //-------------------------------------Entidades-----------------------------------------
-import Player from '../entities/player/Player.js';
-import Enemy from '../entities/enemies/Enemy.js';
+import Player from '../Entities/Player/Player.js';
+import Enemy from '../Entities/Enemies/Enemy.js';
 
 // ------------------------------------Nivel-----------------------------------------
-import Level from '../world/Level.js';
+import Level from '../World/Level.js';
 
 // ------------------------------------Armas-----------------------------------------
-import ShortRangeWeapon from '../entities/weapons/ShortRangeWeapon.js';
-import LongRangeWeapon from '../entities/weapons/LongRangeWeapon.js';
+import ShortRangeWeapon from '../Entities/Weapons/ShortRangeWeapon.js';
+import LongRangeWeapon from '../Entities/Weapons/LongRangeWeapon.js';
 
 // ------------------------------------UI-----------------------------------------
-import HUD from '../ui/HUD.js';
+import HUD from '../UI/HUD.js';
+import Popup from '../Entities/Enemies/Types/PopUP.js';
 
 /**
  * Escena principal.
@@ -28,83 +29,83 @@ export default class MainGame extends Phaser.Scene {
         Level.preload(this);
 
         // Cargamos la hoja de sprites del jugador
-		this.load.spritesheet("player_right", "assets/images/entities/player/player_right.png", {
+		this.load.spritesheet("player_right", "Assets/images/entities/player/player_right.png", {
             frameWidth: 192,
             frameHeight: 192
         });
         
-		this.load.spritesheet("player_left", "assets/images/entities/player/player_left.png", {
+		this.load.spritesheet("player_left", "Assets/images/entities/player/player_left.png", {
             frameWidth: 192,
             frameHeight: 192
         });
 
         // Hojas de sprites de las armas equipadas (imágenes escaladas x4)
-        this.load.spritesheet("MechanicalKeyboard", "assets/images/weapons/combat/mechanicalKeyboard.png", {
+        this.load.spritesheet("MechanicalKeyboard", "Assets/images/weapons/combat/mechanicalKeyboard.png", {
             frameWidth: 640,
             frameHeight: 640
         });
 
-        this.load.spritesheet("CPU", "assets/images/weapons/combat/cPU.png", {
+        this.load.spritesheet("CPU", "Assets/images/weapons/combat/cPU.png", {
             frameWidth: 640,
             frameHeight: 640
         });
 
-        this.load.spritesheet("HDMICable", "assets/images/weapons/combat/hDMICable.png", {
+        this.load.spritesheet("HDMICable", "Assets/images/weapons/combat/hDMICable.png", {
             frameWidth: 640,
             frameHeight: 256
         });
 
-        this.load.spritesheet("CommandUSB", "assets/images/weapons/combat/commandUSB.png", {
+        this.load.spritesheet("CommandUSB", "Assets/images/weapons/combat/commandUSB.png", {
             frameWidth: 384,
             frameHeight: 384
         });
 
-        this.load.spritesheet("PortablePrinter", "assets/images/weapons/combat/portablePrinter.png", {
+        this.load.spritesheet("PortablePrinter", "Assets/images/weapons/combat/portablePrinter.png", {
             frameWidth: 384,
             frameHeight: 384
         });
 
-        this.load.spritesheet("Router", "assets/images/weapons/combat/router.png", {
+        this.load.spritesheet("Router", "Assets/images/weapons/combat/router.png", {
             frameWidth: 384,
             frameHeight: 384
         });
 
         // Armas que aparecen en el suelo (4 columnas x 6 filas, una fila por arma)
-        this.load.spritesheet("FloorWeapons", "assets/images/weapons/objects/floorWeapons.png", {
+        this.load.spritesheet("FloorWeapons", "Assets/images/weapons/objects/floorWeapons.png", {
             frameWidth: 384,
             frameHeight: 256
         });
 
         // Hojas de sprites de los proyectiles (frames 0-3: proyectil en vuelo, 5-9: impacto)
-        this.load.spritesheet("CommandUSBProyectile", "assets/images/weapons/proyectiles/commandUSB_proyectile.png", {
+        this.load.spritesheet("CommandUSBProyectile", "Assets/images/weapons/proyectiles/commandUSB_proyectile.png", {
             frameWidth: 128,
             frameHeight: 128
         });
-        this.load.spritesheet("PortablePrinterProyectile", "assets/images/weapons/proyectiles/portablePrinter_proyectile.png", {
+        this.load.spritesheet("PortablePrinterProyectile", "Assets/images/weapons/proyectiles/portablePrinter_proyectile.png", {
             frameWidth: 128,
             frameHeight: 128
         });
-        this.load.spritesheet("RouterProyectile", "assets/images/weapons/proyectiles/router_proyectile.png", {
+        this.load.spritesheet("RouterProyectile", "Assets/images/weapons/proyectiles/router_proyectile.png", {
             frameWidth: 128,
             frameHeight: 128
         });
 
         // Assets del HUD
-        this.load.spritesheet('hudLife', 'assets/images/hud/iconoVida.png', {
+        this.load.spritesheet('hudLife', 'Assets/images/hUD/iconoVida.png', {
             frameWidth: 16,
             frameHeight: 32
         });
-        this.load.spritesheet('hudCoin', 'assets/images/hud/iconoMoneda.png', {
+        this.load.spritesheet('hudCoin', 'Assets/images/hUD/iconoMoneda.png', {
             frameWidth: 16,
             frameHeight: 16
         });
-        this.load.spritesheet('hudWeaponSlot', 'assets/images/hud/iconoArma.png', {
+        this.load.spritesheet('hudWeaponSlot', 'Assets/images/hUD/iconoArma.png', {
             frameWidth: 48,
             frameHeight: 48
         });
 
         // Cargamos la hoja de sprites del enemigo Pop-up
-        this.load.spritesheet('pop-up', 'assets/images/entities/enemies/pop-upSpritesheet.png', {
+        this.load.spritesheet('pop-up', 'Assets/images/entities/enemies/pop-upSpritesheet.png', {
             frameWidth: 1448,
             frameHeight: 788
         });
@@ -119,7 +120,7 @@ export default class MainGame extends Phaser.Scene {
         this.player = new Player(100, 100, this, 976, 880, 300, 400, 'player_right', 0);
             
         // Creamos un enemigo
-        this.enemy = new Enemy(100, 20, this, this.player.x + 200, this.player.y, 50, 2/3, 'pop-up', 0, this.player);
+        this.enemy = new Popup(100, 20, this, this.player.x - 450, this.player.y, 150, 'pop-up', 0, this.player, 300, 100);
         
         // Agregacion de entidades(esto se hara en el futuro con una funcion en level)
         this.level.addEntity(this.player);
@@ -194,6 +195,20 @@ export default class MainGame extends Phaser.Scene {
         // ------------------------------------ANIMACIONES ENEMIGOS-----------------------------------------
 
         this.anims.create({
+            key: 'pop-up_hidden',
+            frames: this.anims.generateFrameNumbers('pop-up', { start: 0, end: 3 }),
+            frameRate: 5, 
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: 'pop-up_appear',
+            frames: this.anims.generateFrameNumbers('pop-up', { start: 10, end: 17 }),
+            frameRate: 13,
+            repeat: 0
+        });
+
+        this.anims.create({
             key: 'pop-up_idle',
             frames: this.anims.generateFrameNumbers('pop-up', { start: 20, end: 27}),
             frameRate: 8,
@@ -205,6 +220,27 @@ export default class MainGame extends Phaser.Scene {
             frames: this.anims.generateFrameNumbers('pop-up', { start: 30, end: 37}),
             frameRate: 11,
             repeat: -1
+        });
+
+        this.anims.create({
+            key: 'pop-up_attack',
+            frames: this.anims.generateFrameNumbers('pop-up', { start: 40, end: 47 }),
+            frameRate: 13,
+            repeat: 0
+        });
+
+        this.anims.create({
+            key: 'pop-up_explode',
+            frames: this.anims.generateFrameNumbers('pop-up', { start: 50, end: 59 }),
+            frameRate: 12, 
+            repeat: 0
+        });
+
+        this.anims.create({
+            key: 'pop-up_death',
+            frames: this.anims.generateFrameNumbers('pop-up', { start: 60, end: 67}),
+            frameRate: 13,
+            repeat: 0
         });
 
         // ------------------------------------ANIMACIONES ARMAS-----------------------------------------

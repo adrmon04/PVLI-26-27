@@ -59,6 +59,8 @@ export default class Entity extends Phaser.GameObjects.Sprite {
 
         // Queremos que la entidad no se salga de los límites del mundo
         this.body.setCollideWorldBounds();
+
+        this.imgKey = imgKey;
     }
 
     /**
@@ -136,10 +138,12 @@ export default class Entity extends Phaser.GameObjects.Sprite {
 
         this.isDead = true;
 
-        // (Arturo - Creo que habría que quitar el setVelocity porque destruimos a la
-        // entidad justo despues)
-        // this.body.setVelocity(0, 0);
-
-        this.destroy();
+        // Paralizamos a la entidad, reproducimos su animación de muerte y programamos su destrucción
+        // para cuando finalice dicha animación
+        this.body.setVelocity(0, 0);
+        this.play(this.imgKey + '_death', true);
+        this.once('animationcomplete-' + this.imgKey + '_death', () => {
+            this.destroy();
+        });
     }
 }

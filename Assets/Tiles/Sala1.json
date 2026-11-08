@@ -368,7 +368,7 @@
         {
          "columns":8,
          "firstgid":1,
-         "image":"..\/..\/..\/tiledset\/Pruebas\/faculty_tileset.png",
+         "image":"tiledsets\/faculty_tileset.png",
          "imageheight":128,
          "imagewidth":256,
          "margin":0,
@@ -772,7 +772,7 @@
         {
          "columns":8,
          "firstgid":33,
-         "image":"..\/..\/..\/tiledset\/Pruebas\/faculty_hazards_tileset.png",
+         "image":"tiledsets\/faculty_hazards_tileset.png",
          "imageheight":352,
          "imagewidth":256,
          "margin":0,
@@ -3992,7 +3992,7 @@
         {
          "columns":20,
          "firstgid":121,
-         "image":"..\/..\/..\/tiledset\/Pruebas\/faculty_doors.png",
+         "image":"tiledsets\/faculty_doors.png",
          "imageheight":640,
          "imagewidth":640,
          "margin":0,
@@ -18172,7 +18172,7 @@
         {
          "columns":8,
          "firstgid":521,
-         "image":"..\/..\/..\/tiledset\/Pruebas\/faculty_trap_bsod.png",
+         "image":"tiledsets\/faculty_trap_bsod.png",
          "imageheight":1024,
          "imagewidth":256,
          "margin":0,
@@ -36078,7 +36078,7 @@
         {
          "columns":8,
          "firstgid":777,
-         "image":"..\/..\/..\/tiledset\/Pruebas\/faculty_trap_lag.png",
+         "image":"tiledsets\/faculty_trap_lag.png",
          "imageheight":384,
          "imagewidth":256,
          "margin":0,
