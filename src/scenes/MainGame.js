@@ -1,6 +1,5 @@
 //-------------------------------------Entidades-----------------------------------------
 import Player from '../Entities/Player/Player.js';
-import Enemy from '../Entities/Enemies/Enemy.js';
 
 // ------------------------------------Nivel-----------------------------------------
 import Level from '../World/Level.js';
@@ -11,6 +10,7 @@ import LongRangeWeapon from '../Entities/Weapons/LongRangeWeapon.js';
 
 // ------------------------------------UI-----------------------------------------
 import HUD from '../UI/HUD.js';
+import Popup from '../Entities/Enemies/Types/PopUP.js';
 
 /**
  * Escena principal.
@@ -119,7 +119,7 @@ export default class MainGame extends Phaser.Scene {
         this.player = new Player(100, 100, this, 976, 880, 300, 400, 'player_right', 0);
             
         // Creamos un enemigo
-        this.enemy = new Enemy(1000, 20, this, this.player.x + 300, this.player.y, 50, 2/3, 'pop-up', 0, this.player);
+        this.enemy = new Popup(100, 20, this, this.player.x - 450, this.player.y, 150, 'pop-up', 0, this.player, 300, 100);
 
         // Agregacion de entidades(esto se hara en el futuro con una funcion en level)
         this.level.addEntity(this.player);
