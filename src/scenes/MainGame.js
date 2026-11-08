@@ -128,10 +128,12 @@ export default class MainGame extends Phaser.Scene {
         // Creamos el jugador en el centro del suelo de Sala1 y lo añadimos a la escena
         this.player = new Player(100, 100, this, 976, 880, 300, 1, 'player_right', 0);
             
-        // Creamos un enemigo
-        this.enemy = new Popup(100, 20, this, this.player.x - 450, this.player.y, 150, 'pop-up', 0, this.player, 300, 100);
-        this.enemy = new Popup(100, 20, this, this.player.x - 550, this.player.y, 150, 'pop-up', 0, this.player, 300, 100);
-        this.enemy = new Popup(100, 20, this, this.player.x - 650, this.player.y, 150, 'pop-up', 0, this.player, 300, 100);
+        // Creamos enemigos
+        this.enemies = [
+        new Popup(100, 20, this, this.player.x - 450, this.player.y, 150, 'pop-up', 0, this.player, 300, 100),
+        new Popup(100, 20, this, this.player.x - 550, this.player.y, 150, 'pop-up', 0, this.player, 300, 100),
+        new Popup(100, 20, this, this.player.x - 650, this.player.y, 150, 'pop-up', 0, this.player, 300, 100)
+        ];
 
         // Agregacion de entidades(esto se hara en el futuro con una funcion en level)
         this.level.addEntity(this.player);
@@ -178,7 +180,7 @@ export default class MainGame extends Phaser.Scene {
 
         // Registramos cada grupo de proyectiles; las armas de corto alcance no tienen uno.
         this.weapons.forEach(weapon => {
-            if (!(weapon instanceof LongRangeWeapon || !weapon.taken)) return;
+            if (!(weapon instanceof LongRangeWeapon)) return;
 
             // overlap (y no collider) para que el proyectil no empuje a la hurtbox
             this.enemies.forEach(enemy => {
