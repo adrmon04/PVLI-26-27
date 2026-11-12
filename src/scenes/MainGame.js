@@ -428,9 +428,11 @@ export default class MainGame extends Phaser.Scene {
             this.hud.update(this.player);
         }
 
-        if (this.player.isDead) setTimeout(() => {
-            this.scene.start('MainMenu');
-        }, 1000);
+        if (this.player.isDead && !this.defeatShown) {
+            this.defeatShown = true;
+            this.scene.launch('DefeatMenu');
+            this.scene.pause();
+        }
 
         setTimeout(() => {
             this.player.showStats();

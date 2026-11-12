@@ -1,6 +1,7 @@
 import MainGame from "./Scenes/MainGame.js";
 import MainMenu from "./Scenes/MainMenu.js";
 import Credits from "./Scenes/Credits.js";
+import DefeatMenu from "./UI/DefeatMenu.js";
 
 
 /**

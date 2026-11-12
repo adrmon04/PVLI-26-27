@@ -18,9 +18,15 @@ export default class HUD {
             )
         );
 
-        // Casilla del arma equipada, en la esquina inferior izquierda.
+        // Casillas del arma equipada, en la esquina inferior izquierda.
         this.weaponSlot = fijarEnPantalla(
             scene.add.image(32, scene.scale.height - 80, 'hudWeaponSlot', 1)
+                .setDisplaySize(48, 48),
+            0.9
+        );
+
+        this.weaponSlot1 = fijarEnPantalla(
+            scene.add.image(84, scene.scale.height - 80, 'hudWeaponSlot', 2)
                 .setDisplaySize(48, 48),
             0.9
         );
@@ -72,7 +78,7 @@ export default class HUD {
 
         // Solo reemplaza el icono cuando cambia el arma equipada.
         const weapon = player.weapon;
-        const key = weapon ? weapon.imgKey_Weapon : null;
+        const key = weapon ? weapon.imgKey : null;
 
         if (key !== this.weaponKey) {
             this.weaponIcon?.destroy();
@@ -92,6 +98,22 @@ export default class HUD {
                     this.weaponIcon.height
                 ));
                 this.weaponIcon
+                    .setScrollFactor(0)
+                    .setDepth(this.uiDepth + 1)
+                    .setAlpha(0.9);
+                
+                // Segundo hueco de arma
+                this.weaponIcon1 = this.scene.add.image(
+                    this.weaponSlot.x,
+                    this.weaponSlot.y,
+                    key,
+                    0
+                );
+                this.weaponIcon1.setScale(32 / Math.max(
+                    this.weaponIcon1.width,
+                    this.weaponIcon1.height
+                ));
+                this.weaponIcon1
                     .setScrollFactor(0)
                     .setDepth(this.uiDepth + 1)
                     .setAlpha(0.9);
