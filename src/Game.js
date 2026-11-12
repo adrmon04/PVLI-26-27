@@ -19,7 +19,7 @@ let config = {
 	scale: {
 		mode: Phaser.Scale.FIT
 	},	
-	scene: [ MainMenu, MainGame, Credits ],	// Decimos a Phaser cual es nuestra escena, en este caso la escena es un 
+	scene: [ MainMenu, MainGame, Credits, DefeatMenu],	// Decimos a Phaser cual es nuestra escena, en este caso la escena es un 
 	//objeto formado por el método preload y create definidos más abajo en 
 	//este mismo archivo
 	physics: {
