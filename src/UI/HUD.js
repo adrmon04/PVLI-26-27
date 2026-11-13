@@ -1,3 +1,4 @@
+import BatteryBar from "./BatteryBar";
 // Clase auxiliar que crea y actualiza la interfaz dentro de la escena del juego.
 export default class HUD {
     constructor(scene) {
@@ -9,14 +10,8 @@ export default class HUD {
         const fijarEnPantalla = (obj, alpha = 1) =>
             obj.setScrollFactor(0).setDepth(this.uiDepth).setAlpha(alpha);
 
-        // Cinco iconos de vida en la esquina superior izquierda.
-        this.lifeIcons = Array.from({ length: 5 }, (_, i) =>
-            fijarEnPantalla(
-                scene.add.sprite(16 + i * 24, 30, 'hudLife', 4)
-                    .setDisplaySize(16, 32),
-                0.9
-            )
-        );
+        // Barra de vida en la esquina superior izquierda.
+        this.BatteryBar = new BatteryBar(scene, 12, 12)
 
         // Casillas del arma equipada, en la esquina inferior izquierda.
         this.weaponSlot = fijarEnPantalla(
@@ -61,17 +56,8 @@ export default class HUD {
     }
 
     update(player) {
-        // Cada icono representa una fracción de la vida máxima; el frame indica cuánto queda.
-        const vidaPorIcono = player.maxHealth / this.lifeIcons.length;
-
-        this.lifeIcons.forEach((icon, i) => {
-            const vida = Phaser.Math.Clamp(
-                player.health - i * vidaPorIcono,
-                0,
-                vidaPorIcono
-            );
-            icon.setFrame(Math.round((vida / vidaPorIcono) * 4));
-        });
+        // Llama al update de battery para cambiar la vida
+        this.BatteryBar.update(player);
 
         // Refleja en pantalla las monedas actuales del jugador.
         this.coinText.setText(String(player.gold || 0));
