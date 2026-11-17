@@ -50,7 +50,7 @@ export default class Popup extends Enemy {
                 case 'pop-up_explode':
                     this.explosion = true;
                     break;
-                }
+            }
         });
         this.on('animationupdate', (anim, frame) => {
             if (anim.key !== 'pop-up_explode') return;
@@ -67,74 +67,71 @@ export default class Popup extends Enemy {
         // Llamamos al preUpdate de la clase padre
         super.preUpdate(t, dt);
 
-        if (!this.isDead) {
+        // Si el jugador se encuentra fuera del rango del Pop-up se mantiene quieto y reproduce su 
+        // animación de 'hidden'
+        if (this.hidden && Phaser.Math.Distance.Between(this.x, this.y, this.player.x, this.player.y) > this.detectionRange) {
+            this.play('pop-up_hidden', true);
+        }
+        else {
 
-            // Si el jugador se encuentra fuera del rango del Pop-up se mantiene quieto y reproduce su 
-            // animación de 'hidden'
-            if (this.hidden && Phaser.Math.Distance.Between(this.x, this.y, this.player.x, this.player.y) > this.detectionRange) {
-                this.play('pop-up_hidden', true);
+            // Usamos esta condición para que la primera vez que el jugador entre en el rango de detección
+            // del Pop-up este reproduzca su animación de 'appear' 
+            if (this.hidden) {
+                this.play('pop-up_appear', true);
             }
             else {
-    
-                // Usamos esta condición para que la primera vez que el jugador entre en el rango de detección
-                // del Pop-up este reproduzca su animación de 'appear' 
-                if (this.hidden) {
-                    this.play('pop-up_appear', true);
-                }
-                else {
 
-                    // Si el Pop-up aún no ha iniciado su secuencia de ataque, reproducimos su movimiento
-                    // básico
-                    if (!this.attack && Phaser.Math.Distance.Between(this.x, this.y, this.player.x, this.player.y) > this.explosionRange) {
-                        this.play('pop-up_mov', true);
-    
-                        // Perseguimos al jugador de centro a centro de las hurtboxes (la parte media del dibujo)
-                        const target = this.player.hurtbox;
-                        const from = this.hurtbox;
-                        const dir = new Phaser.Math.Vector2(target.x - from.x, target.y - from.y);
-                        
-                        // Si ya está encima, se para (evita que tiemble al llegar)
-                        if (dir.length() >= 2) {
-                            dir.normalize();
-                            this.body.setVelocity(dir.x * this.speed, dir.y * this.speed);
+                // Si el Pop-up aún no ha iniciado su secuencia de ataque, reproducimos su movimiento
+                // básico
+                if (!this.attack && Phaser.Math.Distance.Between(this.x, this.y, this.player.x, this.player.y) > this.explosionRange) {
+                    this.play('pop-up_mov', true);
+
+                    // Perseguimos al jugador de centro a centro de las hurtboxes (la parte media del dibujo)
+                    const target = this.player.hurtbox;
+                    const from = this.hurtbox;
+                    const dir = new Phaser.Math.Vector2(target.x - from.x, target.y - from.y);
+
+                    // Si ya está encima, se para (evita que tiemble al llegar)
+                    if (dir.length() >= 2) {
+                        dir.normalize();
+                        this.body.setVelocity(dir.x * this.speed, dir.y * this.speed);
+                    }
+                    else {
+                        this.body.setVelocity(0, 0);
+                    }
+
+                    // Si el Pop-up se queda quieto, reproducimos su animación de idle
+                    if (Math.abs(this.body.velocity.x) > 0 || Math.abs(this.body.velocity.y) > 0) {
+
+                        // En función del sentido en el que se desplace (derecha o izquierda), setFlipX es false o 
+                        // true, respectivamente 
+                        if (this.body.velocity.x > 0) {
+                            this.setFlipX(false);
                         }
                         else {
-                            this.body.setVelocity(0, 0);
-                        }
-                        
-                        // Si el Pop-up se queda quieto, reproducimos su animación de idle
-                        if (Math.abs(this.body.velocity.x) > 0 || Math.abs(this.body.velocity.y) > 0) {
-            
-                            // En función del sentido en el que se desplace (derecha o izquierda), setFlipX es false o 
-                            // true, respectivamente 
-                            if (this.body.velocity.x > 0) {
-                                this.setFlipX(false);
-                            }
-                            else {
-                                this.setFlipX(true);
-                            }
-                        }
-                        else {
-                            this.play('pop-up_idle', true);
+                            this.setFlipX(true);
                         }
                     }
                     else {
+                        this.play('pop-up_idle', true);
+                    }
+                }
+                else {
 
-                        // Si el jugador entra en el rango de explosión del Pop-up, lo paralizamos e 
-                        // iniciamos su ataque
-                        this.body.setVelocity(0, 0);
-                        if (!this.explosion) {
-                            if (!this.explode) {
-                                this.play('pop-up_attack', true);
-                                this.attack = true;
-                            }
-                            else {
-                                this.play('pop-up_explode', true);
-                            }
+                    // Si el jugador entra en el rango de explosión del Pop-up, lo paralizamos e 
+                    // iniciamos su ataque
+                    this.body.setVelocity(0, 0);
+                    if (!this.explosion) {
+                        if (!this.explode) {
+                            this.play('pop-up_attack', true);
+                            this.attack = true;
                         }
                         else {
-                            this.destroy();
+                            this.play('pop-up_explode', true);
                         }
+                    }
+                    else {
+                        this.destroy();
                     }
                 }
             }

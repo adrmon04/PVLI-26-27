@@ -38,6 +38,7 @@ export default class Player extends Entity {
         this.createHurtbox(32, 50);
 
         this.weapon = null;
+        this.gold = 0;
         this.shopDiscount = 0;
         this.lucky = false;
         this.lastDirection = "right";
@@ -70,8 +71,13 @@ export default class Player extends Entity {
         const x = Number(this.keys.D.isDown) - Number(this.keys.A.isDown);
         const y = Number(this.keys.S.isDown) - Number(this.keys.W.isDown);
 
-        this.body.setVelocity(x * this.speed, y * this.speed);
-        this.body.velocity.normalize().scale(this.speed);
+        if (x !== 0 || y !== 0) {
+            this.body.setVelocity(x * this.speed, y * this.speed);
+            this.body.velocity.normalize().scale(this.speed);
+        }
+        else {
+            this.body.setVelocity(0, 0);
+        }
 
         // Si el jugador está en movimiento, reproducimos la animación de movimiento
         if (Math.abs(this.body.velocity.x) > 0 || Math.abs(this.body.velocity.y) > 0) {

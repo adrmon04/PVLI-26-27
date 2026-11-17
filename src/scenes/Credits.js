@@ -4,7 +4,7 @@ export default class Credits extends Phaser.Scene {
 	}
 
 	preload() {
-		this.load.spritesheet("menuButtons", "Assets/images/credits/buttonsSpritesheet2.png", {
+		this.load.spritesheet("menuButtons", "Assets/images/HUD/buttonsSpritesheet2.png", {
 			frameWidth: 144, // Ancho total de la hoja partido del número de columnas
 			frameHeight: 32, // Altura total de la hoja partido del número de filas
 		});
@@ -12,14 +12,15 @@ export default class Credits extends Phaser.Scene {
 
 	create() {
 		const fuente = new FontFace('Fuente', 'url(Assets/fonts/fuente.ttf)');
+
 		fuente.load().then((loaded) => {
 			document.fonts.add(loaded);
+		});	
 
-			this.add.text(400, 100, 'CREDITOS', { fontSize: '36px', fontFamily: 'Fuente', fill: '#fff' }).setOrigin(0.5);
-			this.add.text(400, 150, 'JUEGO DESARROLLADO POR: ADRIAN, NICOLAS, ARTURO y PABLO', { fontSize: '24px', fontFamily: 'Fuente', fill: '#fff' }).setOrigin(0.5);
-			this.add.text(400, 200, 'PVLI 26/27', { fontSize: '24px', fontFamily: 'Fuente', fill: '#fff' }).setOrigin(0.5);
-			this.add.text(400, 250, 'GRACIAS POR JUGAR!', { fontSize: '24px', fontFamily: 'Fuente', fill: '#fff' }).setOrigin(0.5);
-		});
+		this.add.text(400, 100, 'CREDITOS', { fontSize: '36px', fontFamily: 'Fuente', fill: '#fff' }).setOrigin(0.5);
+		this.add.text(400, 150, 'JUEGO DESARROLLADO POR: ADRIAN, NICOLAS, ARTURO y PABLO', { fontSize: '24px', fontFamily: 'Fuente', fill: '#fff' }).setOrigin(0.5);
+		this.add.text(400, 200, 'PVLI 26/27', { fontSize: '24px', fontFamily: 'Fuente', fill: '#fff' }).setOrigin(0.5);
+		this.add.text(400, 250, 'GRACIAS POR JUGAR!', { fontSize: '24px', fontFamily: 'Fuente', fill: '#fff' }).setOrigin(0.5);
 
 		const menuButton = this.add.sprite(this.scale.width / 2, this.scale.height * 3 / 4,
 			"menuButtons", 0).setInteractive();

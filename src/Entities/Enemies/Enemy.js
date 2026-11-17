@@ -1,5 +1,28 @@
 import Entity from "../Entity.js";
 
+const ENEMY_LAYOUTS = {
+    bug: {
+        pivotX: 111,
+        pivotY: 148,
+        frameWidth: 193,
+        frameHeight: 167,
+        hurtboxWidth: 68,
+        hurtboxHeight: 64,
+        hurtboxOffsetX: 6,
+        hurtboxOffsetY: 9,
+    },
+    trojan: {
+        pivotX: 104,
+        pivotY: 131,
+        frameWidth: 186,
+        frameHeight: 172,
+        hurtboxWidth: 56,
+        hurtboxHeight: 64,
+        hurtboxOffsetX: 5,
+        hurtboxOffsetY: 4,
+    },
+};
+
 /**
  * Clase base para los enemigos.
  * Las clases concretas implementarán sus propios movimientos y ataques.
@@ -22,22 +45,26 @@ export default class Enemy extends Entity {
         this.nextAttackTime = 0;
         this.player = player;
 
-        // El tamaño en pantalla (2x2 tiles) ya lo fija Entity
+        const layout = ENEMY_LAYOUTS[imgKey];
+        this.setOrigin(
+            layout ? layout.pivotX / layout.frameWidth : 0.54,
+            layout ? layout.pivotY / layout.frameHeight : 0.73
+        );
 
-        // Origen en el pivote definido en los pies del fantasma)
-        this.setOrigin(0.54, 0.73);
-
-        // Hitbox en los pies, para chocar con los muros igual que el jugador
-        // (en píxeles del frame original de 1448x788: centrado en el origen y terminando
-        // donde acaba el dibujo, y = 588)
-        const bodyW = 200;
-        const bodyH = 80;
+        const bodyW = layout ? 32 / Math.abs(this.scaleX) : 200;
+        const bodyH = layout ? 16 / Math.abs(this.scaleY) : 80;
         this.body.setSize(bodyW, bodyH);
-        this.body.setOffset(this.width * 0.54 - bodyW / 2, 588 - bodyH);
+        this.body.setOffset(
+            (layout ? layout.pivotX : this.width * 0.54) - bodyW / 2,
+            (layout ? layout.pivotY : 588) - bodyH
+        );
 
-        // Caja de daño que cubre el dibujo. El dibujo está un poco por encima del centro
-        // del frame, por eso se sube 8 px
-        this.createHurtbox(32, 50, -8);
+        this.createHurtbox(
+            layout ? layout.hurtboxWidth : 32,
+            layout ? layout.hurtboxHeight : 50,
+            layout ? layout.hurtboxOffsetY : -8,
+            layout ? layout.hurtboxOffsetX : 0
+        );
     }
 
     /**

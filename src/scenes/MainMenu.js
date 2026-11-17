@@ -7,18 +7,15 @@ export default class MainMenu extends Phaser.Scene {
 
 	}
 
-	preload(){
-
-		
+	preload(){		
 		// Cargamos la hoja de sprites de los botones de "INICIAR PARTIDA" y "CRÉDITOS"
-		this.load.spritesheet("mainMenuButtons", "Assets/images/menu/buttonsSpritesheet.png", {
+		this.load.spritesheet("mainMenuButtons", "Assets/images/HUD/buttonsSpritesheet.png", {
 			frameWidth: 144, // Ancho total de la hoja partido del número de columnas
 			frameHeight: 32, // Altura total de la hoja partido del número de filas
 		});
 	}
 
 	create(){
-
 		// Añadimos los botones
 		const startButton = this.add.sprite(this.scale.width * 1 / 3, this.scale.height * 1 / 3,
 			"mainMenuButtons", 0).setInteractive();
@@ -47,9 +44,11 @@ export default class MainMenu extends Phaser.Scene {
 		startButton.on("pointerover", () => {
 			startButton.setFrame(1);
 		});
+
 		startButton.on("pointerout", () => {
 			startButton.setFrame(0);
 		});
+
 		startButton.on("pointerdown", () => {
 			startButton.disableInteractive(); // Para evitar doble clic
 			startButton.play("startButtonAnimation");
@@ -58,12 +57,15 @@ export default class MainMenu extends Phaser.Scene {
 				this.scene.start("MainGame");
 			});
 		});
+
 		creditsButton.on("pointerover", () => {
 			creditsButton.setFrame(7);
 		});
+
 		creditsButton.on("pointerout", () => {
 			creditsButton.setFrame(6);
 		});
+
 		creditsButton.on("pointerdown", () => {
 			creditsButton.disableInteractive();
 			creditsButton.play("creditsButtonAnimation");
@@ -72,7 +74,6 @@ export default class MainMenu extends Phaser.Scene {
 			});
 		});
 	}
-
 
 	update(){
 

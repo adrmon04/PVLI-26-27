@@ -37,8 +37,8 @@ export default class Weapon extends Phaser.GameObjects.Sprite {
         this.range = range;
         this.taken = taken;
 
-        // Propiedad que indica si el arma se ha cogido o está en el suelo
-        this.taken = false;
+        // Propiedad que indica si el arma se ha cogido o está en el suelo.
+        // Se conserva el valor recibido desde el constructor para permitir armas ya recogidas.
         
         // Propiedad que indica cuándo el arma atacó/disparó por última vez
         this.lastFireTime = 0;

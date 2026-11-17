@@ -9,6 +9,8 @@ const ART_HEIGHT = {
     'player_right': 162,   // frame 192x192
     'player_left': 162,    // frame 192x192
     'pop-up': 520,         // frame 1448x788
+    'bug': 112,            // altura del dibujo en las animaciones de reposo y movimiento
+    'trojan': 146,         // altura del dibujo en las animaciones activas
 };
 
 /**
@@ -72,13 +74,14 @@ export default class Entity extends Phaser.GameObjects.Sprite {
      * @param {number} h - Alto en píxeles de pantalla
      * @param {number} [offsetY=0] - Desplazamiento vertical respecto al centro del sprite
      */
-    createHurtbox(w, h, offsetY = 0) {
+    createHurtbox(w, h, offsetY = 0, offsetX = 0) {
         this.hurtbox = this.scene.add.zone(this.x, this.y, w, h);
         this.scene.physics.add.existing(this.hurtbox);
 
         // Guardamos de quién es, para saberlo dentro de los overlap
         this.hurtbox.owner = this;
         this.hurtboxOffsetY = offsetY;
+        this.hurtboxOffsetX = offsetX;
         this.followHurtbox();
 
         // La colocamos después de que las físicas muevan a la entidad (igual que el arma del jugador)
@@ -94,7 +97,7 @@ export default class Entity extends Phaser.GameObjects.Sprite {
      */
     followHurtbox() {
         const center = this.getCenter();
-        this.hurtbox.setPosition(center.x, center.y + this.hurtboxOffsetY);
+        this.hurtbox.setPosition(center.x + this.hurtboxOffsetX, center.y + this.hurtboxOffsetY);
     }
 
     /**

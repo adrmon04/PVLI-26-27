@@ -13,6 +13,10 @@ import LongRangeWeapon from '../Entities/Weapons/LongRangeWeapon.js';
 // ------------------------------------UI-----------------------------------------
 import HUD from '../UI/HUD.js';
 import Popup from '../Entities/Enemies/Types/PopUP.js';
+import Bug from '../Entities/Enemies/Types/Bug.js';
+import Trojan from '../Entities/Enemies/Types/Trojan.js';
+import Spambot from '../Entities/Enemies/Types/Spambot.js';
+import CorruptedTeacher from '../Entities/Enemies/Types/CorruptedTeacher.js';
 
 /**
  * Escena principal.
@@ -114,6 +118,16 @@ export default class MainGame extends Phaser.Scene {
             frameHeight: 788
         });
 
+        this.load.spritesheet('bug', 'Assets/images/entities/enemies/bug_b_tpose/bug_b_tpose_spritesheet.png', {
+            frameWidth: 193,
+            frameHeight: 167
+        });
+
+        this.load.spritesheet('trojan', 'Assets/images/entities/enemies/trojan_a/trojan_a_spritesheet.png', {
+            frameWidth: 186,
+            frameHeight: 172
+        });
+
         // Hojas de sprites de las mejoras (8 frames de 800x1000)
         ['Antivirus', 'Overclock', 'Turbo', 'Luck', 'CrackedLicense'].forEach(key => {
             this.load.spritesheet(key, `Assets/images/upgrades/${key}.png`, {
@@ -134,8 +148,8 @@ export default class MainGame extends Phaser.Scene {
         // Creamos enemigos
         this.enemies = [
         new Popup(100, 20, this, this.player.x - 450, this.player.y, 150, 'pop-up', 0, this.player, 300, 100),
-        new Popup(100, 20, this, this.player.x - 550, this.player.y, 150, 'pop-up', 0, this.player, 300, 100),
-        new Popup(100, 20, this, this.player.x - 650, this.player.y, 150, 'pop-up', 0, this.player, 300, 100)
+        new Bug(100, 20, this, this.player.x - 550, this.player.y, 150, 'bug', 0, this.player, 30, 10),
+        new Trojan(100, 20, this, this.player.x - 650, this.player.y, 150, 'trojan', 0, this.player, 30, 150, 10)
         ];
 
         // Agregacion de entidades(esto se hara en el futuro con una funcion en level)
@@ -274,6 +288,90 @@ export default class MainGame extends Phaser.Scene {
         this.anims.create({
             key: 'pop-up_death',
             frames: this.anims.generateFrameNumbers('pop-up', { start: 60, end: 67}),
+            frameRate: 13,
+            repeat: 0
+        });
+
+        this.anims.create({
+            key: 'bug_idle',
+            frames: this.anims.generateFrameNumbers('bug', { start: 0, end: 7}),
+            frameRate: 13,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: 'bug_walk',
+            frames: this.anims.generateFrameNumbers('bug', { start: 14, end: 21}),
+            frameRate: 13,
+            repeat: -1
+        });        
+
+        this.anims.create({
+            key: 'bug_attack',
+            frames: this.anims.generateFrameNumbers('bug', { start: 28, end: 35}),
+            frameRate: 13,
+            repeat: 0
+        });
+
+        this.anims.create({
+            key: 'bug_hurt',
+            frames: this.anims.generateFrameNumbers('bug', { start: 42, end: 44}),
+            frameRate: 13,
+            repeat: 0
+        });
+
+        this.anims.create({
+            key: 'bug_death',
+            frames: this.anims.generateFrameNumbers('bug', { start: 56, end: 69}),
+            frameRate: 13,
+            repeat: 0
+        });
+
+        this.anims.create({
+            key: 'trojan_hidden',
+            frames: this.anims.generateFrameNumbers('trojan', { start: 0, end: 3}),
+            frameRate: 13,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: 'trojan_appear',
+            frames: this.anims.generateFrameNumbers('trojan', { start: 8, end: 14}),
+            frameRate: 13,
+            repeat: 0
+        });
+
+        this.anims.create({
+            key: 'trojan_idle',
+            frames: this.anims.generateFrameNumbers('trojan', { start: 16, end: 19}),
+            frameRate: 13,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: 'trojan_walk',
+            frames: this.anims.generateFrameNumbers('trojan', { start: 24, end: 31}),
+            frameRate: 13,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: 'trojan_attack',
+            frames: this.anims.generateFrameNumbers('trojan', { start: 32, end: 38}),
+            frameRate: 13,
+            repeat: 0
+        });
+
+        this.anims.create({
+            key: 'trojan_hurt',
+            frames: this.anims.generateFrameNumbers('trojan', { start: 40, end: 42}),
+            frameRate: 13,
+            repeat: 0
+        });
+
+        this.anims.create({
+            key: 'trojan_death',
+            frames: this.anims.generateFrameNumbers('trojan', { start: 48, end: 55}),
             frameRate: 13,
             repeat: 0
         });
@@ -431,14 +529,15 @@ export default class MainGame extends Phaser.Scene {
             this.hud.update(this.player);
         }
 
-        if (this.player.isDead && !this.defeatShown) {
+        if (this.player && this.player.isDead) {
             this.defeatShown = true;
-            this.scene.launch('DefeatMenu');
+            this.scene.start('DefeatMenu');
             this.scene.pause();
         }
 
-        setTimeout(() => {
-            this.player.showStats();
-        }, 5000);
+        if (this.player && !this.statsLogged) {
+            this.statsLogged = true;
+            this.time.delayedCall(5000, () => this.player.showStats());
+        }
     }
 }

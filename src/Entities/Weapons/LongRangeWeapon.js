@@ -78,9 +78,18 @@ export default class LongRangeWeapon extends Weapon {
         proyectile.setData({ initialX: this.x, initialY: this.y, damage: this.damage});
         
         // Configuramos su rotación y su velocidad
-        proyectile.setRotation(Phaser.Math.Angle.Between(this.x, this.y, targetX, targetY)); 
-        proyectile.body.setVelocity(targetX - this.x, targetY - this.y);
-        proyectile.body.velocity.normalize().scale(this.proyectileSpeed);        
+        const dirX = targetX - this.x;
+        const dirY = targetY - this.y;
+        const length = Math.hypot(dirX, dirY);
+
+        proyectile.setRotation(Phaser.Math.Angle.Between(this.x, this.y, targetX, targetY));
+
+        if (length > 0) {
+            proyectile.body.setVelocity((dirX / length) * this.proyectileSpeed, (dirY / length) * this.proyectileSpeed);
+        }
+        else {
+            proyectile.body.setVelocity(this.proyectileSpeed, 0);
+        }
 
         remainingBullets--;
 
