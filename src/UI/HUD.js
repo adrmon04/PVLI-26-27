@@ -1,4 +1,4 @@
-import BatteryBar from "./BatteryBar";
+import BatteryBar from "./BatteryBar.js";
 // Clase auxiliar que crea y actualiza la interfaz dentro de la escena del juego.
 export default class HUD {
     constructor(scene) {

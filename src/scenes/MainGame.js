@@ -94,8 +94,8 @@ export default class MainGame extends Phaser.Scene {
         // Assets del HUD
         
         //Creamos la barra de vida
-        this.load.image('hudPila', 'Assets/images/hUD/iconoPila.png');
-        this.load.spritesheet('hudPilaBarra', 'Assets/images/hUD/iconoPilaBarra.png', {
+        this.load.image('hudPila', 'assets/images/hud/iconoPila.png');
+        this.load.spritesheet('hudPilaBarra', 'assets/images/hud/iconoPilaBarra.png', {
             frameWidth: 7, 
             frameHeight: 20 
         });
