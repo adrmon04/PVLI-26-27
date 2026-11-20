@@ -33,36 +33,45 @@ export default class Trojan extends Enemy {
     }
 
     preUpdate(t, dt) {
+
+        // Llamamos al método preUpdate de la clase padre
         super.preUpdate(t, dt);
 
-        const target = this.player.hurtbox;
-        const from = this.hurtbox;
-        const dir = new Phaser.Math.Vector2(target.x - from.x, target.y - from.y);
+        if (this.isDead) return;
 
-        if (this.hidden) {
-            this.body.setVelocity(0, 0);
+        if (this.player) {
 
-            if (Phaser.Math.Distance.Between(this.x, this.y, this.player.x, this.player.y) <= this.detectionRange) {
-                if (!this.appearing) {
-                    this.appearing = true;
-                    this.play('trojan_appear', true);
+            const target = this.player.hurtbox;
+            const from = this.hurtbox;
+            const dir = new Phaser.Math.Vector2(target.x - from.x, target.y - from.y);
+    
+            if (this.hidden) {
+                this.body.setVelocity(0, 0);
+    
+                if (Phaser.Math.Distance.Between(this.x, this.y, this.player.x, this.player.y) <= this.detectionRange) {
+                    if (!this.appearing) {
+                        this.appearing = true;
+                        this.play('trojan_appear', true);
+                    }
+                }
+                else if (!this.appearing) {
+                    this.play('trojan_hidden', true);
                 }
             }
-            else if (!this.appearing) {
-                this.play('trojan_hidden', true);
-            }
-        }
-        else {
-            // Si ya está encima, se para (evita que tiemble al llegar)
-            if (dir.length() >= this.range) {
-                dir.normalize();
-                this.body.setVelocity(dir.x * this.speed, dir.y * this.speed);
-                this.play('trojan_walk', true);
-            }
             else {
-                this.body.setVelocity(0, 0);
-                this.play('trojan_attack', true);
+                // Si ya está encima, se para (evita que tiemble al llegar)
+                if (dir.length() >= this.range) {
+                    dir.normalize();
+                    this.body.setVelocity(dir.x * this.speed, dir.y * this.speed);
+                    this.play('trojan_walk', true);
+                }
+                else {
+                    this.body.setVelocity(0, 0);
+                    this.play('trojan_attack', true);
+                    
+                }
             }
         }
+
     }
 }

@@ -22,21 +22,35 @@ export default class Bug extends Enemy {
     }
 
     preUpdate(t, dt) {
+
+        // Llamamos al preUpdate de la clase padre
         super.preUpdate(t, dt);
 
-        const target = this.player.hurtbox;
-        const from = this.hurtbox;
-        const dir = new Phaser.Math.Vector2(target.x - from.x, target.y - from.y);
+        // Comprobamos si está muerto el enemigo
+        if (this.isDead) return;
 
-        // Si ya está encima, se para (evita que tiemble al llegar)
-        if (dir.length() >= this.range) {
-            dir.normalize();
-            this.body.setVelocity(dir.x * this.speed, dir.y * this.speed);
-            this.play('bug_walk', true);
+        // Si el jugador está vivo
+        if (this.player) {
+
+            const target = this.player.hurtbox;
+            const from = this.hurtbox;
+            const dir = new Phaser.Math.Vector2(target.x - from.x, target.y - from.y);
+    
+            // Si ya está encima, se para (evita que tiemble al llegar)
+            if (dir.length() >= this.range) {
+                dir.normalize();
+                this.body.setVelocity(dir.x * this.speed, dir.y * this.speed);
+                this.play('bug_walk', true);
+            }
+            else {
+
+                this.body.setVelocity(0, 0);
+
+                // Comprobamos si el jugador puede atacar
+                this.play('bug_attack', true);
+                
+            }
         }
-        else {
-            this.body.setVelocity(0, 0);
-            this.play('bug_attack', true);
-        }
+
     }
 }

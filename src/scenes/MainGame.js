@@ -113,7 +113,7 @@ export default class MainGame extends Phaser.Scene {
         });
 
         // Cargamos la hoja de sprites del enemigo Pop-up
-        this.load.spritesheet('pop-up', 'Assets/images/entities/enemies/pop-upSpritesheet.png', {
+        this.load.spritesheet('pop-up', 'Assets/images/entities/enemies/pop_up/pop-upSpritesheet.png', {
             frameWidth: 1448,
             frameHeight: 788
         });
@@ -126,6 +126,26 @@ export default class MainGame extends Phaser.Scene {
         this.load.spritesheet('trojan', 'Assets/images/entities/enemies/trojan_a/trojan_a_spritesheet.png', {
             frameWidth: 186,
             frameHeight: 172
+        });
+
+        // Hojas de sprites del enemigo Spambot
+        this.load.spritesheet('spambot_right', 'Assets/images/entities/enemies/spambot_a/spambot_a_right_spritesheet.png', {
+            frameWidth: 144,
+            frameHeight: 130
+        });
+        this.load.spritesheet('spambot_left', 'Assets/images/entities/enemies/spambot_a/spambot_a_left_spritesheet.png', {
+            frameWidth: 144,
+            frameHeight: 130
+        });
+
+        // Hoja de sprites del profesor corrupto
+        this.load.spritesheet('corruptedTeacher_right', 'Assets/images/entities/enemies/profesor_a/professor_a_right_spritesheet.png', {
+            frameWidth: 285, 
+            frameHeight: 324
+        });
+        this.load.spritesheet('corruptedTeacher_left', 'Assets/images/entities/enemies/profesor_a/professor_a_left_spritesheet.png', {
+            frameWidth: 285, 
+            frameHeight: 324
         });
 
         // Hojas de sprites de las mejoras (8 frames de 800x1000)
@@ -147,9 +167,11 @@ export default class MainGame extends Phaser.Scene {
             
         // Creamos enemigos
         this.enemies = [
-        new Popup(100, 20, this, this.player.x - 450, this.player.y, 150, 'pop-up', 0, this.player, 300, 100),
-        new Bug(100, 20, this, this.player.x - 550, this.player.y, 150, 'bug', 0, this.player, 30, 10),
-        new Trojan(100, 20, this, this.player.x - 650, this.player.y, 150, 'trojan', 0, this.player, 30, 150, 10)
+            // new Popup(100, 20, this, this.player.x - 450, this.player.y, 150, 'pop-up', 0, this.player, 300, 100),
+            // new Bug(100, 20, this, this.player.x - 550, this.player.y, 150, 'bug', 0, this.player, 30, 10),
+            // new Trojan(100, 20, this, this.player.x - 650, this.player.y, 150, 'trojan', 0, this.player, 30, 150, 10),
+            new Spambot(100, 20, this, this.player.x + 200, this.player.y, 150, 'spambot_right', 0, this.player, 200, 150, 3),
+            // new CorruptedTeacher(100, 20, this, this.player.x + 400, this.player.y, 75, 'corruptedTeacher_right', 0, this.player, 30, 0.5)
         ];
 
         // Agregacion de entidades(esto se hara en el futuro con una funcion en level)
@@ -193,6 +215,14 @@ export default class MainGame extends Phaser.Scene {
                     playerBox.owner.takeDamage(enemyBox.owner.damage);
                 }
             });
+
+            // Comprobamos si el enemigo dispara proyectiles
+            if (enemy.proyectiles) {
+                this.physics.add.overlap(this.player.hurtbox, enemy.proyectiles, (playerBox, proyectile) => {
+                    playerBox.owner.takeDamage(enemy.damage);
+                    proyectile.destroy();
+                });
+            }
         });
 
         // Registramos cada grupo de proyectiles; las armas de corto alcance no tienen uno.
@@ -373,6 +403,160 @@ export default class MainGame extends Phaser.Scene {
             key: 'trojan_death',
             frames: this.anims.generateFrameNumbers('trojan', { start: 48, end: 55}),
             frameRate: 13,
+            repeat: 0
+        });
+
+        this.anims.create({
+            key: 'spambot_idle_left',
+            frames: this.anims.generateFrameNumbers('spambot_left', { start: 0, end: 5 }),
+            frameRate: 9,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: 'spambot_idle_right',
+            frames: this.anims.generateFrameNumbers('spambot_right', { start: 0, end: 5 }),
+            frameRate: 9,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: 'spambot_mov_left',
+            frames: this.anims.generateFrameNumbers('spambot_left', { start: 8, end: 13 }),
+            frameRate: 11,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: 'spambot_mov_right',
+            frames: this.anims.generateFrameNumbers('spambot_right', { start: 8, end: 13 }),
+            frameRate: 11,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: 'spambot_attack_left',
+            frames: this.anims.generateFrameNumbers('spambot_left', { start: 16, end: 23 }),
+            frameRate: 10,
+            repeat: 0
+        });
+
+        this.anims.create({
+            key: 'spambot_attack_right',
+            frames: this.anims.generateFrameNumbers('spambot_right', { start: 16, end: 23 }),
+            frameRate: 10,
+            repeat: 0
+        });
+        
+        this.anims.create({
+            key: 'spambot_hurt_left',
+            frames: this.anims.generateFrameNumbers('spambot_left', { start: 24, end: 26 }),
+            frameRate: 10,
+            repeat: 0
+        });
+
+        this.anims.create({
+            key: 'spambot_hurt_right',
+            frames: this.anims.generateFrameNumbers('spambot_right', { start: 24, end: 26 }),
+            frameRate: 10,
+            repeat: 0
+        });
+        
+        this.anims.create({
+            key: 'spambot_death_left',
+            frames: this.anims.generateFrameNumbers('spambot_left', { start: 32, end: 39 }),
+            frameRate: 8.5,
+            repeat: 0
+        });
+
+        this.anims.create({
+            key: 'spambot_death_right',
+            frames: this.anims.generateFrameNumbers('spambot_right', { start: 32, end: 39 }),
+            frameRate: 8.5,
+            repeat: 0
+        });
+
+        this.anims.create({
+            key: 'spambot_proyectile_0_left',
+            frames: this.anims.generateFrameNumbers('spambot_left', { start: 40, end: 42}),
+            frameRate: 14,
+            repeat: -1
+        });
+        
+        this.anims.create({
+            key: 'spambot_proyectile_0_right',
+            frames: this.anims.generateFrameNumbers('spambot_right', { start: 40, end: 42}),
+            frameRate: 14,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: 'spambot_proyectile_1_left',
+            frames: this.anims.generateFrameNumbers('spambot_left', { start: 48, end: 50}),
+            frameRate: 14,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: 'spambot_proyectile_1_right',
+            frames: this.anims.generateFrameNumbers('spambot_right', { start: 48, end: 50}),
+            frameRate: 14,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: 'corruptedTeacher_mov_left',
+            frames: this.anims.generateFrameNumbers('corruptedTeacher_left', { start: 8, end: 15}),
+            frameRate: 7,
+            repeat: -1
+        });
+        
+        this.anims.create({
+            key: 'corruptedTeacher_mov_right',
+            frames: this.anims.generateFrameNumbers('corruptedTeacher_right', { start: 8, end: 15}),
+            frameRate: 7,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: 'corruptedTeacher_attack_left',
+            frames: this.anims.generateFrameNumbers('corruptedTeacher_left', { start: 16, end: 23}),
+            frameRate: 7,
+            repeat: 0
+        });
+
+        this.anims.create({
+            key: 'corruptedTeacher_attack_right',
+            frames: this.anims.generateFrameNumbers('corruptedTeacher_right', { start: 16, end: 23}),
+            frameRate: 7,
+            repeat: 0
+        });
+
+        this.anims.create({
+            key: 'corruptedTeacher_hurt_left',
+            frames: this.anims.generateFrameNumbers('corruptedTeacher_left', { start: 24, end: 26}),
+            frameRate: 9,
+            repeat: 0
+        });
+
+        this.anims.create({
+            key: 'corruptedTeacher_hurt_right',
+            frames: this.anims.generateFrameNumbers('corruptedTeacher_right', { start: 24, end: 26}),
+            frameRate: 9,
+            repeat: 0
+        });
+
+        this.anims.create({
+            key: 'corruptedTeacher_death_left',
+            frames: this.anims.generateFrameNumbers('corruptedTeacher_left', { start: 32, end: 39}),
+            frameRate: 7,
+            repeat: 0
+        });
+
+        this.anims.create({
+            key: 'corruptedTeacher_death_right',
+            frames: this.anims.generateFrameNumbers('corruptedTeacher_right', { start: 32, end: 39}),
+            frameRate: 7,
             repeat: 0
         });
 

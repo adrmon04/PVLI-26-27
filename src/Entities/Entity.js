@@ -11,6 +11,10 @@ const ART_HEIGHT = {
     'pop-up': 520,         // frame 1448x788
     'bug': 112,            // altura del dibujo en las animaciones de reposo y movimiento
     'trojan': 146,         // altura del dibujo en las animaciones activas
+    'spambot_left': 112,   // frame 144x130
+    'spambot_right': 112,  // frame 144x130
+    'corruptedTeacher_left': 220,  // frame 285x324
+    'corruptedTeacher_right': 220 // frame 285x324
 };
 
 /**
@@ -101,6 +105,20 @@ export default class Entity extends Phaser.GameObjects.Sprite {
     }
 
     /**
+     * Devuelve el nombre de la animación de un estado según la entidad
+     * Spambot y CorruptedTeacher tienen una animación por dirección
+     */
+    getStateAnimation(state) {
+        if (this.imgKey.startsWith('spambot_')) {
+            return `spambot_${state}_${this.lastDirection}`;
+        }
+        if (this.imgKey.startsWith('corruptedTeacher_')) {
+            return `corruptedTeacher_${state}_${this.lastDirection}`;
+        }
+        return `${this.imgKey}_${state}`;
+    }
+
+    /**
      * Aplica daño y destruye la entidad cuando se queda sin vida.
      * @param {number} amount - Cantidad de daño recibida
      * @returns {boolean} Si la entidad sigue viva después del golpe.
@@ -120,6 +138,13 @@ export default class Entity extends Phaser.GameObjects.Sprite {
             this.die();
         }
         else {
+
+            // Si se trata del enemigo Spambot, escogemos la animación de la dirección correspondiente
+            const hurtAnimation = this.getStateAnimation('hurt');
+            if (this.scene.anims.exists(hurtAnimation)) {
+                this.play(hurtAnimation, true);
+            }
+
             // Flash rojo al recibir daño
             this.setTint(0xff0000);
 
@@ -145,9 +170,23 @@ export default class Entity extends Phaser.GameObjects.Sprite {
         // Paralizamos a la entidad, reproducimos su animación de muerte y programamos su destrucción
         // para cuando finalice dicha animación
         this.body.setVelocity(0, 0);
-        this.play(this.imgKey + '_death', true);
-        this.once('animationcomplete-' + this.imgKey + '_death', () => {
+
+        // Hacemos lo mismo que en hurt pero para la muerte
+        const deathAnimation = this.getStateAnimation('death')
+        if (this.scene.anims.exists(deathAnimation)) {
+            this.play(deathAnimation, true);
+            this.once('animationcomplete-' + deathAnimation, () => {
+
+                // Comprobamos si la entidad genera proyectiles
+                // En ese caso, destruimos dichos proyectiles antes de destruir la propia entidad
+                if (this.proyectiles) {
+                    this.proyectiles.destroy();
+                }
+                this.destroy();
+            });
+        }
+        else {
             this.destroy();
-        });
+        }
     }
 }

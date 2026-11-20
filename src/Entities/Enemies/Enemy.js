@@ -21,6 +21,26 @@ const ENEMY_LAYOUTS = {
         hurtboxOffsetX: 5,
         hurtboxOffsetY: 4,
     },
+    spambot: {
+        pivotX: 88,          
+        pivotY: 100,
+        frameWidth: 144,
+        frameHeight: 130,
+        hurtboxWidth: 36,
+        hurtboxHeight: 60,
+        hurtboxOffsetX: 8,   
+        hurtboxOffsetY: -7,
+    },
+    corruptedTeacher: {
+        pivotX: 156,
+        pivotY: 292,
+        frameWidth: 285,
+        frameHeight: 324,
+        hurtboxWidth: 44,
+        hurtboxHeight: 64,
+        hurtboxOffsetX: 0,
+        hurtboxOffsetY: 8,
+    },
 };
 
 /**
@@ -45,7 +65,10 @@ export default class Enemy extends Entity {
         this.nextAttackTime = 0;
         this.player = player;
 
-        const layout = ENEMY_LAYOUTS[imgKey];
+        const layoutKey = imgKey.startsWith('spambot_') ? 'spambot'
+            : imgKey.startsWith('corruptedTeacher_') ? 'corruptedTeacher'
+            : imgKey;
+        const layout = ENEMY_LAYOUTS[layoutKey];
         this.setOrigin(
             layout ? layout.pivotX / layout.frameWidth : 0.54,
             layout ? layout.pivotY / layout.frameHeight : 0.73
