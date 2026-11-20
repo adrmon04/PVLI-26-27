@@ -231,10 +231,11 @@ export default class MainGame extends Phaser.Scene {
 
             // Comprobamos si el enemigo dispara proyectiles
             if (enemy.proyectiles) {
-                this.physics.add.overlap(this.player.hurtbox, enemy.proyectiles, (playerBox, proyectile) => {
+                const projectileOverlap = this.physics.add.overlap(this.player.hurtbox, enemy.proyectiles, (playerBox, proyectile) => {
                     playerBox.owner.takeDamage(enemy.damage);
                     proyectile.destroy();
                 });
+                enemy.once('destroy', () => projectileOverlap.destroy());
             }
         });
 

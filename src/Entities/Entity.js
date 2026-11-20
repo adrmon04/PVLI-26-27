@@ -180,7 +180,7 @@ export default class Entity extends Phaser.GameObjects.Sprite {
                 // Comprobamos si la entidad genera proyectiles
                 // En ese caso, destruimos dichos proyectiles antes de destruir la propia entidad
                 if (this.proyectiles) {
-                    this.proyectiles.destroy();
+                    this.proyectiles.destroy(true);
                 }
                 this.destroy();
             });

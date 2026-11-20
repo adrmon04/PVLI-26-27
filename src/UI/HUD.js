@@ -15,14 +15,14 @@ export default class HUD {
 
         // Casillas del arma equipada, en la esquina inferior izquierda.
         this.weaponSlot = fijarEnPantalla(
-            scene.add.image(32, scene.scale.height - 80, 'hudWeaponSlot', 1)
-                .setDisplaySize(48, 48),
+            scene.add.image(40, scene.scale.height - 60, 'hudWeaponSlot', 0)
+                .setDisplaySize(64, 64),
             0.9
         );
 
         this.weaponSlot1 = fijarEnPantalla(
-            scene.add.image(84, scene.scale.height - 80, 'hudWeaponSlot', 2)
-                .setDisplaySize(48, 48),
+            scene.add.image(116, scene.scale.height - 60, 'hudWeaponSlot', 0)
+                .setDisplaySize(64, 64),
             0.9
         );
         this.weaponIcon = null;
@@ -84,22 +84,6 @@ export default class HUD {
                     this.weaponIcon.height
                 ));
                 this.weaponIcon
-                    .setScrollFactor(0)
-                    .setDepth(this.uiDepth + 1)
-                    .setAlpha(0.9);
-                
-                // Segundo hueco de arma
-                this.weaponIcon1 = this.scene.add.image(
-                    this.weaponSlot.x,
-                    this.weaponSlot.y,
-                    key,
-                    0
-                );
-                this.weaponIcon1.setScale(32 / Math.max(
-                    this.weaponIcon1.width,
-                    this.weaponIcon1.height
-                ));
-                this.weaponIcon1
                     .setScrollFactor(0)
                     .setDepth(this.uiDepth + 1)
                     .setAlpha(0.9);
