@@ -1,7 +1,8 @@
 import MainGame from "./Scenes/MainGame.js";
 import MainMenu from "./Scenes/MainMenu.js";
 import Credits from "./Scenes/Credits.js";
-import DefeatMenu from "./UI/DefeatMenu.js";
+import DefeatMenu from "./Scenes/DefeatMenu.js";
+import PauseMenu from "./Scenes/PauseMenu.js";
 
 
 /**
@@ -19,7 +20,7 @@ let config = {
 	scale: {
 		mode: Phaser.Scale.FIT
 	},	
-	scene: [ MainMenu, MainGame, Credits, DefeatMenu],	// Decimos a Phaser cual es nuestra escena, en este caso la escena es un 
+	scene: [ MainMenu, MainGame, Credits, DefeatMenu, PauseMenu],	// Decimos a Phaser cual es nuestra escena, en este caso la escena es un 
 	//objeto formado por el método preload y create definidos más abajo en 
 	//este mismo archivo
 	physics: {
