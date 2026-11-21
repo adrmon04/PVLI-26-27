@@ -43,6 +43,9 @@ export default class Weapon extends Phaser.GameObjects.Sprite {
         // Propiedad que indica cuándo el arma atacó/disparó por última vez
         this.lastFireTime = 0;
 
+        // Tier del arma, max 3
+        this.tier = 1;
+
         // Añadimos el arma a la escena
         this.scene.add.existing(this);
         
