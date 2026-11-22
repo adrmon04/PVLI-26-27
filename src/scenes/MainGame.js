@@ -7,8 +7,8 @@ import Upgrade from '../Entities/Upgrades/Upgrade.js';
 import Level from '../World/Level.js';
 
 // ------------------------------------Armas-----------------------------------------
-import ShortRangeWeapon from '../Entities/Weapons/ShortRange/ShortRangeWeapon.js';
-import LongRangeWeapon from '../Entities/Weapons/LongRange/LongRangeWeapon.js';
+import ShortRangeWeapon from '../Entities/Weapons/ShortRangeWeapon.js';
+import LongRangeWeapon from '../Entities/Weapons/LongRangeWeapon.js';
 
 // ------------------------------------UI-----------------------------------------
 import HUD from '../UI/HUD.js';
@@ -109,10 +109,14 @@ export default class MainGame extends Phaser.Scene {
             frameWidth: 7,
             frameHeight: 20
         });
+
+        // Creamos la moneda
         this.load.spritesheet('hudCoin', 'Assets/images/hUD/iconoMoneda.png', {
             frameWidth: 16,
             frameHeight: 16
         });
+
+        // Creamos los slots de armas 
         this.load.spritesheet('hudWeaponSlot', 'Assets/images/hUD/iconoArma.png', {
             frameWidth: 48,
             frameHeight: 48

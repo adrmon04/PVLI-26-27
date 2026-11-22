@@ -1,6 +1,6 @@
-import ShortRangeWeapon from './ShortRangeWeapon.js';
+import ShortRangeWeapon from './Types/ShortRangeWeapon.js';
 /**
- * Clase que extiende la clase arma de largo alcance
+ * Clase que extiende la clase arma de corto alcance
  * @extends ShortRangeWeapon
 */
 
