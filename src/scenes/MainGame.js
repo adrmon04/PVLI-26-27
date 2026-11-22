@@ -7,8 +7,8 @@ import Upgrade from '../Entities/Upgrades/Upgrade.js';
 import Level from '../World/Level.js';
 
 // ------------------------------------Armas-----------------------------------------
-import ShortRangeWeapon from '../Entities/Weapons/ShortRangeWeapon.js';
-import LongRangeWeapon from '../Entities/Weapons/LongRangeWeapon.js';
+import ShortRangeWeapon from '../Entities/Weapons/ShortRange/ShortRangeWeapon.js';
+import LongRangeWeapon from '../Entities/Weapons/LongRange/LongRangeWeapon.js';
 
 // ------------------------------------UI-----------------------------------------
 import HUD from '../UI/HUD.js';

@@ -4,10 +4,10 @@ import LongRangeWeapon from './LongRangeWeapon.js';
  * @extends LongRangeWeapon
 */
 
-const ATTACK_SPEED = 3, // Ataques por segundo
-      DAMAGE = 100, // Daño que inflige el arma
-      RANGE = 200, // Rango del arma
-      PROJECTILE_SPEED = 300, // Velocidad del proyectil
+const ATTACK_SPEED = 2, // Ataques por segundo
+      DAMAGE = 10, // Daño que inflige el arma
+      RANGE = 150, // Rango del arma
+      PROJECTILE_SPEED = 200, // Velocidad del proyectil
       PENETRATION = 1, // nº enemigos que puede atravesar el proyectil
       BURST_SIZE = 3; // nº de proyectiles que dispara en ráfaga
 
