@@ -1,4 +1,4 @@
-import Weapon from "./Weapon.js";
+import Weapon from "../Weapon.js";
 /**
  * Clase que extiende la clase arma adaptada para armas de corto alcance
  * @extends Weapon

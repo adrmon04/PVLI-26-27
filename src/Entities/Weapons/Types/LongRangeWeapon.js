@@ -1,4 +1,4 @@
-import Weapon, { WEAPON_SCALE } from "./Weapon.js";
+import Weapon, { WEAPON_SCALE } from "../Weapon.js";
 /**
  * Clase base para armas de largo alcance
  * @extends Weapon

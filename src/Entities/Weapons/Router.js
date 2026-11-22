@@ -1,4 +1,4 @@
-import LongRangeWeapon from './LongRangeWeapon.js';
+import LongRangeWeapon from './Types/LongRangeWeapon.js';
 /**
  * Clase que extiende la clase arma de largo alcance
  * @extends LongRangeWeapon

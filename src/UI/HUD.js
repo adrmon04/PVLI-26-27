@@ -1,3 +1,4 @@
+import HDMICable from "../Entities/Weapons/HDMICable.js";
 import BatteryBar from "./BatteryBar.js";
 // Clase auxiliar que crea y actualiza la interfaz dentro de la escena del juego.
 export default class HUD {
@@ -46,6 +47,7 @@ export default class HUD {
         );
         this.coinIcon.play('hudCoinSpin');
 
+        // Texto de cuantas monedas tiene el player
         this.coinText = fijarEnPantalla(
             scene.add.text(scene.scale.width - 42, scene.scale.height - 60, '0', {
                 fontSize: '20px',
@@ -71,23 +73,53 @@ export default class HUD {
             this.weaponIcon = null;
             this.weaponKey = key;
 
-            if (weapon) {
-                // Escala el icono conservando sus proporciones y lo dibuja sobre la casilla.
-                this.weaponIcon = this.scene.add.image(
-                    this.weaponSlot.x,
-                    this.weaponSlot.y,
-                    key,
-                    0
-                );
-                this.weaponIcon.setScale(32 / Math.max(
-                    this.weaponIcon.width,
-                    this.weaponIcon.height
-                ));
-                this.weaponIcon
-                    .setScrollFactor(0)
-                    .setDepth(this.uiDepth + 1)
-                    .setAlpha(0.9);
+            if (key !== null) {
+                const frame = this.setWeapon(key);
+                if (frame !== null) {
+                    // ${key} es una plantilla de texto, como tal es como si tuvieras el hudWeapon_NombreDelArma
+                    const animationKey = `hudWeapon_${key}`;
+                    if (!this.scene.anims.exists(animationKey)) {
+                        this.scene.anims.create({
+                            key: animationKey,
+                            frames: this.scene.anims.generateFrameNumbers('FloorWeapons', {
+                                start: frame,
+                                end: frame + 3
+                            }),
+                            frameRate: 6,
+                            repeat: -1
+                        });
+                    }
+
+                    this.weaponIcon = this.scene.add.sprite(
+                        this.weaponSlot.x,
+                        this.weaponSlot.y,
+                        'FloorWeapons',
+                        frame
+                    );
+                    if (frame === 0) {
+                       this.weaponIcon.setScale(52 / Math.max(this.weaponIcon.width, this.weaponIcon.height))
+                    }
+                    else this.weaponIcon.setScale(64 / Math.max(this.weaponIcon.width, this.weaponIcon.height))
+                    this.weaponIcon
+                        .setScrollFactor(0)
+                        .setDepth(this.uiDepth + 1)
+                        .setAlpha(1);
+                    this.weaponIcon.play(animationKey);
+                }
             }
+        }
+    }
+
+    // SetWeapon pone el frame de inicio de cada arma en el frame correspondiente de la imagen usada
+    setWeapon(string){
+        switch(string){
+            case 'MechanicalKeyboard': return 0;
+            case 'CPU': return 4;
+            case 'HDMICable': return 8;
+            case 'CommandUSB': return 12;
+            case 'PortablePrinter': return 16;
+            case 'Router': return 20;
+            default: return null;
         }
     }
 }
