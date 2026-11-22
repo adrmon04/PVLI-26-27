@@ -7,8 +7,8 @@ import Upgrade from '../Entities/Upgrades/Upgrade.js';
 import Level from '../World/Level.js';
 
 // ------------------------------------Armas-----------------------------------------
-import ShortRangeWeapon from '../Entities/Weapons/ShortRangeWeapon.js';
-import LongRangeWeapon from '../Entities/Weapons/LongRangeWeapon.js';
+import ShortRangeWeapon from '../Entities/Weapons/ShortRange/ShortRangeWeapon.js';
+import LongRangeWeapon from '../Entities/Weapons/LongRange/LongRangeWeapon.js';
 
 // ------------------------------------UI-----------------------------------------
 import HUD from '../UI/HUD.js';
@@ -17,6 +17,12 @@ import Bug from '../Entities/Enemies/Types/Bug.js';
 import Trojan from '../Entities/Enemies/Types/Trojan.js';
 import Spambot from '../Entities/Enemies/Types/Spambot.js';
 import CorruptedTeacher from '../Entities/Enemies/Types/CorruptedTeacher.js';
+import CommandUSB from '../Entities/Weapons/LongRange/CommandUSB.js';
+import PortablePrinter from '../Entities/Weapons/LongRange/PortablePrinter.js';
+import Router from '../Entities/Weapons/LongRange/Router.js';
+import MechanicalKeyboard from '../Entities/Weapons/ShortRange/MechanicalKeyboard.js';
+import CPU from '../Entities/Weapons/ShortRange/CPU.js';
+import HDMICable from '../Entities/Weapons/ShortRange/HDMICable.js';
 
 /**
  * Escena principal.
@@ -198,12 +204,12 @@ export default class MainGame extends Phaser.Scene {
         this.hud = new HUD(this);
 
         this.weapons = [
-            new LongRangeWeapon(this, this.player.x + 50, this.player.y, 'CommandUSB', 10, 20, 200, 300, 1, 1),
-            new LongRangeWeapon(this, this.player.x + 100, this.player.y, 'PortablePrinter', 3, 100, 200, 300, 1, 3),
-            new LongRangeWeapon(this, this.player.x + 150, this.player.y, 'Router', 1, 200, 200, 300, 2, 1),
-            new ShortRangeWeapon(this, this.player.x - 50, this.player.y, 'MechanicalKeyboard', 3, 100, 10),
-            new ShortRangeWeapon(this, this.player.x - 100, this.player.y, 'CPU', 1, 200, 20),
-            new ShortRangeWeapon(this, this.player.x - 150, this.player.y, 'HDMICable', 10, 30, 10)
+            new CommandUSB(this, this.player.x + 50, this.player.y),
+            new PortablePrinter(this, this.player.x + 100, this.player.y),
+            new Router(this, this.player.x + 150, this.player.y),
+            new MechanicalKeyboard(this, this.player.x - 50, this.player.y),
+            new CPU(this, this.player.x - 100, this.player.y),
+            new HDMICable(this, this.player.x - 150, this.player.y)
         ];
 
         this.upgrades = [

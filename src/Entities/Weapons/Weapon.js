@@ -10,6 +10,9 @@ export const WEAPON_SCALE = 0.18;
 // Distancia máxima al jugador para poder coger el arma
 const PICKUP_RADIUS = 30;
 
+const PCTG_ATTACK_SPEED_UPGRADE = 20 / 100;
+const PCTG_DAMAGE_UPGRADE = 25 / 100;
+
 export default class Weapon extends Phaser.GameObjects.Sprite {
     
     /**
@@ -127,5 +130,17 @@ export default class Weapon extends Phaser.GameObjects.Sprite {
         this.setRotation(0);
         this.setFlipY(false);
         this.play(this.imgKey + "_idle", true);
+    }
+
+    tierUp() {
+        if (this.tier < 3) {
+            this.tier++;
+            upgradeStats();
+        }
+    }
+
+    upgradeStats() {
+        this.attackSpeed *= 1 + PCTG_ATTACK_SPEED_UPGRADE;
+        this.damage *= 1 + PCTG_DAMAGE_UPGRADE;
     }
 }
