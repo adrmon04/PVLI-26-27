@@ -35,6 +35,9 @@ export const WEAPON_SPRITES = {
     Router: { tileWidth: 96, tileHeight: 96, pivot: [10, 48],  hand: [-6, 0], fireStart: 4, fireDurations: [40, 70, 80, 90], muzzle: [53, 48] }
 };
 
+const PCTG_ATTACK_SPEED_UPGRADE = 20 / 100;
+const PCTG_DAMAGE_UPGRADE = 25 / 100;
+
 export default class Weapon extends Phaser.GameObjects.Sprite {
 
     /**
@@ -70,6 +73,9 @@ export default class Weapon extends Phaser.GameObjects.Sprite {
 
         // Propiedad que indica cuándo el arma atacó/disparó por última vez
         this.lastFireTime = 0;
+
+        // Tier del arma, max 3
+        this.tier = 1;
 
         // Añadimos el arma a la escena
         this.scene.add.existing(this);
@@ -196,5 +202,17 @@ export default class Weapon extends Phaser.GameObjects.Sprite {
         this.setOrigin(0.5); // En el suelo el sprite va centrado
         this.setScale(this.spriteData.floorScale ?? WEAPON_SCALE); // En el suelo vuelve a su escala de suelo
         this.play(this.imgKey + "_idle", true);
+    }
+
+    tierUp() {
+        if (this.tier < 3) {
+            this.tier++;
+            upgradeStats();
+        }
+    }
+
+    upgradeStats() {
+        this.attackSpeed *= 1 + PCTG_ATTACK_SPEED_UPGRADE;
+        this.damage *= 1 + PCTG_DAMAGE_UPGRADE;
     }
 }

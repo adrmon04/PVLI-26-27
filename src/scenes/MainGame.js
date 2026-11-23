@@ -7,8 +7,8 @@ import Upgrade from '../Entities/Upgrades/Upgrade.js';
 import Level from '../World/Level.js';
 
 // ------------------------------------Armas-----------------------------------------
-import ShortRangeWeapon from '../Entities/Weapons/ShortRangeWeapon.js';
-import LongRangeWeapon from '../Entities/Weapons/LongRangeWeapon.js';
+import ShortRangeWeapon from '../Entities/Weapons/ShortRange/ShortRangeWeapon.js';
+import LongRangeWeapon from '../Entities/Weapons/LongRange/LongRangeWeapon.js';
 import Weapon from '../Entities/Weapons/Weapon.js';
 
 // ------------------------------------UI-----------------------------------------
@@ -18,6 +18,12 @@ import Bug from '../Entities/Enemies/Types/Bug.js';
 import Trojan from '../Entities/Enemies/Types/Trojan.js';
 import Spambot from '../Entities/Enemies/Types/Spambot.js';
 import CorruptedTeacher from '../Entities/Enemies/Types/CorruptedTeacher.js';
+import CommandUSB from '../Entities/Weapons/LongRange/CommandUSB.js';
+import PortablePrinter from '../Entities/Weapons/LongRange/PortablePrinter.js';
+import Router from '../Entities/Weapons/LongRange/Router.js';
+import MechanicalKeyboard from '../Entities/Weapons/ShortRange/MechanicalKeyboard.js';
+import CPU from '../Entities/Weapons/ShortRange/CPU.js';
+import HDMICable from '../Entities/Weapons/ShortRange/HDMICable.js';
 
 /**
  * Escena principal.
@@ -35,12 +41,12 @@ export default class MainGame extends Phaser.Scene {
         Level.preload(this);
 
         // Cargamos la hoja de sprites del jugador
-		this.load.spritesheet("player_right", "Assets/images/entities/player/player_right.png", {
+        this.load.spritesheet("player_right", "Assets/images/entities/player/player_right.png", {
             frameWidth: 192,
             frameHeight: 192
         });
-        
-		this.load.spritesheet("player_left", "Assets/images/entities/player/player_left.png", {
+
+        this.load.spritesheet("player_left", "Assets/images/entities/player/player_left.png", {
             frameWidth: 192,
             frameHeight: 192
         });
@@ -97,17 +103,21 @@ export default class MainGame extends Phaser.Scene {
         });
 
         // Assets del HUD
-        
+
         //Creamos la barra de vida
         this.load.image('hudPila', 'assets/images/hud/iconoPila.png');
         this.load.spritesheet('hudPilaBarra', 'assets/images/hud/iconoPilaBarra.png', {
-            frameWidth: 7, 
-            frameHeight: 20 
+            frameWidth: 7,
+            frameHeight: 20
         });
+
+        // Creamos la moneda
         this.load.spritesheet('hudCoin', 'Assets/images/hUD/iconoMoneda.png', {
             frameWidth: 16,
             frameHeight: 16
         });
+
+        // Creamos los slots de armas 
         this.load.spritesheet('hudWeaponSlot', 'Assets/images/hUD/iconoArma.png', {
             frameWidth: 48,
             frameHeight: 48
@@ -163,22 +173,35 @@ export default class MainGame extends Phaser.Scene {
         // Creamos el nivel y añadimos las entidades a todas las salas
         this.level = new Level(this);
 
+        const pauseOnEscape = (event) => {
+            if (event.code !== 'Escape' || this.scene.isPaused('MainGame')) return;
+
+            event.preventDefault();
+            this.sound.pauseAll();
+            this.scene.launch('PauseMenu');
+            this.scene.pause();
+        };
+        window.addEventListener('keydown', pauseOnEscape, true);
+        this.events.once('shutdown', () => {
+            window.removeEventListener('keydown', pauseOnEscape, true);
+        });
+
         // Creamos el jugador en el centro del suelo de Sala1 y lo añadimos a la escena
         this.player = new Player(100, 100, this, 976, 880, 300, 1, 'player_right', 0);
-            
+
         // Creamos enemigos
         this.enemies = [
             // new Popup(100, 20, this, this.player.x - 450, this.player.y, 150, 'pop-up', 0, this.player, 300, 100),
             // new Bug(100, 20, this, this.player.x - 550, this.player.y, 150, 'bug', 0, this.player, 30, 10),
             // new Trojan(100, 20, this, this.player.x - 650, this.player.y, 150, 'trojan', 0, this.player, 30, 150, 10),
-            // new Spambot(100, 20, this, this.player.x + 200, this.player.y, 150, 'spambot_right', 0, this.player, 200, 150, 3),
-            // new CorruptedTeacher(100, 20, this, this.player.x + 400, this.player.y, 75, 'corruptedTeacher_right', 0, this.player, 30, 0.5)
+            new Spambot(100, 20, this, this.player.x + 200, this.player.y, 150, 'spambot_right', 0, this.player, 200, 150, 3),
+            new CorruptedTeacher(100, 20, this, this.player.x + 400, this.player.y, 75, 'corruptedTeacher_right', 0, this.player, 30, 0.5)
         ];
 
         // Agregacion de entidades(esto se hara en el futuro con una funcion en level)
         this.level.addEntity(this.player);
         this.enemies.forEach(enemy => this.level.addEntity(enemy));
-        
+
         // roundPixels = true para que la cámara no dibuje en posiciones decimales
         this.cameras.main.startFollow(this.player, true);
 
@@ -186,12 +209,12 @@ export default class MainGame extends Phaser.Scene {
         this.hud = new HUD(this);
 
         this.weapons = [
-            new LongRangeWeapon(this, this.player.x + 50, this.player.y, 'CommandUSB', 10, 20, 200, 300, 1, 1),
-            new LongRangeWeapon(this, this.player.x + 100, this.player.y, 'PortablePrinter', 3, 100, 200, 300, 1, 3),
-            new LongRangeWeapon(this, this.player.x + 150, this.player.y, 'Router', 1, 200, 200, 300, 2, 1),
-            new ShortRangeWeapon(this, this.player.x - 50, this.player.y, 'MechanicalKeyboard', 3, 100, 10),
-            new ShortRangeWeapon(this, this.player.x - 100, this.player.y, 'CPU', 1, 200, 20),
-            new ShortRangeWeapon(this, this.player.x - 150, this.player.y, 'HDMICable', 10, 30, 10)
+            new CommandUSB(this, this.player.x + 50, this.player.y),
+            new PortablePrinter(this, this.player.x + 100, this.player.y),
+            new Router(this, this.player.x + 150, this.player.y),
+            new MechanicalKeyboard(this, this.player.x - 50, this.player.y),
+            new CPU(this, this.player.x - 100, this.player.y),
+            new HDMICable(this, this.player.x - 150, this.player.y)
         ];
 
         this.upgrades = [
@@ -241,45 +264,47 @@ export default class MainGame extends Phaser.Scene {
                 });
             });
         });
+        
+        
 
         // ------------------------------------ANIMACIONES JUGADOR-----------------------------------------
 
         // Creamos la animación de idle del jugador
-		this.anims.create({
-			key: "player_idle_right",
-			frames: this.anims.generateFrameNames("player_right", { start: 0, end: 7}),
-			frameRate: 6,
-			repeat: -1
-		});
-		
         this.anims.create({
-            key: "player_idle_left",
-            frames: this.anims.generateFrameNames("player_left", { start: 0, end: 7}),
+            key: "player_idle_right",
+            frames: this.anims.generateFrameNames("player_right", { start: 0, end: 7 }),
             frameRate: 6,
             repeat: -1
         });
-		
+
+        this.anims.create({
+            key: "player_idle_left",
+            frames: this.anims.generateFrameNames("player_left", { start: 0, end: 7 }),
+            frameRate: 6,
+            repeat: -1
+        });
+
         // Creamos la animación de movimiento del jugador
-		this.anims.create({
-			key: "player_mov_right",
-			frames: this.anims.generateFrameNames("player_right", { start: 8, end: 13}),
-			frameRate: 6,
-			repeat: -1
-		});
-		
-		this.anims.create({
-			key: "player_mov_left",
-			frames: this.anims.generateFrameNames("player_left", { start: 8, end: 13}),
-			frameRate: 6,
-			repeat: -1
-		});
+        this.anims.create({
+            key: "player_mov_right",
+            frames: this.anims.generateFrameNames("player_right", { start: 8, end: 13 }),
+            frameRate: 6,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: "player_mov_left",
+            frames: this.anims.generateFrameNames("player_left", { start: 8, end: 13 }),
+            frameRate: 6,
+            repeat: -1
+        });
 
         // ------------------------------------ANIMACIONES ENEMIGOS-----------------------------------------
 
         this.anims.create({
             key: 'pop-up_hidden',
             frames: this.anims.generateFrameNumbers('pop-up', { start: 0, end: 3 }),
-            frameRate: 5, 
+            frameRate: 5,
             repeat: -1
         });
 
@@ -292,14 +317,14 @@ export default class MainGame extends Phaser.Scene {
 
         this.anims.create({
             key: 'pop-up_idle',
-            frames: this.anims.generateFrameNumbers('pop-up', { start: 20, end: 27}),
+            frames: this.anims.generateFrameNumbers('pop-up', { start: 20, end: 27 }),
             frameRate: 8,
             repeat: -1
         });
 
         this.anims.create({
             key: 'pop-up_mov',
-            frames: this.anims.generateFrameNumbers('pop-up', { start: 30, end: 37}),
+            frames: this.anims.generateFrameNumbers('pop-up', { start: 30, end: 37 }),
             frameRate: 11,
             repeat: -1
         });
@@ -314,97 +339,97 @@ export default class MainGame extends Phaser.Scene {
         this.anims.create({
             key: 'pop-up_explode',
             frames: this.anims.generateFrameNumbers('pop-up', { start: 50, end: 59 }),
-            frameRate: 12, 
+            frameRate: 12,
             repeat: 0
         });
 
         this.anims.create({
             key: 'pop-up_death',
-            frames: this.anims.generateFrameNumbers('pop-up', { start: 60, end: 67}),
+            frames: this.anims.generateFrameNumbers('pop-up', { start: 60, end: 67 }),
             frameRate: 13,
             repeat: 0
         });
 
         this.anims.create({
             key: 'bug_idle',
-            frames: this.anims.generateFrameNumbers('bug', { start: 0, end: 7}),
+            frames: this.anims.generateFrameNumbers('bug', { start: 0, end: 7 }),
             frameRate: 13,
             repeat: -1
         });
 
         this.anims.create({
             key: 'bug_walk',
-            frames: this.anims.generateFrameNumbers('bug', { start: 14, end: 21}),
+            frames: this.anims.generateFrameNumbers('bug', { start: 14, end: 21 }),
             frameRate: 13,
             repeat: -1
-        });        
+        });
 
         this.anims.create({
             key: 'bug_attack',
-            frames: this.anims.generateFrameNumbers('bug', { start: 28, end: 35}),
+            frames: this.anims.generateFrameNumbers('bug', { start: 28, end: 35 }),
             frameRate: 13,
             repeat: 0
         });
 
         this.anims.create({
             key: 'bug_hurt',
-            frames: this.anims.generateFrameNumbers('bug', { start: 42, end: 44}),
+            frames: this.anims.generateFrameNumbers('bug', { start: 42, end: 44 }),
             frameRate: 13,
             repeat: 0
         });
 
         this.anims.create({
             key: 'bug_death',
-            frames: this.anims.generateFrameNumbers('bug', { start: 56, end: 69}),
+            frames: this.anims.generateFrameNumbers('bug', { start: 56, end: 69 }),
             frameRate: 13,
             repeat: 0
         });
 
         this.anims.create({
             key: 'trojan_hidden',
-            frames: this.anims.generateFrameNumbers('trojan', { start: 0, end: 3}),
+            frames: this.anims.generateFrameNumbers('trojan', { start: 0, end: 3 }),
             frameRate: 13,
             repeat: -1
         });
 
         this.anims.create({
             key: 'trojan_appear',
-            frames: this.anims.generateFrameNumbers('trojan', { start: 8, end: 14}),
+            frames: this.anims.generateFrameNumbers('trojan', { start: 8, end: 14 }),
             frameRate: 13,
             repeat: 0
         });
 
         this.anims.create({
             key: 'trojan_idle',
-            frames: this.anims.generateFrameNumbers('trojan', { start: 16, end: 19}),
+            frames: this.anims.generateFrameNumbers('trojan', { start: 16, end: 19 }),
             frameRate: 13,
             repeat: -1
         });
 
         this.anims.create({
             key: 'trojan_walk',
-            frames: this.anims.generateFrameNumbers('trojan', { start: 24, end: 31}),
+            frames: this.anims.generateFrameNumbers('trojan', { start: 24, end: 31 }),
             frameRate: 13,
             repeat: -1
         });
 
         this.anims.create({
             key: 'trojan_attack',
-            frames: this.anims.generateFrameNumbers('trojan', { start: 32, end: 38}),
+            frames: this.anims.generateFrameNumbers('trojan', { start: 32, end: 38 }),
             frameRate: 13,
             repeat: 0
         });
 
         this.anims.create({
             key: 'trojan_hurt',
-            frames: this.anims.generateFrameNumbers('trojan', { start: 40, end: 42}),
+            frames: this.anims.generateFrameNumbers('trojan', { start: 40, end: 42 }),
             frameRate: 13,
             repeat: 0
         });
 
         this.anims.create({
             key: 'trojan_death',
-            frames: this.anims.generateFrameNumbers('trojan', { start: 48, end: 55}),
+            frames: this.anims.generateFrameNumbers('trojan', { start: 48, end: 55 }),
             frameRate: 13,
             repeat: 0
         });
@@ -569,106 +594,106 @@ export default class MainGame extends Phaser.Scene {
         Weapon.createFireAnimations(this);
 
         //Creamos animaciones de idle de las armas que aparecen en el suelo
-		this.anims.create({
-			key: "MechanicalKeyboard_idle",
-			frames: this.anims.generateFrameNames("FloorWeapons", { start: 0, end: 3}),
-			frameRate: 6,
-			repeat: -1
-		});
+        this.anims.create({
+            key: "MechanicalKeyboard_idle",
+            frames: this.anims.generateFrameNames("FloorWeapons", { start: 0, end: 3 }),
+            frameRate: 6,
+            repeat: -1
+        });
 
-		this.anims.create({
-			key: "CPU_idle",
-			frames: this.anims.generateFrameNames("FloorWeapons", { start: 4, end: 7}),
-			frameRate: 6,
-			repeat: -1
-		});
+        this.anims.create({
+            key: "CPU_idle",
+            frames: this.anims.generateFrameNames("FloorWeapons", { start: 4, end: 7 }),
+            frameRate: 6,
+            repeat: -1
+        });
 
-		this.anims.create({
-			key: "HDMICable_idle",
-			frames: this.anims.generateFrameNames("FloorWeapons", { start: 8, end: 11}),
-			frameRate: 6,
-			repeat: -1
-		});
+        this.anims.create({
+            key: "HDMICable_idle",
+            frames: this.anims.generateFrameNames("FloorWeapons", { start: 8, end: 11 }),
+            frameRate: 6,
+            repeat: -1
+        });
 
-		this.anims.create({
-			key: "CommandUSB_idle",
-			frames: this.anims.generateFrameNames("FloorWeapons", { start: 12, end: 15}),
-			frameRate: 6,
-			repeat: -1
-		});
+        this.anims.create({
+            key: "CommandUSB_idle",
+            frames: this.anims.generateFrameNames("FloorWeapons", { start: 12, end: 15 }),
+            frameRate: 6,
+            repeat: -1
+        });
 
-		this.anims.create({
-			key: "PortablePrinter_idle",
-			frames: this.anims.generateFrameNames("FloorWeapons", { start: 16, end: 19}),
-			frameRate: 6,
-			repeat: -1
-		});
+        this.anims.create({
+            key: "PortablePrinter_idle",
+            frames: this.anims.generateFrameNames("FloorWeapons", { start: 16, end: 19 }),
+            frameRate: 6,
+            repeat: -1
+        });
 
-		this.anims.create({
-			key: "Router_idle",
-			frames: this.anims.generateFrameNames("FloorWeapons", { start: 20, end: 23}),
-			frameRate: 6,
-			repeat: -1
-		});
+        this.anims.create({
+            key: "Router_idle",
+            frames: this.anims.generateFrameNames("FloorWeapons", { start: 20, end: 23 }),
+            frameRate: 6,
+            repeat: -1
+        });
 
         // Creamos animaciones de los proyectiles de las armas
-		this.anims.create({
-			key: "CommandUSB_proyectile",
-			frames: this.anims.generateFrameNames("CommandUSBProyectile", { start: 0, end: 3}),
-			frameRate: 6,
-			repeat: -1
-		});
+        this.anims.create({
+            key: "CommandUSB_proyectile",
+            frames: this.anims.generateFrameNames("CommandUSBProyectile", { start: 0, end: 3 }),
+            frameRate: 6,
+            repeat: -1
+        });
 
-		this.anims.create({
-			key: "PortablePrinter_proyectile",
-			frames: this.anims.generateFrameNames("PortablePrinterProyectile", { start: 0, end: 3}),
-			frameRate: 6,
-			repeat: -1
-		});
+        this.anims.create({
+            key: "PortablePrinter_proyectile",
+            frames: this.anims.generateFrameNames("PortablePrinterProyectile", { start: 0, end: 3 }),
+            frameRate: 6,
+            repeat: -1
+        });
 
-		this.anims.create({
-			key: "Router_proyectile",
-			frames: this.anims.generateFrameNames("RouterProyectile", { start: 0, end: 3}),
-			frameRate: 6,
-			repeat: -1
-		});
+        this.anims.create({
+            key: "Router_proyectile",
+            frames: this.anims.generateFrameNames("RouterProyectile", { start: 0, end: 3 }),
+            frameRate: 6,
+            repeat: -1
+        });
 
         // ------------------------------------ANIMACIONES MEJORAS-----------------------------------------
 
-		this.anims.create({
-			key: "Antivirus_idle",
-			frames: this.anims.generateFrameNames("Antivirus", { start: 0, end: 7}),
-			frameRate: 6,
-			repeat: -1
-		});
+        this.anims.create({
+            key: "Antivirus_idle",
+            frames: this.anims.generateFrameNames("Antivirus", { start: 0, end: 7 }),
+            frameRate: 6,
+            repeat: -1
+        });
 
         this.anims.create({
-			key: "Overclock_idle",
-			frames: this.anims.generateFrameNames("Overclock", { start: 0, end: 7}),
-			frameRate: 6,
-			repeat: -1
-		});
+            key: "Overclock_idle",
+            frames: this.anims.generateFrameNames("Overclock", { start: 0, end: 7 }),
+            frameRate: 6,
+            repeat: -1
+        });
 
         this.anims.create({
-			key: "Luck_idle",
-			frames: this.anims.generateFrameNames("Luck", { start: 0, end: 7}),
-			frameRate: 6,
-			repeat: -1
-		});
+            key: "Luck_idle",
+            frames: this.anims.generateFrameNames("Luck", { start: 0, end: 7 }),
+            frameRate: 6,
+            repeat: -1
+        });
 
         this.anims.create({
-			key: "CrackedLicense_idle",
-			frames: this.anims.generateFrameNames("CrackedLicense", { start: 0, end: 7}),
-			frameRate: 6,
-			repeat: -1
-		});
+            key: "CrackedLicense_idle",
+            frames: this.anims.generateFrameNames("CrackedLicense", { start: 0, end: 7 }),
+            frameRate: 6,
+            repeat: -1
+        });
 
         this.anims.create({
-			key: "Turbo_idle",
-			frames: this.anims.generateFrameNames("Turbo", { start: 0, end: 7}),
-			frameRate: 6,
-			repeat: -1
-		});
+            key: "Turbo_idle",
+            frames: this.anims.generateFrameNames("Turbo", { start: 0, end: 7 }),
+            frameRate: 6,
+            repeat: -1
+        });
     }
 
     update() {
@@ -676,11 +701,7 @@ export default class MainGame extends Phaser.Scene {
             this.hud.update(this.player);
         }
 
-        if (this.player && this.player.isDead) {
-            this.defeatShown = true;
-            this.scene.start('DefeatMenu');
-            this.scene.pause();
-        }
+        if (this.player && this.player.isDead) this.scene.start('DefeatMenu');
 
         if (this.player && !this.statsLogged) {
             this.statsLogged = true;

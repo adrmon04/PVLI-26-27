@@ -1,4 +1,4 @@
-import Weapon, { WEAPON_SCALE } from "./Weapon.js";
+import Weapon, { WEAPON_SCALE } from "../Weapon.js";
 /**
  * Clase base para armas de largo alcance
  * @extends Weapon
@@ -77,7 +77,7 @@ export default class LongRangeWeapon extends Weapon {
 
     // Dispara un proyectil hacia el objetivo
     Fire(targetX, targetY, remainingBullets = this.burstSize) {
-        const fireInterval = 1000 / this.attackSpeed; // Intervalo entre disparos en milisegundos
+        const fireInterval = 500 / this.attackSpeed; // Intervalo entre disparos en milisegundos
 
         // Si se dispara el arma, reproducimos la animacion de disparo
         this.play(this.imgKey + "_fire", true);
