@@ -63,6 +63,18 @@ export default class LongRangeWeapon extends Weapon {
 
     }
     
+    // Posición de la boca del arma en el mundo. El arma gira sobre su pivote,
+    // así que la boca está a (muzzle - pivot) píxeles en la dirección a la que apunta
+    getMuzzle() {
+        const { tileWidth, pivot, muzzle } = this.spriteData;
+        const distance = (muzzle[0] - pivot[0]) * this.displayWidth / tileWidth;
+
+        return {
+            x: this.x + Math.cos(this.rotation) * distance,
+            y: this.y + Math.sin(this.rotation) * distance
+        };
+    }
+
     // Dispara un proyectil hacia el objetivo
     Fire(targetX, targetY, remainingBullets = this.burstSize) {
         const fireInterval = 1000 / this.attackSpeed; // Intervalo entre disparos en milisegundos
@@ -70,19 +82,20 @@ export default class LongRangeWeapon extends Weapon {
         // Si se dispara el arma, reproducimos la animacion de disparo
         this.play(this.imgKey + "_fire", true);
 
-        // Se crea el proyectil dentro del grupo proyectiles
-        const proyectile = this.proyectiles.create(this.x, this.y);
+        // Se crea el proyectil dentro del grupo proyectiles, en la boca del arma
+        const muzzle = this.getMuzzle();
+        const proyectile = this.proyectiles.create(muzzle.x, muzzle.y);
 
         // Guardamos la posición inicial en la que se crea el proyectil con él
         proyectile.setDataEnabled();
-        proyectile.setData({ initialX: this.x, initialY: this.y, damage: this.damage});
-        
+        proyectile.setData({ initialX: muzzle.x, initialY: muzzle.y, damage: this.damage});
+
         // Configuramos su rotación y su velocidad
-        const dirX = targetX - this.x;
-        const dirY = targetY - this.y;
+        const dirX = targetX - muzzle.x;
+        const dirY = targetY - muzzle.y;
         const length = Math.hypot(dirX, dirY);
 
-        proyectile.setRotation(Phaser.Math.Angle.Between(this.x, this.y, targetX, targetY));
+        proyectile.setRotation(Phaser.Math.Angle.Between(muzzle.x, muzzle.y, targetX, targetY));
 
         if (length > 0) {
             proyectile.body.setVelocity((dirX / length) * this.proyectileSpeed, (dirY / length) * this.proyectileSpeed);

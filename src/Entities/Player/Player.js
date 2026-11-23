@@ -37,7 +37,9 @@ export default class Player extends Entity {
         // Caja de daño que cubre el dibujo (el dibujo mide unos 47x64 en pantalla)
         this.createHurtbox(32, 50);
 
-        this.weapon = null;
+        // Dos ranuras de arma, cada una puede tener cualquier arma. Solo ataca la activa
+        this.weapons = [null, null];
+        this.activeSlot = 0;
         this.gold = 0;
         this.shopDiscount = 0;
         this.lucky = false;
@@ -50,13 +52,68 @@ export default class Player extends Entity {
         // para que no vaya un frame por detrás
         scene.events.on('postupdate', this.followWeapon, this);
         this.once('destroy', () => scene.events.off('postupdate', this.followWeapon, this));
+
+        // Con el clic derecho se cambia de arma (y se quita el menú contextual del navegador)
+        scene.input.mouse.disableContextMenu();
+        scene.input.on('pointerdown', this.onPointerDown, this);
+        this.once('destroy', () => scene.input.off('pointerdown', this.onPointerDown, this));
+    }
+
+    // Arma activa (la que se ve, se coloca en la mano y ataca)
+    get weapon() {
+        return this.weapons[this.activeSlot];
+    }
+
+    onPointerDown(pointer) {
+        if (pointer.rightButtonDown()) this.switchWeapon();
+    }
+
+    // Cambia a la otra ranura, si tiene arma
+    switchWeapon() {
+        const other = 1 - this.activeSlot;
+        if (!this.weapons[other]) return;
+
+        this.holsterWeapon();
+        this.activeSlot = other;
+        this.weapon.setVisible(true);
+    }
+
+    // Guarda el arma activa: corta su ataque y la oculta
+    holsterWeapon() {
+        if (!this.weapon) return;
+        this.weapon.stop();
+        this.weapon.setFrame(0);
+        this.weapon.setVisible(false);
+    }
+
+    // Equipa un arma recogida del suelo y pasa a ser la activa:
+    // - si hay una ranura libre, va ahí (el arma que se llevaba se guarda)
+    // - si las dos están llenas, sustituye al arma activa, que se suelta en el sitio de la nueva
+    equipWeapon(weapon) {
+        const freeSlot = this.weapons.indexOf(null);
+
+        if (freeSlot !== -1) {
+            this.holsterWeapon();
+            this.activeSlot = freeSlot;
+        }
+        else {
+            this.weapon.setPosition(weapon.x, weapon.y);
+            this.weapon.drop();
+        }
+
+        this.weapons[this.activeSlot] = weapon;
     }
 
     followWeapon() {
         if (this.weapon) {
 
+            // Posición de la mano propia de cada arma (opcional, en píxeles de pantalla).
+            // La X se refleja cuando se apunta a la izquierda
+            const [handX, handY] = this.weapon.spriteData.hand ?? [0, 0];
+            const side = this.weapon.getPointerWorld().x < this.x ? -1 : 1;
+
             // Redondeamos para que el pixel art no se deforme con posiciones decimales
-            this.weapon.setPosition(Math.round(this.x + 1), Math.round(this.y));
+            this.weapon.setPosition(Math.round(this.x + 1 + handX * side), Math.round(this.y + 15 + handY));
             
             // Una vez colocada, la giramos hacia el ratón
             this.weapon.aimAtPointer();
