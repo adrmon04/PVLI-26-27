@@ -101,10 +101,10 @@ export default class Weapon extends Phaser.GameObjects.Sprite {
         }
 
         // Al soltar el clic, paramos la animación de ataque y dejamos el arma en reposo (frame 0)
-        else if (!clickDown && this.anims.isPlaying) {
-            this.stop();
-            this.setFrame(0);
-        }
+        // else if (!clickDown && this.anims.isPlaying) {
+        //     this.stop();
+        //     this.setFrame(0);
+        // }
     }
     
     // Posición del ratón en el mundo. Se recalcula con la cámara porque pointer.worldX
