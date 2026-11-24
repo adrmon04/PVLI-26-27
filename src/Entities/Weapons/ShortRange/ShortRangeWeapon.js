@@ -7,6 +7,7 @@ const HITBOX_ACTIVE_FRAME = 3;
  * Clase que extiende la clase arma adaptada para armas de corto alcance
  * @extends Weapon
  */
+
 export default class ShortRangeWeapon extends Weapon {
     /**
      * Constructor de Weapon
@@ -16,11 +17,11 @@ export default class ShortRangeWeapon extends Weapon {
      * @param {string} imgKey - nombre de la imagen que representa al arma
      * @param {number} attackSpeed - velocidad de ataque del arma (ataques por segundo)
      * @param {number} damage - daño que inflige el arma
-     * @param {number} range - rango del arma 
+     * @param {number} range - rango del arma
     */
     constructor(scene, x, y, imgKey, attackSpeed, damage, range) {
 
-        // Llamamos al constructor de la clase Weapon
+        // Llamamos al constructor de la clase Weapon 
         super(scene, x, y, imgKey, attackSpeed, damage, range);
 
         // Añadimos una hitbox al arma
@@ -42,11 +43,6 @@ export default class ShortRangeWeapon extends Weapon {
             else {
                 this.body.enable = false;
             }
-        });
-
-        // Cuando termina la animación, volvemos al frame 0
-        this.on('animationcomplete-' + this.imgKey + '_fire', () => {
-            this.setFrame(0);
         });
     }
 
@@ -72,9 +68,6 @@ export default class ShortRangeWeapon extends Weapon {
             const topLeftX = this.x + dx * reachFactor - this.body.width / 2;
             const topLeftY = this.y + dy * reachFactor - this.body.height / 2;
     
-            // Este es el calculo que hace setOffset (Lo pongo por claridad)
-            // body.position.x = sprite.x + sprite.scaleX * (offset.x - sprite.displayOriginX);
-            // body.position.y = sprite.y + sprite.scaleY * (offset.y - sprite.displayOriginY)
             // Ajustamos el offset de la hitbox
             this.body.setOffset(
                 this.displayOriginX + (topLeftX - this.x) / this.scaleX,
@@ -82,10 +75,15 @@ export default class ShortRangeWeapon extends Weapon {
         }
     }
 
-    // Método de disparo de las armas de corto alcance
-    Fire(targetX, targetY) {
-        
-        // Si se dispara el arma, animacion de disparo
-        this.play(this.imgKey + '_fire', true);
+    // Un golpe no puede empezar hasta que termine el anterior
+    canFire(t, player) {
+        return !this.isAttacking() && super.canFire(t, player);
+    }
+
+    // Método de disparo de las armas de corto alcance *a definir*
+    Fire() {
+
+        // Cada golpe reproduce la animación de ataque una vez
+        this.play(this.imgKey + "_fire");
     }
 }

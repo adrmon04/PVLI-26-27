@@ -9,6 +9,7 @@ import Level from '../World/Level.js';
 // ------------------------------------Armas-----------------------------------------
 import ShortRangeWeapon from '../Entities/Weapons/ShortRange/ShortRangeWeapon.js';
 import LongRangeWeapon from '../Entities/Weapons/LongRange/LongRangeWeapon.js';
+import Weapon from '../Entities/Weapons/Weapon.js';
 
 // ------------------------------------UI-----------------------------------------
 import HUD from '../UI/HUD.js';
@@ -241,6 +242,7 @@ export default class MainGame extends Phaser.Scene {
 
             // Comprobamos si el enemigo dispara proyectiles
             if (enemy.proyectiles) {
+                
                 const projectileOverlap = this.physics.add.overlap(this.player.hurtbox, enemy.proyectiles, (playerBox, proyectile) => {
                     playerBox.owner.takeDamage(enemy.damage);
                     proyectile.destroy();
@@ -600,49 +602,9 @@ export default class MainGame extends Phaser.Scene {
         });
 
         // ------------------------------------ANIMACIONES ARMAS-----------------------------------------
-
-        // Creamos animacion de las armas al utilizarlas
-        this.anims.create({
-            key: "MechanicalKeyboard_fire",
-            frames: this.anims.generateFrameNames("MechanicalKeyboard", { start: 6, end: 11 }),
-            frameRate: 9,
-            repeat: 0
-        });
-
-        this.anims.create({
-            key: "CPU_fire",
-            frames: this.anims.generateFrameNames("CPU", { start: 6, end: 11 }),
-            frameRate: 6,
-            repeat: 0
-        });
-
-        this.anims.create({
-            key: "HDMICable_fire",
-            frames: this.anims.generateFrameNames("HDMICable", { start: 6, end: 11 }),
-            frameRate: 14,
-            repeat: 0
-        });
-
-        this.anims.create({
-            key: "CommandUSB_fire",
-            frames: this.anims.generateFrameNames("CommandUSB", { start: 4, end: 7 }),
-            frameRate: 6,
-            repeat: -1
-        });
-
-        this.anims.create({
-            key: "PortablePrinter_fire",
-            frames: this.anims.generateFrameNames("PortablePrinter", { start: 4, end: 7 }),
-            frameRate: 6,
-            repeat: -1
-        });
-
-        this.anims.create({
-            key: "Router_fire",
-            frames: this.anims.generateFrameNames("Router", { start: 4, end: 7 }),
-            frameRate: 6,
-            repeat: -1
-        });
+        
+        // Creamos las animaciones de ataque de las armas (frames y duraciones de sus .tsx)
+        Weapon.createFireAnimations(this);
 
         //Creamos animaciones de idle de las armas que aparecen en el suelo
         this.anims.create({
