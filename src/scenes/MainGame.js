@@ -194,8 +194,8 @@ export default class MainGame extends Phaser.Scene {
             // new Popup(100, 20, this, this.player.x - 450, this.player.y, 150, 'pop-up', 0, this.player, 300, 100),
             // new Bug(100, 20, this, this.player.x - 550, this.player.y, 150, 'bug', 0, this.player, 30, 10),
             // new Trojan(100, 20, this, this.player.x - 650, this.player.y, 150, 'trojan', 0, this.player, 30, 150, 10),
-            // new Spambot(100, 20, this, this.player.x + 200, this.player.y, 150, 'spambot_right', 0, this.player, 200, 150, 3),
-            new CorruptedTeacher(100, 20, this, this.player.x + 400, this.player.y, 75, 'corruptedTeacher_right', 0, this.player, 30, 0.5)
+            new Spambot(100, 20, this, this.player.x + 200, this.player.y, 150, 'spambot_right', 0, this.player, 200, 150, 3),
+            // new CorruptedTeacher(100, 20, this, this.player.x + 400, this.player.y, 75, 'corruptedTeacher_right', 0, this.player, 30, 0.5)
         ];
 
         // Agregacion de entidades(esto se hara en el futuro con una funcion en level)
@@ -278,8 +278,6 @@ export default class MainGame extends Phaser.Scene {
             }
         });
         
-        
-
         // ------------------------------------ANIMACIONES JUGADOR-----------------------------------------
 
         // Creamos la animación de idle del jugador
@@ -615,6 +613,13 @@ export default class MainGame extends Phaser.Scene {
         });
 
         this.anims.create({
+            key: 'MechanicalKeyboard_impact',
+            frames: this.anims.generateFrameNames('MechanicalKeyboard', { start: 12, end: 17 }),
+            frameRate: 12,
+            repeat: 0
+        });
+
+        this.anims.create({
             key: "CPU_idle",
             frames: this.anims.generateFrameNames("FloorWeapons", { start: 4, end: 7 }),
             frameRate: 6,
@@ -622,10 +627,24 @@ export default class MainGame extends Phaser.Scene {
         });
 
         this.anims.create({
+            key: 'CPU_impact',
+            frames: this.anims.generateFrameNames('CPU', { start: 12, end: 17 }),
+            frameRate: 12,
+            repeat: 0
+        });
+        
+        this.anims.create({
             key: "HDMICable_idle",
             frames: this.anims.generateFrameNames("FloorWeapons", { start: 8, end: 11 }),
             frameRate: 6,
             repeat: -1
+        });
+        
+        this.anims.create({
+            key: 'HDMICable_impact',
+            frames: this.anims.generateFrameNames('HDMICable', { start: 12, end: 17 }),
+            frameRate: 12,
+            repeat: 0
         });
 
         this.anims.create({

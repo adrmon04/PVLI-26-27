@@ -36,18 +36,21 @@ export default class Bug extends Enemy {
             const from = this.hurtbox;
             const dir = new Phaser.Math.Vector2(target.x - from.x, target.y - from.y);
     
+            const isHurt = (this.anims.isPlaying 
+                && this.anims.currentAnim.key === 'bug_hurt');
+
             // Si ya está encima, se para (evita que tiemble al llegar)
             if (dir.length() >= this.range) {
                 dir.normalize();
                 this.body.setVelocity(dir.x * this.speed, dir.y * this.speed);
-                this.play('bug_walk', true);
+                if(!isHurt) this.play('bug_walk', true);
             }
             else {
 
                 this.body.setVelocity(0, 0);
 
                 // Comprobamos si el jugador puede atacar
-                this.play('bug_attack', true);
+                if(!isHurt) this.play('bug_attack', true);
                 
             }
         }

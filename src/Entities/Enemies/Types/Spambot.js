@@ -90,6 +90,9 @@ export default class Spambot extends Enemy {
 
         // Comprobamos que este vivo
         if (this.isDead) return;
+
+        const isHurt = (this.anims.isPlaying
+            && this.anims.currentAnim.key.startsWith('spambot_hurt_'));
         
         // Hacemos una copia para la comprobación para evitar que se deje proyectiles sin comprobar
         [...this.proyectiles.getChildren()].forEach(proyectile => {
@@ -134,20 +137,21 @@ export default class Spambot extends Enemy {
 
             // Reproducimos su animación de movimiento
             if (Math.abs(this.body.velocity.x) > 0 || Math.abs(this.body.velocity.y) > 0) {
-                this.play('spambot_mov_' + this.lastDirection, true);
+                if (!isHurt) this.play('spambot_mov_' + this.lastDirection, true);
             }
             else {
 
                 // Si esta totalmente quieto, significa que el jugador está dentro de su rango
                 // Reproducimos la animación de ataque
-                this.play('spambot_attack_' + this.lastDirection, true);
+                if (!isHurt) this.play('spambot_attack_' + this.lastDirection, true);
                 
             }
         }
+
         else {
 
             // Si el jugador ha muerto, reproducimos su animación de idle
-            this.play('spambot_idle_' + this.lastDirection, true);
+            if (!isHurt) this.play('spambot_idle_' + this.lastDirection, true);
         }
     }
 }
