@@ -29,13 +29,14 @@ import HDMICable from '../Entities/Weapons/ShortRange/HDMICable.js';
  * Escena principal.
  * @extends Phaser.Scene
  */
-
 export default class MainGame extends Phaser.Scene {
+
+    // Inicializa los datos de la instancia.
     constructor() {
         super({ key: 'MainGame' });
     }
 
-    // preload - método de las escenas donde se pueden cargar los recursos que necesitaremos
+    // Preload - método de las escenas donde se pueden cargar los recursos que necesitaremos
     preload() {
         // Cargamos el nivel y todas sus salas
         Level.preload(this);
@@ -103,7 +104,6 @@ export default class MainGame extends Phaser.Scene {
         });
 
         // Assets del HUD
-
         //Creamos la barra de vida
         this.load.image('hudPila', 'assets/images/hud/iconoPila.png');
         this.load.spritesheet('hudPilaBarra', 'assets/images/hud/iconoPilaBarra.png', {
@@ -117,7 +117,7 @@ export default class MainGame extends Phaser.Scene {
             frameHeight: 16
         });
 
-        // Creamos los slots de armas 
+        // Creamos los slots de armas
         this.load.spritesheet('hudWeaponSlot', 'Assets/images/hUD/iconoArma.png', {
             frameWidth: 48,
             frameHeight: 48
@@ -151,11 +151,11 @@ export default class MainGame extends Phaser.Scene {
 
         // Hoja de sprites del profesor corrupto
         this.load.spritesheet('corruptedTeacher_right', 'Assets/images/entities/enemies/profesor_a/professor_a_right_spritesheet.png', {
-            frameWidth: 285, 
+            frameWidth: 285,
             frameHeight: 324
         });
         this.load.spritesheet('corruptedTeacher_left', 'Assets/images/entities/enemies/profesor_a/professor_a_left_spritesheet.png', {
-            frameWidth: 285, 
+            frameWidth: 285,
             frameHeight: 324
         });
 
@@ -168,7 +168,7 @@ export default class MainGame extends Phaser.Scene {
         });
     }
 
-    // create - método de las escenas que se llama una vez la escena está instanciada
+    // Create - método de las escenas que se llama una vez la escena está instanciada
     create() {
         // Creamos el nivel y añadimos las entidades a todas las salas
         this.level = new Level(this);
@@ -191,9 +191,9 @@ export default class MainGame extends Phaser.Scene {
 
         // Creamos enemigos
         this.enemies = [
-            // new Popup(100, 20, this, this.player.x - 450, this.player.y, 150, 'pop-up', 0, this.player, 300, 100),
-            // new Bug(100, 20, this, this.player.x - 550, this.player.y, 150, 'bug', 0, this.player, 30, 10),
-            // new Trojan(100, 20, this, this.player.x - 650, this.player.y, 150, 'trojan', 0, this.player, 30, 150, 10),
+            // New Popup(100, 20, this, this.player.x - 450, this.player.y, 150, 'pop-up', 0, this.player, 300, 100),
+            // New Bug(100, 20, this, this.player.x - 550, this.player.y, 150, 'bug', 0, this.player, 30, 10),
+            // New Trojan(100, 20, this, this.player.x - 650, this.player.y, 150, 'trojan', 0, this.player, 30, 150, 10),
             new Spambot(100, 20, this, this.player.x + 200, this.player.y, 150, 'spambot_right', 0, this.player, 200, 150, 3),
             new CorruptedTeacher(100, 20, this, this.player.x + 400, this.player.y, 75, 'corruptedTeacher_right', 0, this.player, 30, 0.5)
         ];
@@ -202,7 +202,7 @@ export default class MainGame extends Phaser.Scene {
         this.level.addEntity(this.player);
         this.enemies.forEach(enemy => this.level.addEntity(enemy));
 
-        // roundPixels = true para que la cámara no dibuje en posiciones decimales
+        // RoundPixels = true para que la cámara no dibuje en posiciones decimales
         this.cameras.main.startFollow(this.player, true);
 
         //Creamos el HUD
@@ -232,7 +232,7 @@ export default class MainGame extends Phaser.Scene {
         this.upgrades.forEach(upgrade => upgrade.setDepth(4));
 
         // El daño se comprueba con las hurtboxes (cubren el dibujo), no con los body (que van en los pies).
-        // owner es la entidad a la que pertenece cada hurtbox
+        // Owner es la entidad a la que pertenece cada hurtbox
         this.enemies.forEach(enemy => {
             this.physics.add.overlap(enemy.hurtbox, this.player.hurtbox, (enemyBox, playerBox) => {
                 if (enemyBox.owner.canAttack()) {
@@ -242,7 +242,7 @@ export default class MainGame extends Phaser.Scene {
 
             // Comprobamos si el enemigo dispara proyectiles
             if (enemy.proyectiles) {
-                
+
                 const projectileOverlap = this.physics.add.overlap(this.player.hurtbox, enemy.proyectiles, (playerBox, proyectile) => {
                     playerBox.owner.takeDamage(enemy.damage);
                     proyectile.destroy();
@@ -255,7 +255,7 @@ export default class MainGame extends Phaser.Scene {
         this.weapons.forEach(weapon => {
             if (!(weapon instanceof LongRangeWeapon)) return;
 
-            // overlap (y no collider) para que el proyectil no empuje a la hurtbox
+            // Overlap (y no collider) para que el proyectil no empuje a la hurtbox
             this.enemies.forEach(enemy => {
                 this.physics.add.overlap(enemy.hurtbox, weapon.proyectiles, (enemyBox, proyectile) => {
                     enemyBox.owner.takeDamage(proyectile.getData('damage'));
@@ -264,11 +264,8 @@ export default class MainGame extends Phaser.Scene {
                 });
             });
         });
-        
-        
 
         // ------------------------------------ANIMACIONES JUGADOR-----------------------------------------
-
         // Creamos la animación de idle del jugador
         this.anims.create({
             key: "player_idle_right",
@@ -300,7 +297,6 @@ export default class MainGame extends Phaser.Scene {
         });
 
         // ------------------------------------ANIMACIONES ENEMIGOS-----------------------------------------
-
         this.anims.create({
             key: 'pop-up_hidden',
             frames: this.anims.generateFrameNumbers('pop-up', { start: 0, end: 3 }),
@@ -475,7 +471,7 @@ export default class MainGame extends Phaser.Scene {
             frameRate: 10,
             repeat: 0
         });
-        
+
         this.anims.create({
             key: 'spambot_hurt_left',
             frames: this.anims.generateFrameNumbers('spambot_left', { start: 24, end: 26 }),
@@ -489,7 +485,7 @@ export default class MainGame extends Phaser.Scene {
             frameRate: 10,
             repeat: 0
         });
-        
+
         this.anims.create({
             key: 'spambot_death_left',
             frames: this.anims.generateFrameNumbers('spambot_left', { start: 32, end: 39 }),
@@ -510,7 +506,7 @@ export default class MainGame extends Phaser.Scene {
             frameRate: 14,
             repeat: -1
         });
-        
+
         this.anims.create({
             key: 'spambot_proyectile_0_right',
             frames: this.anims.generateFrameNumbers('spambot_right', { start: 40, end: 42}),
@@ -538,7 +534,7 @@ export default class MainGame extends Phaser.Scene {
             frameRate: 7,
             repeat: -1
         });
-        
+
         this.anims.create({
             key: 'corruptedTeacher_mov_right',
             frames: this.anims.generateFrameNumbers('corruptedTeacher_right', { start: 8, end: 15}),
@@ -589,7 +585,6 @@ export default class MainGame extends Phaser.Scene {
         });
 
         // ------------------------------------ANIMACIONES ARMAS-----------------------------------------
-        
         // Creamos las animaciones de ataque de las armas (frames y duraciones de sus .tsx)
         Weapon.createFireAnimations(this);
 
@@ -659,7 +654,6 @@ export default class MainGame extends Phaser.Scene {
         });
 
         // ------------------------------------ANIMACIONES MEJORAS-----------------------------------------
-
         this.anims.create({
             key: "Antivirus_idle",
             frames: this.anims.generateFrameNames("Antivirus", { start: 0, end: 7 }),
@@ -696,6 +690,7 @@ export default class MainGame extends Phaser.Scene {
         });
     }
 
+    // Actualiza la escena en cada frame.
     update() {
         if (this.hud && this.player) {
             this.hud.update(this.player);

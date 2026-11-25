@@ -2,7 +2,7 @@ import Trap from '../Trap.js';
 
 /**
  * Cables sueltos: se puede pasar por encima, pero dañan al jugador
- * mientras permanece sobre ellos.
+ * Mientras permanece sobre ellos.
  * @extends Trap
  */
 export default class LooseCables extends Trap {

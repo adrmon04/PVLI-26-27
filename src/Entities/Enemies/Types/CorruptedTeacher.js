@@ -27,10 +27,11 @@ export default class CorruptedTeacher extends Enemy {
         // Velocidad de ataque del profesor corrupto
         this.attackSpeed = attackSpeed;
 
-        // Dirección del movimiento 
+        // Dirección del movimiento
         this.lastDirection = 'right';
     }
 
+    // Actualiza la entidad en cada frame.
     preUpdate(t, dt) {
 
         // Llamada al constructor de la clase Enemy
@@ -45,11 +46,11 @@ export default class CorruptedTeacher extends Enemy {
             const target = this.player.hurtbox;
             const from = this.hurtbox;
             const dir = new Phaser.Math.Vector2(target.x - from.x, target.y - from.y);
-    
-            // Actualizamos la dirección de movimiento 
+
+            // Actualizamos la dirección de movimiento
             if (dir.x > 0) this.lastDirection = 'right';
             else if (dir.x < 0) this.lastDirection = 'left';
-    
+
             // Si ya está encima, se para (evita que tiemble al llegar)
             if (dir.length() >= this.range) {
                 dir.normalize();
@@ -59,7 +60,7 @@ export default class CorruptedTeacher extends Enemy {
             else {
 
                 this.body.setVelocity(0, 0);
-    
+
                 // Reproducimos su animación de ataque
                 this.play('corruptedTeacher_attack_' + this.lastDirection, true);
             }

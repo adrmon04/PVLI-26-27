@@ -4,7 +4,7 @@ export const ENTITY_SIZE = TILE_SIZE * 2;
 
 // Altura (en píxeles del frame original) que ocupa el dibujo dentro de cada spritesheet.
 // Los frames tienen mucho espacio transparente alrededor, así que se escala según el dibujo
-// y no según el frame entero. Si una imagen no está aquí, se usa la altura del frame.
+// Y no según el frame entero. Si una imagen no está aquí, se usa la altura del frame.
 const ART_HEIGHT = {
     'player_right': 162,   // frame 192x192
     'player_left': 162,    // frame 192x192
@@ -32,7 +32,7 @@ export default class Entity extends Phaser.GameObjects.Sprite {
      * @param {Phaser.Scene} scene - Escena de aparición
      * @param {number} x - Coordenada X
      * @param {number} y - Coordenada Y
-     * @param {number} speed - Velocidad de movimiento 
+     * @param {number} speed - Velocidad de movimiento
      * @param {number} attackSpeed - Ataques por segundo
      * @param {string} imgKey - Nombre de la imagen que representa a la entidad
      */
@@ -50,7 +50,7 @@ export default class Entity extends Phaser.GameObjects.Sprite {
         this.scene.physics.add.existing(this);
 
         // Escalamos para que el dibujo mida 2 tiles de alto.
-        // setScale (y no setDisplaySize) para mantener las proporciones de frames no cuadrados
+        // SetScale (y no setDisplaySize) para mantener las proporciones de frames no cuadrados
         let artHeight = ART_HEIGHT[imgKey];
 
         if (artHeight === undefined || artHeight === null) {
@@ -168,7 +168,7 @@ export default class Entity extends Phaser.GameObjects.Sprite {
         this.isDead = true;
 
         // Paralizamos a la entidad, reproducimos su animación de muerte y programamos su destrucción
-        // para cuando finalice dicha animación
+        // Para cuando finalice dicha animación
         this.body.setVelocity(0, 0);
 
         // Hacemos lo mismo que en hurt pero para la muerte

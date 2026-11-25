@@ -3,18 +3,17 @@ import Weapon from "../Weapon.js";
  * Clase que extiende la clase arma adaptada para armas de corto alcance
  * @extends Weapon
  */
-
 export default class ShortRangeWeapon extends Weapon {
 
     /**
      * Constructor de Weapon
      * @param {Scene} scene - Escena en la que aparecerá el arma
-     * @param {number} x - coordenada X
-     * @param {number} y - coordenada Y
-     * @param {string} imgKey - nombre de la imagen que representa al arma
-     * @param {number} attackSpeed - velocidad de ataque del arma (ataques por segundo)
-     * @param {number} damage - daño que inflige el arma
-     * @param {number} range - rango del arma
+     * @param {number} x - Coordenada X
+     * @param {number} y - Coordenada Y
+     * @param {string} imgKey - Nombre de la imagen que representa al arma
+     * @param {number} attackSpeed - Velocidad de ataque del arma (ataques por segundo)
+     * @param {number} damage - Daño que inflige el arma
+     * @param {number} range - Rango del arma
     */
     constructor(scene, x, y, imgKey, attackSpeed, damage, range) {
 
@@ -23,6 +22,7 @@ export default class ShortRangeWeapon extends Weapon {
         super(scene, x, y, imgKey, attackSpeed, damage, range);
     }
 
+    // Actualiza la entidad en cada frame.
     preUpdate(t, dt) {
 
         // Llamamos al método preUpdate de Weapon

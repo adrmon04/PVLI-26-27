@@ -4,28 +4,28 @@ import Weapon, { WEAPON_SCALE } from "../Weapon.js";
  * @extends Weapon
  */
 export default class LongRangeWeapon extends Weapon {
-    
+
     /**
      * Constructor de LongRangeWeapon
      * @param {Scene} scene - Escena en la que aparecerá el arma
-     * @param {number} x - coordenada X
-     * @param {number} y - coordenada Y
-     * @param {string} imgKey - nombre de la imagen que representa al arma
-     * @param {number} attackSpeed - velocidad de ataque del arma (ataques por segundo)
-     * @param {number} damage - daño que inflige el arma
-     * @param {number} range - rango del arma 
+     * @param {number} x - Coordenada X
+     * @param {number} y - Coordenada Y
+     * @param {string} imgKey - Nombre de la imagen que representa al arma
+     * @param {number} attackSpeed - Velocidad de ataque del arma (ataques por segundo)
+     * @param {number} damage - Daño que inflige el arma
+     * @param {number} range - Rango del arma
      * @param {string} proyectileImgKey - Nombre de la imagen del proyectil
      * @param {number} proyectileSpeed - Velocidad del proyectil
-     * @param {number} penetration - nº enemigos que puede atravesar el proyectil
-     * @param {number} burstSize - nº de proyectiles que dispara en ráfaga
+     * @param {number} penetration - Nº enemigos que puede atravesar el proyectil
+     * @param {number} burstSize - Nº de proyectiles que dispara en ráfaga
     */
     constructor(scene, x, y, imgKey, attackSpeed, damage, range, proyectileSpeed, penetration, burstSize) {
         // Llamamos al constructor de la clase weapon
         super(scene, x, y, imgKey, attackSpeed, damage, range);
 
-        // Creamos un grupo de entidades físicas para almacenar los proyectiles generados por el arma        
+        // Creamos un grupo de entidades físicas para almacenar los proyectiles generados por el arma
         // Las entidades creadas serán Sprites que podrán colisionar con los límites del mundo y que,
-        // al crearse, modificarán su escala de acuerdo a WEAPON_SCALE y reproducirán su animación
+        // Al crearse, modificarán su escala de acuerdo a WEAPON_SCALE y reproducirán su animación
         this.proyectiles = scene.physics.add.group({
             classType: Phaser.Physics.Arcade.Sprite,
             defaultKey: this.imgKey + "Proyectile",
@@ -36,11 +36,13 @@ export default class LongRangeWeapon extends Weapon {
                 proyectile.play(this.imgKey + "_proyectile", true);
             }
         });
-        this.proyectileSpeed = proyectileSpeed; 
+        
+        this.proyectileSpeed = proyectileSpeed;
         this.penetration = penetration;
         this.burstSize = burstSize;
     }
 
+    // Actualiza la entidad en cada frame.
     preUpdate(t, dt) {
 
         // Llamamos al método preUpdate de Weapon
@@ -54,17 +56,17 @@ export default class LongRangeWeapon extends Weapon {
             const initialY = proyectile.getData('initialY');
 
             // Comprobamos que la distancia entre su posición inicial y la actual no supere el rango y
-            // que el proyectil no haya colisionado con nada
-            if (Phaser.Math.Distance.Between(initialX, initialY, proyectile.x, proyectile.y) >= this.range || 
+            // Que el proyectil no haya colisionado con nada
+            if (Phaser.Math.Distance.Between(initialX, initialY, proyectile.x, proyectile.y) >= this.range ||
             !proyectile.body.blocked.none) {
                 proyectile.destroy();
             }
         });
 
     }
-    
+
     // Posición de la boca del arma en el mundo. El arma gira sobre su pivote,
-    // así que la boca está a (muzzle - pivot) píxeles en la dirección a la que apunta
+    // Así que la boca está a (muzzle - pivot) píxeles en la dirección a la que apunta
     getMuzzle() {
         const { tileWidth, pivot, muzzle } = this.spriteData;
         const distance = (muzzle[0] - pivot[0]) * this.displayWidth / tileWidth;

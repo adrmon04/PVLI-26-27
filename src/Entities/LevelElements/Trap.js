@@ -23,8 +23,9 @@ export default class Trap extends Phaser.GameObjects.Zone {
         this.area = width * height;
         this.blocksMovement = false;
     }
-    
+
+    // Construye los elementos de la escena.
     create(){
-        
+
     }
 }

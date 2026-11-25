@@ -1,13 +1,17 @@
 export default class MainMenu extends Phaser.Scene {
+
+    // Inicializa los datos de la instancia.
 	constructor() {
 		super({ key: 'MainMenu' });
 	}
 
+    // Inicializa los datos de la escena.
 	init(){
 
 	}
 
-	preload(){		
+    // Carga los recursos necesarios.
+	preload(){
 		// Cargamos la hoja de sprites de los botones de "INICIAR PARTIDA" y "CRÉDITOS"
 		this.load.spritesheet("mainMenuButtons", "Assets/images/HUD/buttonsSpritesheet.png", {
 			frameWidth: 144, // Ancho total de la hoja partido del número de columnas
@@ -15,11 +19,11 @@ export default class MainMenu extends Phaser.Scene {
 		});
 	}
 
+    // Construye los elementos de la escena.
 	create(){
 		// El fondo va primero para que quede detrás del título y de los botones.
 		this.createBackground();
-		//this.createTitle();
-
+		//This.createTitle();
 		// Añadimos los botones
 		const startButton = this.add.sprite(this.scale.width * 5 / 6, this.scale.height * 5 / 7,
 			"mainMenuButtons", 0).setInteractive();
@@ -42,9 +46,8 @@ export default class MainMenu extends Phaser.Scene {
 			repeat: 0
 		});
 
-
 		// Nos encargamos de que que cambie la apariencia del botón en función de
-		// si se pasa el ratón por encima o si se pulsa
+		// Si se pasa el ratón por encima o si se pulsa
 		startButton.on("pointerover", () => {
 			startButton.setFrame(1);
 		});
@@ -79,6 +82,7 @@ export default class MainMenu extends Phaser.Scene {
 		});
 	}
 
+    // Construye el fondo visual.
 	createBackground() {
 		// Usa el tamaño interno del juego para dibujar un fondo que cubra todo el canvas.
 		const { width, height } = this.scale;
@@ -132,7 +136,6 @@ export default class MainMenu extends Phaser.Scene {
 
 	}
 	//
-	
 	update(){
 
 	}

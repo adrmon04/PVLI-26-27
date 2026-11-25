@@ -30,14 +30,17 @@ const buttonShape = (w, h, c) => [
 /**
  * Menú de pausa. Se lanza encima de MainGame, que queda congelada pero visible de fondo.
  * El CSS no se aplica a lo que se dibuja en el canvas, así que los colores y las fuentes
- * se leen de las variables de css/game.css.
+ * Se leen de las variables de css/game.css.
  * @extends Phaser.Scene
  */
 export default class PauseMenu extends Phaser.Scene {
+
+    // Inicializa los datos de la instancia.
     constructor() {
         super({ key: 'PauseMenu' });
     }
 
+    // Construye los elementos de la escena.
     create() {
         this.closing = false;
         this.selected = 0;
@@ -92,6 +95,7 @@ export default class PauseMenu extends Phaser.Scene {
         });
     }
 
+    // Gestiona createPanelBackground.
     createPanelBackground() {
         const { panel, phosphor } = this.palette;
         const accent = toColor(phosphor);
@@ -124,6 +128,7 @@ export default class PauseMenu extends Phaser.Scene {
         this.panel.add(background);
     }
 
+    // Gestiona createHeader.
     createHeader() {
         const { magenta, cyan, error, ice } = this.palette;
 
@@ -149,6 +154,7 @@ export default class PauseMenu extends Phaser.Scene {
         }
     }
 
+    // Gestiona createButton.
     createButton(index, label, accent, action) {
         const y = FIRST_BUTTON_Y + index * BUTTON_GAP;
         const labelX = -BUTTON_WIDTH / 2 + 32;
@@ -170,7 +176,7 @@ export default class PauseMenu extends Phaser.Scene {
         zone.on('pointerdown', () => { this.pressed = index; });
 
         // Se actúa al soltar: si fuera al pulsar, el clic seguiría activo al volver al juego
-        // y el arma dispararía
+        // Y el arma dispararía
         zone.on('pointerup', () => {
             if (this.pressed === index) this.activate(index);
         });
@@ -180,17 +186,20 @@ export default class PauseMenu extends Phaser.Scene {
         return { background, arrow, text, labelX, accent, action };
     }
 
+    // Gestiona createText.
     createText(x, y, content, style) {
         const text = this.add.text(x, y, content, style);
         this.texts.push(text);
         return text;
     }
 
+    // Gestiona select.
     select(index) {
         this.selected = index;
         this.refreshButtons();
     }
 
+    // Gestiona refreshButtons.
     refreshButtons() {
         const shape = buttonShape(BUTTON_WIDTH, BUTTON_HEIGHT, BUTTON_CUT);
         const offsetShape = (dx) => shape.map(({ x, y }) => ({ x: x + dx, y }));
@@ -220,6 +229,7 @@ export default class PauseMenu extends Phaser.Scene {
         });
     }
 
+    // Gestiona activate.
     activate(index) {
         if (this.closing) return;
 
@@ -227,6 +237,7 @@ export default class PauseMenu extends Phaser.Scene {
         this.buttons[index].action();
     }
 
+    // Gestiona resumeGame.
     resumeGame() {
         this.sound.resumeAll();
         this.scene.resume('MainGame');
@@ -240,6 +251,7 @@ export default class PauseMenu extends Phaser.Scene {
         this.scene.start(sceneKey);
     }
 
+    // Gestiona playIntro.
     playIntro() {
         if (this.reduceMotion) return;
 

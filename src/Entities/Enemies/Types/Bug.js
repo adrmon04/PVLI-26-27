@@ -21,6 +21,7 @@ export default class Bug extends Enemy {
         this.range = range;
     }
 
+    // Actualiza la entidad en cada frame.
     preUpdate(t, dt) {
 
         // Llamamos al preUpdate de la clase padre
@@ -35,7 +36,7 @@ export default class Bug extends Enemy {
             const target = this.player.hurtbox;
             const from = this.hurtbox;
             const dir = new Phaser.Math.Vector2(target.x - from.x, target.y - from.y);
-    
+
             // Si ya está encima, se para (evita que tiemble al llegar)
             if (dir.length() >= this.range) {
                 dir.normalize();
@@ -48,7 +49,7 @@ export default class Bug extends Enemy {
 
                 // Comprobamos si el jugador puede atacar
                 this.play('bug_attack', true);
-                
+
             }
         }
 

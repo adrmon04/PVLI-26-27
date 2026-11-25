@@ -1,7 +1,6 @@
 // Botón de pantalla completa de la página.
 // Se pone en pantalla completa todo #gameContainer (y no solo el canvas) para que el botón
-// y el efecto CRT sigan visibles. Phaser (Scale.FIT) reajusta el canvas solo al nuevo tamaño.
-
+// Y el efecto CRT sigan visibles. Phaser (Scale.FIT) reajusta el canvas solo al nuevo tamaño.
 const container = document.getElementById('gameContainer');
 const button = document.getElementById('fullscreenBtn');
 

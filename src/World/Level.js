@@ -3,7 +3,7 @@ import Room from './Room.js';
 /**
  * Level: el nivel completo, formado por varias salas (Room) colocadas en el mundo.
  * Se encarga de cargar y crear todas las salas, ajustar los límites del mundo de físicas
- * y conectar las entidades con todas las salas.
+ * Y conectar las entidades con todas las salas.
  * La cámara no se gestiona aquí: sigue al jugador desde MainGame (startFollow).
  *
  * ---------- ROOMS ----------
@@ -26,7 +26,6 @@ import Room from './Room.js';
  * Hace que una entidad choque con los muros/puertas y active las trampas de todas las salas.
  * @param {Phaser.GameObjects.GameObject} entity - Jugador o enemigo
  */
-
 const ROOMS = [
     { key: 'room1', path: 'Assets/Tiles/Sala1.json', x: 0, y: 0 },
     // { key: 'sala2', path: 'Assets/Tiles/Sala2.json', x: 1920, y: 0 }, Esto se aplicara en el futuro con una generacion procedural de salas
@@ -40,6 +39,7 @@ export default class Level{
         }
     }
 
+    // Inicializa los datos de la instancia.
     constructor(scene){
         this.scene = scene;
 
@@ -53,6 +53,7 @@ export default class Level{
         scene.physics.world.setBounds(total.x, total.y, total.width, total.height);
     }
 
+    // Conecta una entidad con el nivel.
     addEntity(entity){
         for(const room of this.rooms){
             room.addEntity(entity);

@@ -1,20 +1,25 @@
 export default class DefeatMenu extends Phaser.Scene {
+
+    // Inicializa los datos de la instancia.
     constructor (){
         super({ key: 'DefeatMenu'})
     }
 
+    // Inicializa los datos de la escena.
     init(){
 
 	}
 
-	preload(){		
+    // Carga los recursos necesarios.
+	preload(){
 		// Cargamos la hoja de sprites de los botones de "INICIAR PARTIDA" y "CRÉDITOS"
 		this.load.spritesheet("defeatMenuButtons", "Assets/images/HUD/buttonsSpritesheet2.png", {
 			frameWidth: 144, // Ancho total de la hoja partido del número de columnas
 			frameHeight: 32, // Altura total de la hoja partido del número de filas
 		});
 	}
-    
+
+    // Construye los elementos de la escena.
     create() {
         const fuente = new FontFace('Fuente', 'url(Assets/fonts/fuente.ttf)');
         fuente.load().then((loaded) => {
@@ -25,7 +30,7 @@ export default class DefeatMenu extends Phaser.Scene {
 
         const newGameButton = this.add.sprite(this.scale.width * 1 / 3, this.scale.height * 1 / 2,
 			"defeatMenuButtons", 6).setInteractive();
-        
+
         const mainMenuButton = this.add.sprite(this.scale.width * 2 / 3, this.scale.height * 1 / 2,
 			"defeatMenuButtons", 0).setInteractive();
 
@@ -45,9 +50,8 @@ export default class DefeatMenu extends Phaser.Scene {
 			repeat: 0
 		});
 
-
 		// Nos encargamos de que que cambie la apariencia del botón en función de
-		// si se pasa el ratón por encima o si se pulsa
+		// Si se pasa el ratón por encima o si se pulsa
 		newGameButton.on("pointerover", () => {
 			newGameButton.setFrame(7);
 		});

@@ -38,7 +38,6 @@ import LooseCables from '../Entities/LevelElements/Obstacles/LooseCables.js';
  * @property {number} inmovilizacion_s - Segundos de inmovilización de BlueScreen
  * (El daño de 'damage' y 'cables' se define en CORRUPTED_FLOOR_DPS y LOOSE_CABLES_DPS)
  */
-
 const TILESETS = [
     // [nombre en Tiled, key de la imagen, ruta]
     ['faculty_tileset',   'tiles_sala',   'Assets/Tiles/tiledsets/faculty_tileset.png'],
@@ -64,6 +63,7 @@ export default class Room {
         }
     }
 
+    // Inicializa los datos de la instancia.
     constructor(scene, key, x = 0, y = 0){
         this.scene = scene;
         this.tileMap = scene.make.tilemap({ key });
@@ -88,7 +88,7 @@ export default class Room {
         this.door.setCollisionByProperty({ solid: true });
 
         // En los muros de abajo solo choca el frente (wall_face): el jugador puede meterse
-        // en el techo del muro y queda medio tapado por él, como en una vista 3/4
+        // En el techo del muro y queda medio tapado por él, como en una vista 3/4
         if (this.wallsFront) {
             this.wallsFront.forEachTile(tile => {
                 if (tile.properties?.name?.startsWith('wall_face')) {
@@ -97,7 +97,7 @@ export default class Room {
             });
         }
 
-        // Se crean las trampas en base a la capa de trampas 
+        // Se crean las trampas en base a la capa de trampas
         this.trapObjects = this.createTraps();
 
         // Rectangulo que va a ocupar la sala en el nivel, teneindo en cuenta que va a haber mas de una sala
@@ -105,20 +105,21 @@ export default class Room {
 
     }
 
+    // Crea las trampas de la sala.
     createTraps(){
         const traps = [];
 
         this.traps.forEachTile((tile) => {
             const p = tile.properties;
 
-            // cada trampa tiene su sombre/tipo hazard (peligro)
+            // Cada trampa tiene su sombre/tipo hazard (peligro)
             if(p && p.hazard){
                 // Si es una trampa se crea el objeto
                 const x  = tile.getCenterX();
                 const y = tile.getCenterY();
 
                 const s = this.tileMap.tileWidth;
-                
+
                 switch(p.hazard){
                     case 'slow':
                         traps.push(new LagZone(this.scene, x, y, s, s, p.ralentizacion_pct));
@@ -139,6 +140,7 @@ export default class Room {
         return traps;
     }
 
+    // Conecta una entidad con el nivel.
     addEntity(entity){
         this.scene.physics.add.collider(entity, this.walls);
         this.scene.physics.add.collider(entity, this.door);

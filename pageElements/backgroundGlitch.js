@@ -1,7 +1,6 @@
 // Glitches aleatorios en el fondo de la página web (no afecta al juego).
 // Cada cierto tiempo aparecen rayas y bloques de neón en sitios al azar durante una fracción de segundo.
 // Van detrás de todo el contenido (z-index 0) y no reciben clics.
-
 const COLORS = ['#19e3ff', '#ee3d84', '#5dff3a', '#e4204d'];
 
 // Tiempo entre ráfagas de glitch (ms)
@@ -33,7 +32,7 @@ if (!reduceMotion) {
 
     /**
      * Crea una raya (fina y larga) o un bloque (más alto, con líneas) en un sitio al azar
-     * y lo borra al poco tiempo.
+     * Y lo borra al poco tiempo.
      */
     function spawnBar() {
         const bar = document.createElement('span');

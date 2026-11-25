@@ -9,11 +9,10 @@ export default class Upgrade extends Phaser.GameObjects.Sprite {
     /**
      * Constructor de Upgrade
      * @param {Scene} scene - Escena en la que aparecerá el arma
-     * @param {number} x - coordenada X
-     * @param {number} y - coordenada Y
-     * @param {string} imgKey - nombre de la imagen que representa al arma
+     * @param {number} x - Coordenada X
+     * @param {number} y - Coordenada Y
+     * @param {string} imgKey - Nombre de la imagen que representa al arma
     */
-
     constructor(scene, x, y, imgKey) {
         super(scene, x, y, imgKey);
 
@@ -23,6 +22,7 @@ export default class Upgrade extends Phaser.GameObjects.Sprite {
         this.keys = this.scene.input.keyboard.addKeys('E');
     }
 
+    // Actualiza la entidad en cada frame.
     preUpdate(t, dt) {
         super.preUpdate(t, dt);
 
@@ -36,6 +36,7 @@ export default class Upgrade extends Phaser.GameObjects.Sprite {
         else this.play(this.imgKey + "_idle", true);
     }
 
+    // Gestiona applyUpgrade.
     applyUpgrade() {
         const player = this.scene.player;
         switch (this.imgKey) {

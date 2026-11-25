@@ -22,13 +22,13 @@ const ENEMY_LAYOUTS = {
         hurtboxOffsetY: 4,
     },
     spambot: {
-        pivotX: 88,          
+        pivotX: 88,
         pivotY: 100,
         frameWidth: 144,
         frameHeight: 130,
         hurtboxWidth: 36,
         hurtboxHeight: 60,
-        hurtboxOffsetX: 8,   
+        hurtboxOffsetX: 8,
         hurtboxOffsetY: -7,
     },
     corruptedTeacher: {
@@ -50,14 +50,14 @@ const ENEMY_LAYOUTS = {
  */
 export default class Enemy extends Entity {
     /**
-     * @param {number} health 
+     * @param {number} health
      * @param {number} damage
-     * @param {Phaser.Scene} scene 
-     * @param {number} x 
-     * @param {number} y 
-     * @param {number} speed 
-     * @param {number} attackSpeed 
-     * @param {string} imgKey 
+     * @param {Phaser.Scene} scene
+     * @param {number} x
+     * @param {number} y
+     * @param {number} speed
+     * @param {number} attackSpeed
+     * @param {string} imgKey
      * @param {Player} player - Referencia al jugador para poder perseguirle
      */
     constructor(health, damage, scene, x, y, speed, attackSpeed, imgKey, frame, player) {

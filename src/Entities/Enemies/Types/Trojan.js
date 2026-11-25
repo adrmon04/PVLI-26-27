@@ -32,6 +32,7 @@ export default class Trojan extends Enemy {
         });
     }
 
+    // Actualiza la entidad en cada frame.
     preUpdate(t, dt) {
 
         // Llamamos al método preUpdate de la clase padre
@@ -44,10 +45,10 @@ export default class Trojan extends Enemy {
             const target = this.player.hurtbox;
             const from = this.hurtbox;
             const dir = new Phaser.Math.Vector2(target.x - from.x, target.y - from.y);
-    
+
             if (this.hidden) {
                 this.body.setVelocity(0, 0);
-    
+
                 if (Phaser.Math.Distance.Between(this.x, this.y, this.player.x, this.player.y) <= this.detectionRange) {
                     if (!this.appearing) {
                         this.appearing = true;
@@ -68,7 +69,7 @@ export default class Trojan extends Enemy {
                 else {
                     this.body.setVelocity(0, 0);
                     this.play('trojan_attack', true);
-                    
+
                 }
             }
         }

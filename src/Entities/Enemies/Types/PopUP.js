@@ -6,23 +6,23 @@ import Enemy from "../Enemy.js";
 export default class Popup extends Enemy {
     /**
      * Constructor del enemigo Pop-up con sus parametros
-     * @param {number} health - Vida 
+     * @param {number} health - Vida
      * @param {number} damage - Daño de la explosión
      * @param {Phaser.Scene} scene - Escena en la que aparece
      * @param {number} x - Coordenada x que ocupa en la escena
      * @param {number} y - Coordenada y que ocupa en la escena
      * @param {number} speed - Velocidad de desplazamiento
-     * @param {string} spritesheetKey - Nombre de la hoja de sprites 
+     * @param {string} spritesheetKey - Nombre de la hoja de sprites
      * @param {number} frame - Frame de la hoja de sprites que le representa cuando aparece en la escena
-     * @param {Player} player - Referencia al jugador 
+     * @param {Player} player - Referencia al jugador
      * @param {number} detectionRange - Distancia de detección del jugador
-     * @param {number} explosionRange - Distancia a la que tiene que estar el jugador para que el Pop-up inicie su explosión
+     * @param {number} explosionRange - Distancia a la que tiene que estar el jugador para que el Pop-Up inicie su explosión
      */
     constructor(health, damage, scene, x, y, speed, spritesheetKey, frame, player, detectionRange, explosionRange) {
 
-        /** 
+        /**
          * Llamamos al constructor de Enemy
-         * Sin embargo, el valor de attackSpeed con el que la llamamos es 0 
+         * Sin embargo, el valor de attackSpeed con el que la llamamos es 0
          * Esto se debe a que el Pop-up no la llega a usar realmente
          */
         super(health, damage, scene, x, y, speed, 1, spritesheetKey, frame, player);
@@ -38,7 +38,7 @@ export default class Popup extends Enemy {
         this.explosion = false;
 
         // Añadimos estos listeners de las animaciones para gestionarlas y evitar que se interrumpan unas
-        // a otras
+        // A otras
         this.on('animationcomplete', (anim) => {
             switch (anim.key) {
                 case 'pop-up_appear':
@@ -62,27 +62,28 @@ export default class Popup extends Enemy {
         });
     }
 
+    // Actualiza la entidad en cada frame.
     preUpdate(t, dt) {
 
         // Llamamos al preUpdate de la clase padre
         super.preUpdate(t, dt);
 
-        // Si el jugador se encuentra fuera del rango del Pop-up se mantiene quieto y reproduce su 
-        // animación de 'hidden'
+        // Si el jugador se encuentra fuera del rango del Pop-up se mantiene quieto y reproduce su
+        // Animación de 'hidden'
         if (this.hidden && Phaser.Math.Distance.Between(this.x, this.y, this.player.x, this.player.y) > this.detectionRange) {
             this.play('pop-up_hidden', true);
         }
         else {
 
             // Usamos esta condición para que la primera vez que el jugador entre en el rango de detección
-            // del Pop-up este reproduzca su animación de 'appear' 
+            // Del Pop-up este reproduzca su animación de 'appear'
             if (this.hidden) {
                 this.play('pop-up_appear', true);
             }
             else {
 
                 // Si el Pop-up aún no ha iniciado su secuencia de ataque, reproducimos su movimiento
-                // básico
+                // Básico
                 if (!this.attack && Phaser.Math.Distance.Between(this.x, this.y, this.player.x, this.player.y) > this.explosionRange) {
                     this.play('pop-up_mov', true);
 
@@ -103,8 +104,8 @@ export default class Popup extends Enemy {
                     // Si el Pop-up se queda quieto, reproducimos su animación de idle
                     if (Math.abs(this.body.velocity.x) > 0 || Math.abs(this.body.velocity.y) > 0) {
 
-                        // En función del sentido en el que se desplace (derecha o izquierda), setFlipX es false o 
-                        // true, respectivamente 
+                        // En función del sentido en el que se desplace (derecha o izquierda), setFlipX es false o
+                        // True, respectivamente
                         if (this.body.velocity.x > 0) {
                             this.setFlipX(false);
                         }
@@ -118,8 +119,8 @@ export default class Popup extends Enemy {
                 }
                 else {
 
-                    // Si el jugador entra en el rango de explosión del Pop-up, lo paralizamos e 
-                    // iniciamos su ataque
+                    // Si el jugador entra en el rango de explosión del Pop-up, lo paralizamos e
+                    // Iniciamos su ataque
                     this.body.setVelocity(0, 0);
                     if (!this.explosion) {
                         if (!this.explode) {

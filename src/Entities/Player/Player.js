@@ -8,15 +8,15 @@ import Entity from "../Entity.js";
 export default class Player extends Entity {
 
     /**
-     * @param {number} health 
+     * @param {number} health
      * @param {number} maxHealth
-     * @param {number} damage 
-     * @param {Scene} scene 
-     * @param {number} x 
-     * @param {number} y 
-     * @param {number} speed 
-     * @param {number} attackSpeed 
-     * @param {string} imgKey 
+     * @param {number} damage
+     * @param {Scene} scene
+     * @param {number} x
+     * @param {number} y
+     * @param {number} speed
+     * @param {number} attackSpeed
+     * @param {string} imgKey
      * @param {Weapon} weapon
      * @param {number} shopDiscount
      * @param {boolean} lucky
@@ -49,7 +49,7 @@ export default class Player extends Entity {
         this.keys = scene.input.keyboard.addKeys('W,A,S,D');
 
         // Colocamos el arma en 'postupdate', cuando las físicas ya han movido al jugador,
-        // para que no vaya un frame por detrás
+        // Para que no vaya un frame por detrás
         scene.events.on('postupdate', this.followWeapon, this);
         this.once('destroy', () => scene.events.off('postupdate', this.followWeapon, this));
 
@@ -64,6 +64,7 @@ export default class Player extends Entity {
         return this.weapons[this.activeSlot];
     }
 
+    // Gestiona el clic realizado con el raton.
     onPointerDown(pointer) {
         if (pointer.rightButtonDown()) this.switchWeapon();
     }
@@ -104,6 +105,7 @@ export default class Player extends Entity {
         this.weapons[this.activeSlot] = weapon;
     }
 
+    // Mantiene el arma junto al jugador.
     followWeapon() {
         if (this.weapon) {
 
@@ -114,12 +116,13 @@ export default class Player extends Entity {
 
             // Redondeamos para que el pixel art no se deforme con posiciones decimales
             this.weapon.setPosition(Math.round(this.x + 1 + handX * side), Math.round(this.y + 15 + handY));
-            
+
             // Una vez colocada, la giramos hacia el ratón
             this.weapon.aimAtPointer();
         }
     }
 
+    // Actualiza la entidad en cada frame.
     preUpdate(t, dt) {
 
         super.preUpdate(t, dt);
@@ -148,6 +151,7 @@ export default class Player extends Entity {
         }
     }
 
+    // Muestra las estadisticas del jugador.
     showStats() {
         console.log('Health: ' + this.health + '/' + this.maxHealth);
         console.log('Damage: ' + this.damage);

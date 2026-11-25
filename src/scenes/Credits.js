@@ -1,8 +1,11 @@
 export default class Credits extends Phaser.Scene {
+
+    // Inicializa los datos de la instancia.
 	constructor() {
 		super({ key: 'Credits' });
 	}
 
+    // Carga los recursos necesarios.
 	preload() {
 		this.load.spritesheet("menuButtons", "Assets/images/HUD/buttonsSpritesheet2.png", {
 			frameWidth: 144, // Ancho total de la hoja partido del número de columnas
@@ -10,12 +13,13 @@ export default class Credits extends Phaser.Scene {
 		});
 	}
 
+    // Construye los elementos de la escena.
 	create() {
 		const fuente = new FontFace('Fuente', 'url(Assets/fonts/fuente.ttf)');
 
 		fuente.load().then((loaded) => {
 			document.fonts.add(loaded);
-		});	
+		});
 
 		this.add.text(400, 100, 'CREDITOS', { fontSize: '36px', fontFamily: 'Fuente', fill: '#fff' }).setOrigin(0.5);
 		this.add.text(400, 150, 'JUEGO DESARROLLADO POR: ADRIAN, NICOLAS, ARTURO y PABLO', { fontSize: '24px', fontFamily: 'Fuente', fill: '#fff' }).setOrigin(0.5);
@@ -35,9 +39,8 @@ export default class Credits extends Phaser.Scene {
 			repeat: 0
 		});
 
-
 		// Nos encargamos de que que cambie la apariencia del botón en función de
-		// si se pasa el ratón por encima o si se pulsa
+		// Si se pasa el ratón por encima o si se pulsa
 		menuButton.on("pointerover", () => {
 			menuButton.setFrame(1);
 		});

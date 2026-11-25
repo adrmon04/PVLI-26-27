@@ -2,7 +2,6 @@
  * Clase que representa un arma
  * @extends Phaser.GameObjects.Sprite
  */
-
 // Escala de dibujo de las armas y proyectiles (sus imágenes están escaladas x4).
 // Con 0.18 las armas miden unos 36-45 px, en proporción a un jugador de 2 tiles
 export const WEAPON_SCALE = 0.20;
@@ -16,7 +15,7 @@ const PICKUP_RADIUS = 30;
  * - tileWidth / tileHeight: tamaño de un frame
  * - pivot: punto por el que se agarra el arma (sobre él gira y se coloca en la mano)
  * - holdPivot (opcional): pivote del frame en reposo (frame 0), si en ese frame el arma
- *   está dibujada en otro sitio que en los frames de ataque. Durante el ataque se usa pivot
+ *   Está dibujada en otro sitio que en los frames de ataque. Durante el ataque se usa pivot
  * - fireStart / fireDurations: primer frame del ataque y duración en ms de cada frame
  * - muzzle: boca del arma, de donde salen los proyectiles (solo armas de largo alcance)
  * - hand (opcional): [x, y] desplazamiento de la mano para esta arma, en píxeles de pantalla
@@ -24,7 +23,7 @@ const PICKUP_RADIUS = 30;
  * - heldScale (opcional): escala del arma cuando el jugador la lleva en la mano.
  *   Si no se indica, usa WEAPON_SCALE
  * - floorScale (opcional): escala del arma en el suelo (hoja FloorWeapons). Las armas
- *   cuerpo a cuerpo ocupan casi todo su frame en esa hoja y con WEAPON_SCALE se ven enormes
+ *   Cuerpo a cuerpo ocupan casi todo su frame en esa hoja y con WEAPON_SCALE se ven enormes
  */
 export const WEAPON_SPRITES = {
     MechanicalKeyboard: { tileWidth: 160, tileHeight: 160, pivot: [80, 80], holdPivot: [46, 80], heldScale: 0.20, floorScale: 0.15, fireStart: 6, fireDurations: [70, 50, 40, 50, 70, 90] },
@@ -43,15 +42,14 @@ export default class Weapon extends Phaser.GameObjects.Sprite {
     /**
      * Constructor de Weapon
      * @param {Scene} scene - Escena en la que aparecerá el arma
-     * @param {number} x - coordenada X
-     * @param {number} y - coordenada Y
-     * @param {string} imgKey - nombre de la imagen que representa al arma
-     * @param {number} attackSpeed - velocidad de ataque del arma (ataques por segundo)
-     * @param {number} damage - daño que inflige el arma
-     * @param {number} range - rango del arma
-     * @param {boolean} taken - indica si el arma está en el suelo o cogida por el jugador
+     * @param {number} x - Coordenada X
+     * @param {number} y - Coordenada Y
+     * @param {string} imgKey - Nombre de la imagen que representa al arma
+     * @param {number} attackSpeed - Velocidad de ataque del arma (ataques por segundo)
+     * @param {number} damage - Daño que inflige el arma
+     * @param {number} range - Rango del arma
+     * @param {boolean} taken - Indica si el arma está en el suelo o cogida por el jugador
     */
-
     constructor(scene, x, y, imgKey, attackSpeed, damage, range, taken = false) {
 
         super(scene, x, y, imgKey);
@@ -70,7 +68,6 @@ export default class Weapon extends Phaser.GameObjects.Sprite {
 
         // Propiedad que indica si el arma se ha cogido o está en el suelo.
         // Se conserva el valor recibido desde el constructor para permitir armas ya recogidas.
-
         // Propiedad que indica cuándo el arma atacó/disparó por última vez
         this.lastFireTime = 0;
 
@@ -80,7 +77,7 @@ export default class Weapon extends Phaser.GameObjects.Sprite {
         // Añadimos el arma a la escena
         this.scene.add.existing(this);
 
-        // setScale en vez de setDisplaySize para no deformar los frames que no son cuadrados
+        // SetScale en vez de setDisplaySize para no deformar los frames que no son cuadrados
         // Empieza en el suelo, con su escala de suelo
         this.setScale(this.spriteData.floorScale ?? WEAPON_SCALE);
 
@@ -108,6 +105,7 @@ export default class Weapon extends Phaser.GameObjects.Sprite {
         });
     }
 
+    // Actualiza la entidad en cada frame.
     preUpdate(t, dt) {
 
         super.preUpdate(t, dt);
@@ -143,7 +141,7 @@ export default class Weapon extends Phaser.GameObjects.Sprite {
         if (this !== player.weapon) return;
 
         // El arma dispara hacia la posicion del raton mientras se mantenga pulsado el clic izquierdo
-        // y haya pasado tiempo suficiente desde el último disparo (velocidad de ataque).
+        // Y haya pasado tiempo suficiente desde el último disparo (velocidad de ataque).
         // Al soltar el clic no se corta la animación: el ataque termina y vuelve al frame 0
         const clickDown = this.scene.input.activePointer.leftButtonDown();
 
@@ -176,7 +174,7 @@ export default class Weapon extends Phaser.GameObjects.Sprite {
     }
 
     // Posición del ratón en el mundo. Se recalcula con la cámara porque pointer.worldX
-    // solo se actualiza al mover el ratón, y si la cámara se mueve quedaría desfasado
+    // Solo se actualiza al mover el ratón, y si la cámara se mueve quedaría desfasado
     getPointerWorld() {
         const pointer = this.scene.input.activePointer;
         return this.scene.cameras.main.getWorldPoint(pointer.x, pointer.y);
@@ -204,6 +202,7 @@ export default class Weapon extends Phaser.GameObjects.Sprite {
         this.play(this.imgKey + "_idle", true);
     }
 
+    // Aumenta el nivel del arma.
     tierUp() {
         if (this.tier < 3) {
             this.tier++;
@@ -211,6 +210,7 @@ export default class Weapon extends Phaser.GameObjects.Sprite {
         }
     }
 
+    // Aplica las mejoras a las estadisticas del arma.
     upgradeStats() {
         this.attackSpeed *= 1 + PCTG_ATTACK_SPEED_UPGRADE;
         this.damage *= 1 + PCTG_DAMAGE_UPGRADE;

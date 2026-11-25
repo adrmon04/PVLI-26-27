@@ -4,10 +4,9 @@ import Credits from "./Scenes/Credits.js";
 import DefeatMenu from "./Scenes/DefeatMenu.js";
 import PauseMenu from "./Scenes/PauseMenu.js";
 
-
 /**
  * Inicio del juego en Phaser. Creamos el archivo de configuración del juego y creamos
- * la clase Game de Phaser, encargada de crear e iniciar el juego.
+ * La clase Game de Phaser, encargada de crear e iniciar el juego.
  */
 let config = {
 	type: Phaser.AUTO,
@@ -19,10 +18,10 @@ let config = {
 	pixelArt: true,
 	scale: {
 		mode: Phaser.Scale.FIT
-	},	
-	scene: [ MainMenu, MainGame, Credits, DefeatMenu, PauseMenu],	// Decimos a Phaser cual es nuestra escena, en este caso la escena es un 
-	//objeto formado por el método preload y create definidos más abajo en 
-	//este mismo archivo
+	},
+	scene: [ MainMenu, MainGame, Credits, DefeatMenu, PauseMenu],	// Decimos a Phaser cual es nuestra escena, en este caso la escena es un
+	//Objeto formado por el método preload y create definidos más abajo en
+	//Este mismo archivo
 	physics: {
 		default: 'arcade',
 		arcade: {
@@ -32,4 +31,3 @@ let config = {
 };
 
 new Phaser.Game(config);
-

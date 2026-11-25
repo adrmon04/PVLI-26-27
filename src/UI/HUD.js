@@ -1,6 +1,8 @@
 import BatteryBar from "./BatteryBar.js";
 // Clase auxiliar que crea y actualiza la interfaz dentro de la escena del juego.
 export default class HUD {
+
+    // Inicializa los datos de la instancia.
     constructor(scene) {
         this.scene = scene;
         // Profundidad alta para dibujar la interfaz por encima de los elementos del juego.
@@ -56,6 +58,7 @@ export default class HUD {
         );
     }
 
+    // Actualiza la escena en cada frame.
     update(player) {
         // Llama al update de battery para cambiar la vida
         this.BatteryBar.update(player);

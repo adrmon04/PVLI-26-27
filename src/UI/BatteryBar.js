@@ -1,9 +1,11 @@
 /**
- * Vida como pila de 10 barras 
- * Cada barra = 1/bars de la vida máxima. 
+ * Vida como pila de 10 barras
+ * Cada barra = 1/bars de la vida máxima.
  * Al recibir daño se lanza una animación de glitch.
  */
 export default class BatteryBar {
+
+    // Inicializa los datos de la instancia.
     constructor(scene, x, y, { bars = 10, depth = 1000, alpha = 0.9, lowBars = 3 } = {}) {
         this.scene = scene;
         this.x = x;                  // posición de la pila en pantalla
@@ -40,6 +42,8 @@ export default class BatteryBar {
     barX(i) { return this.x + 6 + i * 9; }
 
     /** Llamar cada frame (desde HUD.update) */
+
+    // Actualiza la escena en cada frame.
     update(player) {
         // Porcentaje de vida entre 0 y 1
         this.pct = Phaser.Math.Clamp(player.health / player.maxHealth, 0, 1);
@@ -53,6 +57,8 @@ export default class BatteryBar {
     }
 
     /** Enciende las barras según la vida; flicker = probabilidad de apagar una al azar */
+
+    // Gestiona applyBars.
     applyBars(flicker = 0) {
         const exact = this.pct * this.bars;            // barras exactas (p. ej. 5,5)
         const lit = Math.ceil(exact - 1e-6);           // barras encendidas (redondeo arriba)
@@ -65,6 +71,8 @@ export default class BatteryBar {
     }
 
     /** Animación de glitch al recibir daño (~0,35 s: 9 pasos de 40 ms) */
+
+    // Gestiona glitch.
     glitch() {
         if (this.glitchEvent) this.glitchEvent.remove(false);   // reinicia si ya había uno
         this.glitching = true;
@@ -93,6 +101,8 @@ export default class BatteryBar {
     }
 
     /** Termina el glitch y deja todo en su sitio */
+
+    // Gestiona endGlitch.
     endGlitch() {
         this.glitching = false;
         this.shell.setPosition(this.x, this.y).clearTint();     // carcasa a su posición, sin tinte
@@ -104,6 +114,8 @@ export default class BatteryBar {
     }
 
     /** Elimina el temporizador y todos los objetos de la pila */
+
+    // Gestiona destroy.
     destroy() {
         if (this.glitchEvent) this.glitchEvent.remove(false);
         [this.shell, this.ghostCyan, this.ghostMagenta, this.slice, ...this.barSprites].forEach((o) => o.destroy());
