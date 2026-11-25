@@ -105,8 +105,8 @@ export default class MainGame extends Phaser.Scene {
 
         // Assets del HUD
         //Creamos la barra de vida
-        this.load.image('hudPila', 'assets/images/hud/iconoPila.png');
-        this.load.spritesheet('hudPilaBarra', 'assets/images/hud/iconoPilaBarra.png', {
+        this.load.image('hudPila', 'Assets/images/hUD/iconoPila.png');
+        this.load.spritesheet('hudPilaBarra', 'Assets/images/hUD/iconoPilaBarra.png', {
             frameWidth: 7,
             frameHeight: 20
         });
@@ -195,7 +195,7 @@ export default class MainGame extends Phaser.Scene {
             // New Bug(100, 20, this, this.player.x - 550, this.player.y, 150, 'bug', 0, this.player, 30, 10),
             // New Trojan(100, 20, this, this.player.x - 650, this.player.y, 150, 'trojan', 0, this.player, 30, 150, 10),
             new Spambot(100, 20, this, this.player.x + 200, this.player.y, 150, 'spambot_right', 0, this.player, 200, 150, 3),
-            new CorruptedTeacher(100, 20, this, this.player.x + 400, this.player.y, 75, 'corruptedTeacher_right', 0, this.player, 30, 0.5)
+            // new CorruptedTeacher(100, 20, this, this.player.x + 400, this.player.y, 75, 'corruptedTeacher_right', 0, this.player, 30, 0.5)
         ];
 
         // Agregacion de entidades(esto se hara en el futuro con una funcion en level)
@@ -251,20 +251,33 @@ export default class MainGame extends Phaser.Scene {
             }
         });
 
-        // Registramos cada grupo de proyectiles; las armas de corto alcance no tienen uno.
         this.weapons.forEach(weapon => {
-            if (!(weapon instanceof LongRangeWeapon)) return;
+            
+            if (weapon instanceof ShortRangeWeapon) {
 
-            // Overlap (y no collider) para que el proyectil no empuje a la hurtbox
-            this.enemies.forEach(enemy => {
-                this.physics.add.overlap(enemy.hurtbox, weapon.proyectiles, (enemyBox, proyectile) => {
-                    enemyBox.owner.takeDamage(proyectile.getData('damage'));
-                    if (proyectile.enemiesPenetrated <= 0) proyectile.destroy();
-                    else proyectile.enemiesPenetrated--;
+                // Añadimos la interacción física entre las armas de corto alcance y los enemigosW
+                this.enemies.forEach(enemy => {
+                    this.physics.add.overlap(enemy.hurtbox, weapon, (enemyBox, weapon) => {
+                        if (!weapon.enemiesAffectedByHit.has(enemyBox.owner)) {
+                            weapon.enemiesAffectedByHit.add(enemyBox.owner);
+                            enemyBox.owner.takeDamage(weapon.damage);
+                        }
+                    });
                 });
-            });
-        });
+            }
+            else {
 
+                // overlap (y no collider) para que el proyectil no empuje a la hurtbox
+                this.enemies.forEach(enemy => {
+                    this.physics.add.overlap(enemy.hurtbox, weapon.proyectiles, (enemyBox, proyectile) => {
+                        enemyBox.owner.takeDamage(proyectile.getData('damage'));
+                        if (proyectile.enemiesPenetrated <= 0) proyectile.destroy();
+                        else proyectile.enemiesPenetrated--;
+                    });
+                });
+            }
+        });
+        
         // ------------------------------------ANIMACIONES JUGADOR-----------------------------------------
         // Creamos la animación de idle del jugador
         this.anims.create({
@@ -597,6 +610,13 @@ export default class MainGame extends Phaser.Scene {
         });
 
         this.anims.create({
+            key: 'MechanicalKeyboard_impact',
+            frames: this.anims.generateFrameNames('MechanicalKeyboard', { start: 12, end: 17 }),
+            frameRate: 12,
+            repeat: 0
+        });
+
+        this.anims.create({
             key: "CPU_idle",
             frames: this.anims.generateFrameNames("FloorWeapons", { start: 4, end: 7 }),
             frameRate: 6,
@@ -604,10 +624,24 @@ export default class MainGame extends Phaser.Scene {
         });
 
         this.anims.create({
+            key: 'CPU_impact',
+            frames: this.anims.generateFrameNames('CPU', { start: 12, end: 17 }),
+            frameRate: 12,
+            repeat: 0
+        });
+        
+        this.anims.create({
             key: "HDMICable_idle",
             frames: this.anims.generateFrameNames("FloorWeapons", { start: 8, end: 11 }),
             frameRate: 6,
             repeat: -1
+        });
+        
+        this.anims.create({
+            key: 'HDMICable_impact',
+            frames: this.anims.generateFrameNames('HDMICable', { start: 12, end: 17 }),
+            frameRate: 12,
+            repeat: 0
         });
 
         this.anims.create({

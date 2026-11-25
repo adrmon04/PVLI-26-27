@@ -13,7 +13,7 @@ export default class DefeatMenu extends Phaser.Scene {
     // Carga los recursos necesarios.
 	preload(){
 		// Cargamos la hoja de sprites de los botones de "INICIAR PARTIDA" y "CRÉDITOS"
-		this.load.spritesheet("defeatMenuButtons", "Assets/images/HUD/buttonsSpritesheet2.png", {
+		this.load.spritesheet("defeatMenuButtons", "Assets/images/hUD/buttonsSpritesheet2.png", {
 			frameWidth: 144, // Ancho total de la hoja partido del número de columnas
 			frameHeight: 32, // Altura total de la hoja partido del número de filas
 		});

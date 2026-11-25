@@ -206,7 +206,7 @@ export default class Weapon extends Phaser.GameObjects.Sprite {
     tierUp() {
         if (this.tier < 3) {
             this.tier++;
-            upgradeStats();
+            this.upgradeStats();
         }
     }
 

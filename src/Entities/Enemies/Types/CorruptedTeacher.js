@@ -48,6 +48,10 @@ export default class CorruptedTeacher extends Enemy {
             const dir = new Phaser.Math.Vector2(target.x - from.x, target.y - from.y);
 
             // Actualizamos la dirección de movimiento
+            const isHurt = (this.anims.isPlaying 
+                && this.anims.currentAnim.key.startsWith('corruptedTeacher_hurt_'));
+    
+            // Actualizamos la dirección de movimiento 
             if (dir.x > 0) this.lastDirection = 'right';
             else if (dir.x < 0) this.lastDirection = 'left';
 
@@ -55,14 +59,14 @@ export default class CorruptedTeacher extends Enemy {
             if (dir.length() >= this.range) {
                 dir.normalize();
                 this.body.setVelocity(dir.x * this.speed, dir.y * this.speed);
-                this.play('corruptedTeacher_mov_' + this.lastDirection, true);
+                if(!isHurt) this.play('corruptedTeacher_mov_' + this.lastDirection, true);
             }
             else {
 
                 this.body.setVelocity(0, 0);
 
                 // Reproducimos su animación de ataque
-                this.play('corruptedTeacher_attack_' + this.lastDirection, true);
+                if(!isHurt) this.play('corruptedTeacher_attack_' + this.lastDirection, true);
             }
         }
 

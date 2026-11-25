@@ -27,8 +27,9 @@ export default class HUD {
                 .setDisplaySize(64, 64),
             0.9
         );
-        this.weaponIcon = null;
-        this.weaponKey = null;
+        // Tupla del iconos y keys del arma
+        this.weaponIcons = [null, null];
+        this.weaponKeys = [null, null];
 
         // Crea la animación de la moneda solo una vez para evitar duplicar su clave.
         if (!scene.anims.exists('hudCoinSpin')) {
@@ -66,49 +67,81 @@ export default class HUD {
         // Refleja en pantalla las monedas actuales del jugador.
         this.coinText.setText(String(player.gold || 0));
 
-        // Solo reemplaza el icono cuando cambia el arma equipada.
-        const weapon = player.weapon;
-        const key = weapon ? weapon.imgKey : null;
+        // Metodo auxiliar para que se updateen los iconos de arma
+        this.updateWeaponIcons(player);
+    }
 
-        if (key !== this.weaponKey) {
-            this.weaponIcon?.destroy();
-            this.weaponIcon = null;
-            this.weaponKey = key;
+    // Metodo que le llegan dos armas y las pone visibles en el hud
+    updateWeaponIcons(player) {
+        const slots = [this.weaponSlot, this.weaponSlot1];
 
-            if (key !== null) {
-                const frame = this.setWeapon(key);
-                if (frame !== null) {
-                    // ${key} es una plantilla de texto, como tal es como si tuvieras el hudWeapon_NombreDelArma
-                    const animationKey = `hudWeapon_${key}`;
-                    if (!this.scene.anims.exists(animationKey)) {
-                        this.scene.anims.create({
-                            key: animationKey,
-                            frames: this.scene.anims.generateFrameNumbers('FloorWeapons', {
-                                start: frame,
-                                end: frame + 3
-                            }),
-                            frameRate: 6,
-                            repeat: -1
-                        });
+        // Bucle explícito para que siempre se vean las dos ranuras
+        for (let slotIndex = 0; slotIndex < 2; slotIndex++) {
+            const weapon = player.weapons[slotIndex];
+            const key = weapon ? weapon.imgKey : null;
+            const slot = slots[slotIndex];
+
+            if (key !== this.weaponKeys[slotIndex]) {
+                this.weaponIcons[slotIndex]?.destroy();
+                this.weaponIcons[slotIndex] = null;
+                this.weaponKeys[slotIndex] = key;
+
+                if (key !== null) {
+                    const frame = this.setWeapon(key);
+
+                    if (frame !== null) {
+                        // ${key} es una plantilla de texto, es como si tuvieras "hudWeapon_NombreDelArma"
+                        const animationKey = `hudWeapon_${key}`;
+
+                        // Crea la animacion del arma en el hud
+                        if (!this.scene.anims.exists(animationKey)) {
+                            this.scene.anims.create({
+                                key: animationKey,
+                                frames: this.scene.anims.generateFrameNumbers('FloorWeapons', {
+                                    start: frame,
+                                    end: frame + 3
+                                }),
+                                frameRate: 6,
+                                repeat: -1
+                            });
+                        }
+
+                        // Añade el sprite al hud
+                        const icon = this.scene.add.sprite(
+                            slot.x,
+                            slot.y,
+                            'FloorWeapons',
+                            frame
+                        );
+
+                        // Le da una escala al icono y luego activa la animación
+                        const iconScale = frame === 0 ? 52 : 64;
+                        icon.setScale(iconScale / Math.max(icon.width, icon.height));
+                        icon
+                            .setScrollFactor(0)
+                            .setDepth(this.uiDepth + 1);
+                        icon.play(animationKey);
+
+                        this.weaponIcons[slotIndex] = icon;
                     }
-
-                    this.weaponIcon = this.scene.add.sprite(
-                        this.weaponSlot.x,
-                        this.weaponSlot.y,
-                        'FloorWeapons',
-                        frame
-                    );
-                    if (frame === 0) {
-                       this.weaponIcon.setScale(52 / Math.max(this.weaponIcon.width, this.weaponIcon.height))
-                    }
-                    else this.weaponIcon.setScale(64 / Math.max(this.weaponIcon.width, this.weaponIcon.height))
-                    this.weaponIcon
-                        .setScrollFactor(0)
-                        .setDepth(this.uiDepth + 1)
-                        .setAlpha(1);
-                    this.weaponIcon.play(animationKey);
                 }
             }
+
+            // Cambia la opacidad del slot en uso para que se vea más y el otro menos
+            const isSelected = slotIndex === player.activeSlot;
+            this.setWeaponSlotFrame(slot, weapon, isSelected);
+            slot.setAlpha(isSelected ? 1 : 0.7);
+            this.weaponIcons[slotIndex]?.setVisible(key !== null);
+            this.weaponIcons[slotIndex]?.setAlpha(isSelected ? 1 : 0.7);
+        }
+    }
+
+    setWeaponSlotFrame(slot, weapon, isSelected) {
+        if (!weapon) {
+            slot.setFrame(0);
+        }
+        else {
+            slot.setFrame(isSelected ? 1 : 0);
         }
     }
 

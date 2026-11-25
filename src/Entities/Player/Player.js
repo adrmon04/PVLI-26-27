@@ -98,8 +98,9 @@ export default class Player extends Entity {
             this.activeSlot = freeSlot;
         }
         else {
-            this.weapon.setPosition(weapon.x, weapon.y);
-            this.weapon.drop();
+            const replacedWeapon = this.weapons[this.activeSlot];
+            replacedWeapon.setPosition(weapon.x, weapon.y);
+            replacedWeapon.drop();
         }
 
         this.weapons[this.activeSlot] = weapon;

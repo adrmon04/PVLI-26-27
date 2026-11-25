@@ -1,8 +1,8 @@
-import MainGame from "./Scenes/MainGame.js";
-import MainMenu from "./Scenes/MainMenu.js";
-import Credits from "./Scenes/Credits.js";
-import DefeatMenu from "./Scenes/DefeatMenu.js";
-import PauseMenu from "./Scenes/PauseMenu.js";
+import MainGame from "./scenes/MainGame.js";
+import MainMenu from "./scenes/MainMenu.js";
+import Credits from "./scenes/Credits.js";
+import DefeatMenu from "./scenes/DefeatMenu.js";
+import PauseMenu from "./scenes/PauseMenu.js";
 
 /**
  * Inicio del juego en Phaser. Creamos el archivo de configuración del juego y creamos

@@ -29,6 +29,9 @@ export default class Trojan extends Enemy {
                 this.appearing = false;
                 this.hidden = false;
             }
+            else if (anim.key === 'trojan_hurt' && this.appearing) {
+                this.appearing = false;
+            }
         });
     }
 
@@ -46,16 +49,19 @@ export default class Trojan extends Enemy {
             const from = this.hurtbox;
             const dir = new Phaser.Math.Vector2(target.x - from.x, target.y - from.y);
 
+            const isHurt = (this.anims.isPlaying
+                && this.anims.currentAnim.key === 'trojan_hurt');
+    
             if (this.hidden) {
                 this.body.setVelocity(0, 0);
 
                 if (Phaser.Math.Distance.Between(this.x, this.y, this.player.x, this.player.y) <= this.detectionRange) {
-                    if (!this.appearing) {
+                    if (!this.appearing && !isHurt) {
                         this.appearing = true;
                         this.play('trojan_appear', true);
                     }
                 }
-                else if (!this.appearing) {
+                else if (!this.appearing && !isHurt) {
                     this.play('trojan_hidden', true);
                 }
             }
@@ -64,12 +70,14 @@ export default class Trojan extends Enemy {
                 if (dir.length() >= this.range) {
                     dir.normalize();
                     this.body.setVelocity(dir.x * this.speed, dir.y * this.speed);
-                    this.play('trojan_walk', true);
+                    if (!isHurt) this.play('trojan_walk', true);
                 }
                 else {
                     this.body.setVelocity(0, 0);
                     this.play('trojan_attack', true);
 
+                    if (!isHurt) this.play('trojan_attack', true);
+                    
                 }
             }
         }
