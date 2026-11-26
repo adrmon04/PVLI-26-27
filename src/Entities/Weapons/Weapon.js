@@ -88,6 +88,8 @@ export default class Weapon extends Phaser.GameObjects.Sprite {
         this.on(Phaser.Animations.Events.ANIMATION_COMPLETE, (animation) => {
             if (animation.key === this.imgKey + "_fire") this.setFrame(0);
         });
+
+        this.interactionRadius = PICKUP_RADIUS;
     }
 
     /**
@@ -116,8 +118,16 @@ export default class Weapon extends Phaser.GameObjects.Sprite {
         // (JustDown solo es true en el frame en que se pulsa, así no se intercambian las armas cada frame)
         if (!this.taken) {
 
-            if (player && Phaser.Math.Distance.Between(this.x, this.y, player.x, player.y) <= PICKUP_RADIUS &&
+            if (player && Phaser.Math.Distance.Between(this.x, this.y, player.x, player.y) <= this.interactionRadius &&
             Phaser.Input.Keyboard.JustDown(this.keys.E)) {
+
+                // Guarda los limites de la posicion del arma
+                const bounds = this.getBounds();
+                const feedbackPosition = {
+                    x: (bounds.left + bounds.right) / 2,
+                    y: bounds.top - 12,
+                    depth: this.depth + 1
+                };
 
                 // El jugador la equipa (en una ranura libre o sustituyendo al arma activa)
                 player.equipWeapon(this);
@@ -128,6 +138,9 @@ export default class Weapon extends Phaser.GameObjects.Sprite {
                 this.setTexture(this.imgKey, 0); // Fijamos su frame en el frame 0
                 this.setGripOrigin();
                 this.setScale(this.spriteData.heldScale ?? WEAPON_SCALE); // Escala en la mano
+
+                // Llama un evento que escuchara el hud
+                this.scene.events.emit('pickup-feedback', feedbackPosition);
             }
 
             // Si el arma simplemente no se ha cogido, animacion idle

@@ -42,126 +42,132 @@ export default class MainGame extends Phaser.Scene {
         Level.preload(this);
 
         // Cargamos la hoja de sprites del jugador
-        this.load.spritesheet("player_right", "Assets/images/entities/player/player_right.png", {
+        this.load.spritesheet("player_right", "assets/images/entities/player/player_right.png", {
             frameWidth: 192,
             frameHeight: 192
         });
 
-        this.load.spritesheet("player_left", "Assets/images/entities/player/player_left.png", {
+        this.load.spritesheet("player_left", "assets/images/entities/player/player_left.png", {
             frameWidth: 192,
             frameHeight: 192
         });
 
         // Hojas de sprites de las armas equipadas (imágenes escaladas x4)
-        this.load.spritesheet("MechanicalKeyboard", "Assets/images/weapons/combat/mechanicalKeyboard.png", {
+        this.load.spritesheet("MechanicalKeyboard", "assets/images/weapons/combat/mechanicalKeyboard.png", {
             frameWidth: 640,
             frameHeight: 640
         });
 
-        this.load.spritesheet("CPU", "Assets/images/weapons/combat/cPU.png", {
+        this.load.spritesheet("CPU", "assets/images/weapons/combat/cPU.png", {
             frameWidth: 640,
             frameHeight: 640
         });
 
-        this.load.spritesheet("HDMICable", "Assets/images/weapons/combat/hDMICable.png", {
+        this.load.spritesheet("HDMICable", "assets/images/weapons/combat/hDMICable.png", {
             frameWidth: 640,
             frameHeight: 256
         });
 
-        this.load.spritesheet("CommandUSB", "Assets/images/weapons/combat/commandUSB.png", {
+        this.load.spritesheet("CommandUSB", "assets/images/weapons/combat/commandUSB.png", {
             frameWidth: 384,
             frameHeight: 384
         });
 
-        this.load.spritesheet("PortablePrinter", "Assets/images/weapons/combat/portablePrinter.png", {
+        this.load.spritesheet("PortablePrinter", "assets/images/weapons/combat/portablePrinter.png", {
             frameWidth: 384,
             frameHeight: 384
         });
 
-        this.load.spritesheet("Router", "Assets/images/weapons/combat/router.png", {
+        this.load.spritesheet("Router", "assets/images/weapons/combat/router.png", {
             frameWidth: 384,
             frameHeight: 384
         });
 
         // Armas que aparecen en el suelo (4 columnas x 6 filas, una fila por arma)
-        this.load.spritesheet("FloorWeapons", "Assets/images/weapons/objects/floorWeapons.png", {
+        this.load.spritesheet("FloorWeapons", "assets/images/weapons/objects/floorWeapons.png", {
             frameWidth: 384,
             frameHeight: 256
         });
 
         // Hojas de sprites de los proyectiles (frames 0-3: proyectil en vuelo, 5-9: impacto)
-        this.load.spritesheet("CommandUSBProyectile", "Assets/images/weapons/proyectiles/commandUSB_proyectile.png", {
+        this.load.spritesheet("CommandUSBProyectile", "assets/images/weapons/proyectiles/commandUSB_proyectile.png", {
             frameWidth: 128,
             frameHeight: 128
         });
-        this.load.spritesheet("PortablePrinterProyectile", "Assets/images/weapons/proyectiles/portablePrinter_proyectile.png", {
+        this.load.spritesheet("PortablePrinterProyectile", "assets/images/weapons/proyectiles/portablePrinter_proyectile.png", {
             frameWidth: 128,
             frameHeight: 128
         });
-        this.load.spritesheet("RouterProyectile", "Assets/images/weapons/proyectiles/router_proyectile.png", {
+        this.load.spritesheet("RouterProyectile", "assets/images/weapons/proyectiles/router_proyectile.png", {
             frameWidth: 128,
             frameHeight: 128
         });
 
-        // Assets del HUD
-        //Creamos la barra de vida
-        this.load.image('hudPila', 'Assets/images/hUD/iconoPila.png');
-        this.load.spritesheet('hudPilaBarra', 'Assets/images/hUD/iconoPilaBarra.png', {
+        // assets del HUD
+        // Cargarmos la barra de vida
+        this.load.image('hudPila', 'assets/images/hud/iconoPila.png');
+        this.load.spritesheet('hudPilaBarra', 'assets/images/hud/iconoPilaBarra.png', {
             frameWidth: 7,
             frameHeight: 20
         });
 
-        // Creamos la moneda
-        this.load.spritesheet('hudCoin', 'Assets/images/hUD/iconoMoneda.png', {
+        // Cargarmos la moneda
+        this.load.spritesheet('hudCoin', 'assets/images/hud/iconoMoneda.png', {
             frameWidth: 16,
             frameHeight: 16
         });
 
-        // Creamos los slots de armas
-        this.load.spritesheet('hudWeaponSlot', 'Assets/images/hUD/iconoArma.png', {
+        // Cargarmos los slots de armas
+        this.load.spritesheet('hudWeaponSlot', 'assets/images/hud/iconoArma.png', {
             frameWidth: 48,
             frameHeight: 48
         });
 
+        // Cargamos el boton de interacción
+        this.load.spritesheet('InteractionButton', 'assets/images/hud/botonInteractuarSheet.png',{
+            frameWidth: 24,
+            frameHeight: 28
+        });
+
         // Cargamos la hoja de sprites del enemigo Pop-up
-        this.load.spritesheet('pop-up', 'Assets/images/entities/enemies/pop_up/pop-upSpritesheet.png', {
+        this.load.spritesheet('pop-up', 'assets/images/entities/enemies/pop_up/pop-upSpritesheet.png', {
             frameWidth: 1448,
             frameHeight: 788
         });
 
-        this.load.spritesheet('bug', 'Assets/images/entities/enemies/bug_b_tpose/bug_b_tpose_spritesheet.png', {
+        this.load.spritesheet('bug', 'assets/images/entities/enemies/bug_b_tpose/bug_b_tpose_spritesheet.png', {
             frameWidth: 193,
             frameHeight: 167
         });
 
-        this.load.spritesheet('trojan', 'Assets/images/entities/enemies/trojan_a/trojan_a_spritesheet.png', {
+        this.load.spritesheet('trojan', 'assets/images/entities/enemies/trojan_a/trojan_a_spritesheet.png', {
             frameWidth: 186,
             frameHeight: 172
         });
 
         // Hojas de sprites del enemigo Spambot
-        this.load.spritesheet('spambot_right', 'Assets/images/entities/enemies/spambot_a/spambot_a_right_spritesheet.png', {
+        this.load.spritesheet('spambot_right', 'assets/images/entities/enemies/spambot_a/spambot_a_right_spritesheet.png', {
             frameWidth: 144,
             frameHeight: 130
         });
-        this.load.spritesheet('spambot_left', 'Assets/images/entities/enemies/spambot_a/spambot_a_left_spritesheet.png', {
+        this.load.spritesheet('spambot_left', 'assets/images/entities/enemies/spambot_a/spambot_a_left_spritesheet.png', {
             frameWidth: 144,
             frameHeight: 130
         });
 
         // Hoja de sprites del profesor corrupto
-        this.load.spritesheet('corruptedTeacher_right', 'Assets/images/entities/enemies/profesor_a/professor_a_right_spritesheet.png', {
+        this.load.spritesheet('corruptedTeacher_right', 'assets/images/entities/enemies/profesor_a/professor_a_right_spritesheet.png', {
             frameWidth: 285,
             frameHeight: 324
         });
-        this.load.spritesheet('corruptedTeacher_left', 'Assets/images/entities/enemies/profesor_a/professor_a_left_spritesheet.png', {
+        this.load.spritesheet('corruptedTeacher_left', 'assets/images/entities/enemies/profesor_a/professor_a_left_spritesheet.png', {
             frameWidth: 285,
             frameHeight: 324
         });
 
         // Hojas de sprites de las mejoras (8 frames de 800x1000)
         ['Antivirus', 'Overclock', 'Turbo', 'Luck', 'CrackedLicense'].forEach(key => {
-            this.load.spritesheet(key, `Assets/images/upgrades/${key}.png`, {
+            this.load.spritesheet(key, `assets/images/upgrades/${key}.png`, {
                 frameWidth: 800,
                 frameHeight: 1000
             });
@@ -282,14 +288,14 @@ export default class MainGame extends Phaser.Scene {
         // Creamos la animación de idle del jugador
         this.anims.create({
             key: "player_idle_right",
-            frames: this.anims.generateFrameNames("player_right", { start: 0, end: 7 }),
+            frames: this.anims.generateFrameNumbers("player_right", { start: 0, end: 7 }),
             frameRate: 6,
             repeat: -1
         });
 
         this.anims.create({
             key: "player_idle_left",
-            frames: this.anims.generateFrameNames("player_left", { start: 0, end: 7 }),
+            frames: this.anims.generateFrameNumbers("player_left", { start: 0, end: 7 }),
             frameRate: 6,
             repeat: -1
         });
@@ -297,14 +303,14 @@ export default class MainGame extends Phaser.Scene {
         // Creamos la animación de movimiento del jugador
         this.anims.create({
             key: "player_mov_right",
-            frames: this.anims.generateFrameNames("player_right", { start: 8, end: 13 }),
+            frames: this.anims.generateFrameNumbers("player_right", { start: 8, end: 13 }),
             frameRate: 6,
             repeat: -1
         });
 
         this.anims.create({
             key: "player_mov_left",
-            frames: this.anims.generateFrameNames("player_left", { start: 8, end: 13 }),
+            frames: this.anims.generateFrameNumbers("player_left", { start: 8, end: 13 }),
             frameRate: 6,
             repeat: -1
         });
@@ -727,7 +733,8 @@ export default class MainGame extends Phaser.Scene {
     // Actualiza la escena en cada frame.
     update() {
         if (this.hud && this.player) {
-            this.hud.update(this.player);
+            const target = this.getInteractuableTarget();
+            this.hud.update(this.player, target);
         }
 
         if (this.player && this.player.isDead) this.scene.start('DefeatMenu');
@@ -736,5 +743,30 @@ export default class MainGame extends Phaser.Scene {
             this.statsLogged = true;
             this.time.delayedCall(5000, () => this.player.showStats());
         }
+    }
+
+    getInteractuableTarget(){
+        if (!this.player) return null;
+
+        const candidates = [
+            ...this.weapons.filter(weapon => weapon.active && !weapon.taken),
+            ...this.upgrades.filter(upgrade => upgrade.active)
+        ];
+
+        let closest = null;
+        let closestDistance = Infinity;
+
+        for(const item of candidates) {
+            const distance = Phaser.Math.Distance.Between(
+                this.player.x, this.player.y,
+                item.x, item.y
+            );
+
+            if(distance <= item.interactionRadius && distance < closestDistance) {
+                closest = item;
+                closestDistance = distance;
+            }
+        }
+        return closest;
     }
 }

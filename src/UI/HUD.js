@@ -31,6 +31,32 @@ export default class HUD {
         this.weaponIcons = [null, null];
         this.weaponKeys = [null, null];
 
+        if (!scene.anims.exists('InteractionFlicker')) {
+            scene.anims.create({
+                key: 'InteractionFlicker',
+                frames: scene.anims.generateFrameNumbers('InteractionButton', { start: 0, end: 1 }),
+                frameRate: 2,
+                repeat: -1
+            });
+        }
+
+        // Frame para cuando se coge algo
+        this.pickupIcon = scene.add.image(0, 0, 'InteractionButton', 2)
+            .setScrollFactor(1)
+            .setVisible(false);
+
+        this.pickupTimer = null;
+
+        scene.events.on('pickup-feedback', this.showItemPickup, this);
+        scene.events.once('shutdown', () => {
+            scene.events.off('pickup-feedback', this.showItemPickup, this);
+        });
+
+        this.interactIcon = scene.add.sprite(0, 0, 'InteractionButton')
+            .setScrollFactor(1)
+            .setVisible(false);
+        this.interactIcon.play('InteractionFlicker');
+
         // Crea la animación de la moneda solo una vez para evitar duplicar su clave.
         if (!scene.anims.exists('hudCoinSpin')) {
             scene.anims.create({
@@ -60,7 +86,7 @@ export default class HUD {
     }
 
     // Actualiza la escena en cada frame.
-    update(player) {
+    update(player, target) {
         // Llama al update de battery para cambiar la vida
         this.BatteryBar.update(player);
 
@@ -69,6 +95,10 @@ export default class HUD {
 
         // Metodo auxiliar para que se updateen los iconos de arma
         this.updateWeaponIcons(player);
+
+        // Metodo que muestra un icono de interactuar cuando se pueda
+        this.showInteractIcon(target);
+
     }
 
     // Metodo que le llegan dos armas y las pone visibles en el hud
@@ -157,4 +187,39 @@ export default class HUD {
             default: return null;
         }
     }
+
+    // Muestra el icono de interactuar
+    showInteractIcon(target){
+        if(!target){
+            this.interactIcon.setVisible(false);
+            return;
+        }
+
+        // Obtiene los límites del objetivo en coordenadas del mundo.
+        const bounds = target.getBounds();
+
+        // Coloca el aviso centrado encima del objetivo y por delante de él.
+        this.interactIcon
+            .setPosition((bounds.left + bounds.right) / 2, bounds.top - 12)
+            .setDepth(target.depth + 1)
+            .setVisible(true);
+    }
+
+    // Muestra el frame de recogida del icono
+    showItemPickup(position) {
+        this.pickupIcon
+            .setPosition(position.x, position.y)
+            .setDepth(position.depth)
+            .setVisible(true);
+
+        // Reinicia el temporizador si se recoge otro objeto antes de que desaparezca el aviso.
+        if (this.pickupTimer) this.pickupTimer.remove(false);
+
+        // Oculta el frame de recogida tras medio segundo.
+        this.pickupTimer = this.scene.time.delayedCall(200, () => {
+            this.pickupIcon.setVisible(false);
+            this.pickupTimer = null;
+        });
+    }
+
 }

@@ -20,6 +20,7 @@ export default class Upgrade extends Phaser.GameObjects.Sprite {
         this.scene.add.existing(this);
         this.setScale(UPGRADE_SCALE);
         this.keys = this.scene.input.keyboard.addKeys('E');
+        this.interactionRadius = PICKUP_RADIUS;
     }
 
     // Actualiza la entidad en cada frame.
@@ -28,9 +29,19 @@ export default class Upgrade extends Phaser.GameObjects.Sprite {
 
         const player = this.scene.player;
         if (player &&
-            Phaser.Math.Distance.Between(this.x, this.y, player.x, player.y) <= PICKUP_RADIUS &&
+            Phaser.Math.Distance.Between(this.x, this.y, player.x, player.y) <= this.interactionRadius &&
             Phaser.Input.Keyboard.JustDown(this.keys.E)) {
+            const bounds = this.getBounds();
+
             this.applyUpgrade();
+            
+            // Emite un evento que recibe el hud
+            this.scene.events.emit('pickup-feedback', {
+                x: (bounds.left + bounds.right) / 2,
+                y: bounds.top - 12,
+                depth: this.depth + 1
+            });
+
             this.destroy();
         }
         else this.play(this.imgKey + "_idle", true);
